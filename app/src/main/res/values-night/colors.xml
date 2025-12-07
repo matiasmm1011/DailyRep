@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <color name="fondoPantallas" >
+            #FFFFFF
+        </color>
+        <color name="textos">
+            #FFFFFF
+        </color>
+        <color name="cuadros">
+            #D8E6FF
+        </color>
+        <color name="naranja">
+            #FF7A1A
+        </color>
+</resources>

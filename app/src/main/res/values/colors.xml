@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-</resources>
+    <color name="fondoPantallas" >
+        #05070B
+    </color>
+    <color name="textos">
+        #FFFFFF
+    </color>
+    <color name="cuadros">
+        #1E293B
+    </color>
+    <color name="naranja">
+        #FF7A1A
+    </color>
+     </resources>
