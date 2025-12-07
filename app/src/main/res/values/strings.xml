@@ -6,4 +6,12 @@
     <string name="login">Iniciar Sesion</string>
     <string name="sinCuenta">¿No tienes cuenta?</string>
     <string name="registrate">Registrate</string>
+    <string name="buscar_ejercicio">Buscar ejercicio...</string>
+    <string name="favoritos">FAVORITOS</string>
+    <string name="parteDelCuerpo">PARTE DEL CUERPO</string>
+    <string name="tipo_ejercicio">TIPO DE EJERCICIO</string>
+    <string name="perfil">PERFIL</string>
+    <string name="rutinas">RUTINAS</string>
+    <string name="progreso">PROGRESO</string>
+    <string name="ejercicios">EJERCICIOS</string>
 </resources>
