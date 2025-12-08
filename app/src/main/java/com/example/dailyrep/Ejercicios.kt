@@ -28,21 +28,43 @@ class Ejercicios : AppCompatActivity() {
         binding.recyclerEjercicios.layoutManager= LinearLayoutManager(context)
         binding.recyclerEjercicios.adapter=ejercicioAdapter
         val listaDePrueba = listOf<Ejercicio>(
+            // --- PECHO ---
             Ejercicio("Press de Banca Plano", "Barra", "Pecho", true),
-            Ejercicio("Sentadilla Trasera", "Barra", "Piernas", true),
+            Ejercicio("Aperturas Inclinadas", "Mancuernas", "Pecho", false),
+            Ejercicio("Flexiones (Push-ups)", "Peso Corporal", "Pecho", true),
+            Ejercicio("Cruce de Poleas", "Polea", "Pecho", false),
+
+            // --- ESPALDA ---
             Ejercicio("Dominadas", "Peso Corporal", "Espalda", true),
-            Ejercicio("Flexiones (Push-ups)", "Peso Corporal", "Pecho", false),
-            Ejercicio("Press Militar", "Barra", "Hombros", true),
-            Ejercicio("Remo con Mancuerna", "Mancuerna", "Espalda", false),
-            Ejercicio("Curl de Bíceps con Barra Z", "Barra", "Bíceps", false),
-            Ejercicio("Extensiones de Tríceps en Polea", "Máquina", "Tríceps", false),
-            Ejercicio("Prensa de Piernas", "Máquina", "Piernas", false),
-            Ejercicio("Elevaciones Laterales", "Mancuernas", "Hombros", true),
-            Ejercicio("Peso Muerto Rumano", "Barra", "Isquiotibiales", true),
-            Ejercicio("Zancadas (Lunges)", "Mancuernas", "Piernas", false),
-            Ejercicio("Jalón al Pecho", "Máquina", "Espalda", false),
-            Ejercicio("Fondos en Paralelas", "Peso Corporal", "Tríceps", true),
-            Ejercicio("Plancha Abdominal", "Peso Corporal", "Abdomen", true)
+            Ejercicio("Remo con Barra T", "Barra", "Espalda", true),
+            Ejercicio("Jalón al Pecho", "Polea", "Espalda", false),
+            Ejercicio("Remo en Máquina Sentado", "Maquina", "Espalda", false),
+
+            // --- PIERNA ---
+            Ejercicio("Sentadilla Trasera", "Barra", "Pierna", true),
+            Ejercicio("Prensa Inclinada", "Maquina", "Pierna", true),
+            Ejercicio("Zancadas con Mancuernas", "Mancuernas", "Pierna", false),
+            Ejercicio("Sentadilla Búlgara", "Peso Corporal", "Pierna", true),
+
+            // --- HOMBRO ---
+            Ejercicio("Press Militar", "Barra", "Hombro", true),
+            Ejercicio("Elevaciones Laterales", "Mancuernas", "Hombro", true),
+            Ejercicio("Pájaros en Polea", "Polea", "Hombro", false),
+
+            // --- BRAZOS ---
+            Ejercicio("Curl de Bíceps con Barra Z", "Barra", "Brazos", true),
+            Ejercicio("Curl Martillo", "Mancuernas", "Brazos", false),
+            Ejercicio("Extensiones de Tríceps", "Polea", "Brazos", true),
+            Ejercicio("Fondos entre Bancos", "Peso Corporal", "Brazos", false),
+
+            // --- ABDOMINALES ---
+            Ejercicio("Plancha Abdominal", "Peso Corporal", "Abdominales", true),
+            Ejercicio("Crunch en Polea Alta", "Polea", "Abdominales", true),
+            Ejercicio("Encogimientos en Máquina", "Maquina", "Abdominales", false),
+
+            // --- CARDIO (Ejemplo extra por si lo usas) ---
+            Ejercicio("Cinta de Correr", "Cardio", "Pierna", false),
+            Ejercicio("Remo en Ergonómetro", "Cardio", "Espalda", false)
         )
         ejercicioAdapter.ponerListaEjercicios(listaDePrueba)
     }

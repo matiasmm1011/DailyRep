@@ -24,7 +24,7 @@
                     android:layout_weight="9"
                     android:textColor="@color/textos"
                     android:text="@string/mensaje"
-                    android:textSize="40sp">
+                    android:textSize="28sp">
                 </TextView>
                 <ImageView
                     android:id="@+id/corazon"
@@ -35,6 +35,7 @@
                     android:tint="@color/naranja">
                 </ImageView>
                 <ImageView
+                    android:id="@+id/parteCuerpo"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="3"
@@ -42,6 +43,7 @@
                     android:tint="@color/naranja">
                 </ImageView>
                 <ImageView
+                    android:id="@+id/tipoEjercicio"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="3"

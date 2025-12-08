@@ -32,13 +32,35 @@ class EjercicioAdapter: RecyclerView.Adapter<EjercicioAdapter.EjercicioViewHolde
         fun binding(ejercicio: Ejercicio) {
             binding.nombreEjercicio.text=ejercicio.nombre
             if(ejercicio.favorito){
-                binding.corazon.setImageResource(R.drawable.corazon)
+                binding.corazon.setImageResource(R.drawable.heart)
 
             }else {
                 binding.corazon.setImageResource(R.drawable.corazon_vacio)
             }
-            val parteCuerpo:String= ejercicio.parteCuerpo
-
+            val iconoParteCuerpo: Int = when(ejercicio.parteCuerpo){
+                "Brazos"->R.drawable.brazos
+                "Espalda"->R.drawable.espalda
+                "Abdominales"->R.drawable.abdominales
+                "Pierna"->R.drawable.piernas
+                "Hombro"->R.drawable.hombros
+                "Pecho"-> R.drawable.pectoral
+                else -> {
+                    R.drawable.tipo_ejercicio
+                }
+            }
+            val iconoTipoEjercicio: Int = when(ejercicio.tipo){
+                "Mancuernas"->R.drawable.mancuernas
+                "Polea"->R.drawable.polea
+                "Maquina"->R.drawable.maquina
+                "Peso Corporal"->R.drawable.cuerpo
+                "Barra"->R.drawable.barra
+                "Cardio"->R.drawable.cardio
+                else -> {
+                    R.drawable.tipo_ejercicio
+                }
+            }
+            binding.parteCuerpo.setImageResource(iconoParteCuerpo)
+            binding.tipoEjercicio.setImageResource(iconoTipoEjercicio)
             binding.root.setOnClickListener {
             }
         }
