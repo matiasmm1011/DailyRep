@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/filtrarMancuernas"
+        android:icon="@drawable/mancuernas"
+        android:iconTint="@color/naranja"
+        android:title="Mancuernas">
+    </item>
+    <item
+        android:id="@+id/filtrarBarra"
+        android:icon="@drawable/barra"
+        android:iconTint="@color/naranja"
+        android:title="Barra">
+    </item>
+    <item
+        android:id="@+id/filtrarPolea"
+        android:icon="@drawable/polea"
+        android:iconTint="@color/naranja"
+        android:title="Polea">
+    </item>
+    <item
+        android:id="@+id/filtrarCardio"
+        android:icon="@drawable/cardio"
+        android:iconTint="@color/naranja"
+        android:title="Cardio">
+    </item>
+    <item
+        android:id="@+id/filtrarMaquinas"
+        android:icon="@drawable/maquina"
+        android:iconTint="@color/naranja"
+        android:title="Maquinas">
+    </item>
+    <item
+        android:id="@+id/filtrarPesoCorporal"
+        android:icon="@drawable/cuerpo"
+        android:iconTint="@color/naranja"
+        android:title="Peso Corporal">
+    </item>
+</menu>

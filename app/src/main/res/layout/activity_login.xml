@@ -66,7 +66,7 @@
         android:layout_marginTop="25dp"
         android:textColor="@color/textos"
         android:text="@string/app_name"
-        android:textSize="45sp">
+        android:textSize="50sp">
     </TextView>
     <TextView
         android:id="@+id/mensaje"
@@ -99,6 +99,7 @@
                 android:layout_margin="5dp"
                 android:hint="@string/correo"
                 android:background="@color/plomo"
+                android:textColorHint="@color/textos"
                 android:textColor="@color/textos">
             </EditText>
             <EditText
@@ -107,16 +108,19 @@
                 android:layout_weight="1"
                 android:layout_margin="5dp"
                 android:hint="@string/password"
+                android:textColorHint="@color/textos"
                 android:background="@color/plomo"
                 android:textColor="@color/textos">
             </EditText>
             <TextView
+                android:id="@+id/botonInicioSesion"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:layout_margin="5dp"
                 android:text="@string/login"
                 android:gravity="center"
+                android:textSize="22sp"
                 android:background="@color/naranja"
                 android:textColor="@color/textos">
             </TextView>
