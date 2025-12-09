@@ -14,4 +14,10 @@
     <string name="rutinas">RUTINAS</string>
     <string name="progreso">PROGRESO</string>
     <string name="ejercicios">EJERCICIOS</string>
+    <string name="Brazos">Brazos</string>
+    <string name="Espalda">Espalda</string>
+    <string name="Pecho">Pecho</string>
+    <string name="Abdominales">Abdominales</string>
+    <string name="Hombros">Hombros</string>
+    <string name="Piernas">Piernas</string>
 </resources>

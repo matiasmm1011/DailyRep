@@ -1,7 +1,10 @@
 package com.example.dailyrep
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -9,10 +12,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dailyrep.adapters.EjercicioAdapter
+import android.view.ViewGroup
+import android.widget.PopupWindow
 import com.example.dailyrep.databinding.ActivityEjerciciosBinding
+import com.example.dailyrep.databinding.MenuParteCuerpoBinding
 import com.example.dailyrep.dataclases.Ejercicio
 
-class Ejercicios : AppCompatActivity() {
+class EjerciciosActivity : AppCompatActivity() {
    private lateinit var binding: ActivityEjerciciosBinding
    private val ejercicioAdapter: EjercicioAdapter by lazy{ EjercicioAdapter() }
     val context: Context =this
@@ -90,37 +96,44 @@ class Ejercicios : AppCompatActivity() {
             }
         }
         binding.botonParteCuerpo.setOnClickListener{
-            mostrarMenu(listaCompleta)
+            mostrarMenu(listaCompleta,binding.botonParteCuerpo)
         }
     }
-    fun mostrarMenu(listaCompleta: MutableList<Ejercicio>){
-        val menu= PopupMenu(context,binding.botonParteCuerpo)
-        menu.menuInflater.inflate(R.menu.menu_filtrar_por_parte_cuerpo,menu.menu)
-        menu.setForceShowIcon(true)
-        menu.setOnMenuItemClickListener {
-            item -> when(item.itemId){
-                R.id.filtrarBrazos-> {
-                    ponerListaNuevaParteCuerpo(listaCompleta, "Brazos")
-                }
-            R.id.filtrarEspalda->{
-                ponerListaNuevaParteCuerpo(listaCompleta, "Espalda")
-            }
-            R.id.filtrarAbdominales->{
-                ponerListaNuevaParteCuerpo(listaCompleta,"Abdominales")
-            }
-            R.id.filtrarPecho->{
-                ponerListaNuevaParteCuerpo(listaCompleta,"Pecho")
-            }
-            R.id.filtrarPiernas->{
-                ponerListaNuevaParteCuerpo(listaCompleta,"Pierna")
-            }
-            R.id.filtrarHombros->{
-                ponerListaNuevaParteCuerpo(listaCompleta,"Hombro")
-            }
-            }
+    fun mostrarMenu(listaCompleta: MutableList<Ejercicio>,ancla: View){
+        val bindingMenu= MenuParteCuerpoBinding.inflate(layoutInflater)
+        val popupWindow = PopupWindow(
+            bindingMenu.root,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
             true
+        )
+        popupWindow.elevation = 10f
+        popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        bindingMenu.botonFiltrarBrazos.setOnClickListener {
+            ponerListaNuevaParteCuerpo(listaCompleta,"Brazos")
+            popupWindow.dismiss()
         }
-        menu.show()
+        bindingMenu.botonFiltrarEspalda.setOnClickListener {
+            ponerListaNuevaParteCuerpo(listaCompleta,"Espalda")
+            popupWindow.dismiss()
+        }
+        bindingMenu.botonFiltrarPiernas.setOnClickListener {
+            ponerListaNuevaParteCuerpo(listaCompleta,"Pierna")
+            popupWindow.dismiss()
+        }
+        bindingMenu.botonFiltrarAmdominales.setOnClickListener {
+            ponerListaNuevaParteCuerpo(listaCompleta,"Abdominales")
+            popupWindow.dismiss()
+        }
+        bindingMenu.botonFiltrarHombros.setOnClickListener {
+            ponerListaNuevaParteCuerpo(listaCompleta,"Hombro")
+            popupWindow.dismiss()
+        }
+        bindingMenu.botonFiltrarPecho.setOnClickListener {
+            ponerListaNuevaParteCuerpo(listaCompleta,"Pecho")
+            popupWindow.dismiss()
+        }
+        popupWindow.showAsDropDown(ancla, 0, 0)
     }
     fun ponerListaNuevaParteCuerpo(listaAnterior:MutableList<Ejercicio>, categoria:String){
         val nuevaLista=mutableListOf<Ejercicio>()
