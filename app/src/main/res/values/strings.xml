@@ -14,4 +14,18 @@
     <string name="rutinas">RUTINAS</string>
     <string name="progreso">PROGRESO</string>
     <string name="ejercicios">EJERCICIOS</string>
+    <string name="Bienvenido">Bienvenido a tu mejor version</string>
+    <string name="mensaje1">Empecemos con tu configuracion inicial</string>
+    <string name="edad">Edad</string>
+    <string name="sexo">Sexo</string>
+    <string name="altura">Altura</string>
+    <string name="peso_actual">Peso actual</string>
+    <string name="dias_entrenamiento">Elige tus dias de entrenamiento</string>
+    <string name="lunes">LUNES</string>
+    <string name="martes">MARTES</string>
+    <string name="miercoles">MIERCOLES</string>
+    <string name="jueves">JUEVES</string>
+    <string name="viernes">VIERNES</string>
+    <string name="sabado">SABADO</string>
+    <string name="domingo">DOMINGO</string>
 </resources>

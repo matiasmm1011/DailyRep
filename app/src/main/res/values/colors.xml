@@ -15,6 +15,9 @@
     <color name="plomo">
         #979E8E
     </color>
+    <color name="plomo_oscuro">
+        #322F35
+    </color>
     <color name="buscador">
         #283548
     </color>
