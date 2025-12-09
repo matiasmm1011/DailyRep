@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+android:id="@+id/filtrarBrazos"
+android:icon="@drawable/brazos"
+android:iconTint="@color/naranja"
+android:title="Brazos">
+</item>
+    <item
+        android:id="@+id/filtrarEspalda"
+        android:icon="@drawable/espalda"
+        android:iconTint="@color/naranja"
+        android:title="Espalda">
+    </item>
+    <item
+        android:id="@+id/filtrarPecho"
+        android:icon="@drawable/pectoral"
+        android:iconTint="@color/naranja"
+        android:title="Pecho">
+    </item>
+    <item
+        android:id="@+id/filtrarHombros"
+        android:icon="@drawable/hombros"
+        android:iconTint="@color/naranja"
+        android:title="Hombros">
+    </item>
+    <item
+        android:id="@+id/filtrarAbdominales"
+        android:icon="@drawable/abdominales"
+        android:iconTint="@color/naranja"
+        android:title="Abdominales">
+    </item>
+    <item
+        android:id="@+id/filtrarPiernas"
+        android:icon="@drawable/piernas"
+        android:iconTint="@color/naranja"
+        android:title="Piernas">
+    </item>
+</menu>

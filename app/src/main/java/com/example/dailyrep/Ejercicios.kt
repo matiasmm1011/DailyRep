@@ -2,6 +2,7 @@ package com.example.dailyrep
 
 import android.content.Context
 import android.os.Bundle
+import androidx.appcompat.widget.PopupMenu
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -27,7 +28,7 @@ class Ejercicios : AppCompatActivity() {
         }
         binding.recyclerEjercicios.layoutManager= LinearLayoutManager(context)
         binding.recyclerEjercicios.adapter=ejercicioAdapter
-        val listaDePrueba = listOf<Ejercicio>(
+        val listaDePrueba = mutableListOf<Ejercicio>(
             // --- PECHO ---
             Ejercicio("Press de Banca Plano", "Barra", "Pecho", true),
             Ejercicio("Aperturas Inclinadas", "Mancuernas", "Pecho", false),
@@ -67,5 +68,67 @@ class Ejercicios : AppCompatActivity() {
             Ejercicio("Remo en Ergonómetro", "Cardio", "Espalda", false)
         )
         ejercicioAdapter.ponerListaEjercicios(listaDePrueba)
+        ponerFiltros(listaDePrueba)
+
+    }
+    fun ponerFiltros(listaCompleta: MutableList<Ejercicio>){
+        var favoritos:Boolean=false;
+        binding.botonFavoritos.setOnClickListener {
+            favoritos=!favoritos
+            if(favoritos){
+                binding.imagenCorazon.setImageResource(R.drawable.heart)
+                val listaFavoritos=mutableListOf<Ejercicio>()
+                listaCompleta.forEach {
+                    if(it.favorito){
+                        listaFavoritos.add(it)
+                    }
+                }
+                ejercicioAdapter.ponerListaEjercicios(listaFavoritos)
+            }else{
+                binding.imagenCorazon.setImageResource(R.drawable.corazon_vacio)
+                ejercicioAdapter.ponerListaEjercicios(listaCompleta)
+            }
+        }
+        binding.botonParteCuerpo.setOnClickListener{
+            mostrarMenu(listaCompleta)
+        }
+    }
+    fun mostrarMenu(listaCompleta: MutableList<Ejercicio>){
+        val menu= PopupMenu(context,binding.botonParteCuerpo)
+        menu.menuInflater.inflate(R.menu.menu_filtrar_por_parte_cuerpo,menu.menu)
+        menu.setForceShowIcon(true)
+        menu.setOnMenuItemClickListener {
+            item -> when(item.itemId){
+                R.id.filtrarBrazos-> {
+                    ponerListaNuevaParteCuerpo(listaCompleta, "Brazos")
+                }
+            R.id.filtrarEspalda->{
+                ponerListaNuevaParteCuerpo(listaCompleta, "Espalda")
+            }
+            R.id.filtrarAbdominales->{
+                ponerListaNuevaParteCuerpo(listaCompleta,"Abdominales")
+            }
+            R.id.filtrarPecho->{
+                ponerListaNuevaParteCuerpo(listaCompleta,"Pecho")
+            }
+            R.id.filtrarPiernas->{
+                ponerListaNuevaParteCuerpo(listaCompleta,"Pierna")
+            }
+            R.id.filtrarHombros->{
+                ponerListaNuevaParteCuerpo(listaCompleta,"Hombro")
+            }
+            }
+            true
+        }
+        menu.show()
+    }
+    fun ponerListaNuevaParteCuerpo(listaAnterior:MutableList<Ejercicio>, categoria:String){
+        val nuevaLista=mutableListOf<Ejercicio>()
+        listaAnterior.forEach {
+            if(it.parteCuerpo==categoria){
+                nuevaLista.add(it)
+            }
+        }
+        ejercicioAdapter.ponerListaEjercicios(nuevaLista)
     }
 }
