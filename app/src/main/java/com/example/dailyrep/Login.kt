@@ -1,20 +1,70 @@
 package com.example.dailyrep
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.dailyrep.databinding.ActivityLoginBinding
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 
 class Login : AppCompatActivity() {
+    private lateinit var binding: ActivityLoginBinding
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_login)
+        binding= ActivityLoginBinding.inflate(layoutInflater)
+        auth= Firebase.auth
+        setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+        binding.botonInicioSesion.setOnClickListener {
+            val correo=binding.correo.text.toString()
+            val password=binding.password.text.toString()
+            crearUsuario(correo,password)
+        }
+        val currentUser=auth.currentUser
+        if(currentUser!=null){
+            val intentUsuarioLogueado=Intent(this, ConfiguracionInicial1Activity::class.java)
+            startActivity(intentUsuarioLogueado)
+        }
+    }
+
+    fun loginUsuario(correo:String, password:String){
+        auth.signInWithEmailAndPassword(correo, password)
+            .addOnCompleteListener {
+            task->
+                if(task.isSuccessful){
+                    val intentLogueado:Intent= Intent(this, Ejercicios::class.java)
+                    startActivity(intentLogueado)
+                }else{
+                    Toast.makeText(
+                        baseContext,"No pudo loguerarse",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+        }
+    }
+    fun crearUsuario(correo: String, password: String){
+        auth.createUserWithEmailAndPassword(correo, password).addOnCompleteListener {
+            task->
+            if(task.isSuccessful){
+                //Creado correctamente
+            }else{
+                Toast.makeText(
+                    baseContext,"No se pudo crear un usuario",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 }
