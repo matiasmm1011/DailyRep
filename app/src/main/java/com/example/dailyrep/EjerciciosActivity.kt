@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.PopupWindow
 import com.example.dailyrep.databinding.ActivityEjerciciosBinding
 import com.example.dailyrep.databinding.MenuParteCuerpoBinding
+import com.example.dailyrep.databinding.MenuTipoEjercicioBinding
 import com.example.dailyrep.dataclases.Ejercicio
 
 class EjerciciosActivity : AppCompatActivity() {
@@ -96,15 +97,20 @@ class EjerciciosActivity : AppCompatActivity() {
             }
         }
         binding.botonParteCuerpo.setOnClickListener{
-            mostrarMenu(listaCompleta,binding.botonParteCuerpo)
+            mostrarMenuParteCuerpo(listaCompleta,binding.botonParteCuerpo)
+        }
+        binding.botonTipoEjercicio.setOnClickListener{
+            mostrarMenuTipoEjercicio(listaCompleta,binding.botonTipoEjercicio)
         }
     }
-    fun mostrarMenu(listaCompleta: MutableList<Ejercicio>,ancla: View){
+    fun mostrarMenuParteCuerpo(listaCompleta: MutableList<Ejercicio>,ancla: View){
         val bindingMenu= MenuParteCuerpoBinding.inflate(layoutInflater)
+        val ancho = dpToPx(250)
+        val altura = dpToPx(325)
         val popupWindow = PopupWindow(
             bindingMenu.root,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ancho,
+            altura,
             true
         )
         popupWindow.elevation = 10f
@@ -135,6 +141,45 @@ class EjerciciosActivity : AppCompatActivity() {
         }
         popupWindow.showAsDropDown(ancla, 0, 0)
     }
+    fun mostrarMenuTipoEjercicio(listaCompleta: MutableList<Ejercicio>,ancla: View){
+        val bindingMenu= MenuTipoEjercicioBinding.inflate(layoutInflater)
+        val ancho = dpToPx(250)
+        val altura = dpToPx(325)
+        val popupWindow = PopupWindow(
+            bindingMenu.root,
+            ancho,
+            altura,
+            true
+        )
+        popupWindow.elevation = 10f
+        popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        bindingMenu.botonFiltrarBarra.setOnClickListener {
+            ponerListaNuevaTipo(listaCompleta,"Barra")
+            popupWindow.dismiss()
+        }
+        bindingMenu.botonFiltrarMancuernas.setOnClickListener {
+            ponerListaNuevaTipo(listaCompleta,"Mancuernas")
+            popupWindow.dismiss()
+        }
+        bindingMenu.botonFiltrarPolea.setOnClickListener {
+            ponerListaNuevaTipo(listaCompleta,"Polea")
+            popupWindow.dismiss()
+        }
+        bindingMenu.botonFiltrarCardio.setOnClickListener {
+            ponerListaNuevaTipo(listaCompleta,"Cardio")
+            popupWindow.dismiss()
+        }
+        bindingMenu.botonFiltrarMaquina.setOnClickListener {
+            ponerListaNuevaTipo(listaCompleta,"Maquina")
+            popupWindow.dismiss()
+        }
+        bindingMenu.botonFiltrarPesoCorporal.setOnClickListener {
+            ponerListaNuevaTipo(listaCompleta,"Peso Corporal")
+            popupWindow.dismiss()
+        }
+        val xoff = ancla.width - ancho
+        popupWindow.showAsDropDown(ancla, xoff, 0)
+    }
     fun ponerListaNuevaParteCuerpo(listaAnterior:MutableList<Ejercicio>, categoria:String){
         val nuevaLista=mutableListOf<Ejercicio>()
         listaAnterior.forEach {
@@ -143,5 +188,18 @@ class EjerciciosActivity : AppCompatActivity() {
             }
         }
         ejercicioAdapter.ponerListaEjercicios(nuevaLista)
+    }
+    fun ponerListaNuevaTipo(listaAnterior:MutableList<Ejercicio>, categoria:String){
+        val nuevaLista=mutableListOf<Ejercicio>()
+        listaAnterior.forEach {
+            if(it.tipo==categoria){
+                nuevaLista.add(it)
+            }
+        }
+        ejercicioAdapter.ponerListaEjercicios(nuevaLista)
+    }
+    private fun dpToPx(dp: Int): Int {
+        val density = resources.displayMetrics.density
+        return (dp * density).toInt()
     }
 }

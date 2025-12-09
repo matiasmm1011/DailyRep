@@ -11,11 +11,11 @@
         android:layout_height="0dp"
         android:layout_weight="1">
         <TextView
-            android:id="@+id/botonFiltrarBrazos"
+            android:id="@+id/botonFiltrarMaquina"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/cuadros"
-            android:text="@string/Brazos"
+            android:text="@string/Maquina"
             android:layout_margin="0.5dp"
             android:textColor="@color/textos"
             android:textSize="25sp"
@@ -26,7 +26,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/brazos"
+            android:src="@drawable/maquina"
             android:tint="@color/naranja"
             android:elevation="2dp"
             app:layout_constraintStart_toStartOf="parent">
@@ -37,11 +37,11 @@
         android:layout_height="0dp"
         android:layout_weight="1">
         <TextView
-            android:id="@+id/botonFiltrarEspalda"
+            android:id="@+id/botonFiltrarPolea"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/cuadros"
-            android:text="@string/Espalda"
+            android:text="@string/Polea"
             android:layout_margin="0.5dp"
             android:textColor="@color/textos"
             android:textSize="25sp"
@@ -52,7 +52,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/espalda"
+            android:src="@drawable/polea"
             android:tint="@color/naranja"
             android:elevation="2dp"
             app:layout_constraintStart_toStartOf="parent">
@@ -63,11 +63,11 @@
         android:layout_height="0dp"
         android:layout_weight="1">
         <TextView
-            android:id="@+id/botonFiltrarPecho"
+            android:id="@+id/botonFiltrarMancuernas"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/cuadros"
-            android:text="@string/Pecho"
+            android:text="@string/Mancuernas"
             android:layout_margin="0.5dp"
             android:textColor="@color/textos"
             android:textSize="25sp"
@@ -78,7 +78,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/pectoral"
+            android:src="@drawable/mancuernas"
             android:tint="@color/naranja"
             android:elevation="2dp"
             app:layout_constraintStart_toStartOf="parent">
@@ -89,11 +89,11 @@
         android:layout_height="0dp"
         android:layout_weight="1">
         <TextView
-            android:id="@+id/botonFiltrarAmdominales"
+            android:id="@+id/botonFiltrarPesoCorporal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/cuadros"
-            android:text="@string/Abdominales"
+            android:text="@string/PesoCorporal"
             android:layout_margin="0.5dp"
             android:textColor="@color/textos"
             android:textSize="18sp"
@@ -104,7 +104,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/abdominales"
+            android:src="@drawable/cuerpo"
             android:tint="@color/naranja"
             android:elevation="2dp"
             app:layout_constraintStart_toStartOf="parent">
@@ -115,11 +115,11 @@
         android:layout_height="0dp"
         android:layout_weight="1">
         <TextView
-            android:id="@+id/botonFiltrarHombros"
+            android:id="@+id/botonFiltrarCardio"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/cuadros"
-            android:text="@string/Hombros"
+            android:text="@string/cardio"
             android:layout_margin="0.5dp"
             android:textColor="@color/textos"
             android:textSize="25sp"
@@ -130,7 +130,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/hombros"
+            android:src="@drawable/cardio"
             android:tint="@color/naranja"
             android:elevation="2dp"
             app:layout_constraintStart_toStartOf="parent">
@@ -141,11 +141,11 @@
         android:layout_height="0dp"
         android:layout_weight="1">
         <TextView
-            android:id="@+id/botonFiltrarPiernas"
+            android:id="@+id/botonFiltrarBarra"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/cuadros"
-            android:text="@string/Piernas"
+            android:text="@string/Barra"
             android:layout_margin="0.5dp"
             android:textColor="@color/textos"
             android:textSize="25sp"
@@ -156,7 +156,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/piernas"
+            android:src="@drawable/barra"
             android:tint="@color/naranja"
             android:elevation="2dp"
             app:layout_constraintStart_toStartOf="parent">
