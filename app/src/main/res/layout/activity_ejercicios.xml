@@ -8,11 +8,10 @@
     tools:context=".EjerciciosActivity"
     android:orientation="vertical"
     android:background="@color/fondoPantallas"
-    android:weightSum="15">
+    android:weightSum="1">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="48dp"
         android:layout_marginTop="10dp"
         app:cardCornerRadius="30dp">
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,9 +44,28 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
     <LinearLayout
+        android:id="@+id/chips"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2.75"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Filtrar"
+            android:textSize="20sp"
+            android:textColor="@color/textos"
+            android:paddingEnd="1dp">
+        </TextView>
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:chipSpacing="4dp"
+            app:singleLine="false">
+        </com.google.android.material.chip.ChipGroup>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
         android:weightSum="3"
         android:orientation="horizontal">
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -153,8 +171,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="9.5">
+        android:layout_weight="1"
+        android:orientation="vertical">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_ejercicios"
             android:layout_width="match_parent"
@@ -163,8 +181,7 @@
     </LinearLayout>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_height="96dp"
         app:cardCornerRadius="30dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
