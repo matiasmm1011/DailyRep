@@ -5,14 +5,12 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.widget.PopupMenu
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dailyrep.adapters.EjercicioAdapter
-import android.view.ViewGroup
 import android.widget.PopupWindow
 import com.example.dailyrep.databinding.ActivityEjerciciosBinding
 import com.example.dailyrep.databinding.MenuParteCuerpoBinding
@@ -23,6 +21,9 @@ class EjerciciosActivity : AppCompatActivity() {
    private lateinit var binding: ActivityEjerciciosBinding
    private val ejercicioAdapter: EjercicioAdapter by lazy{ EjercicioAdapter() }
     val context: Context =this
+    val filtrosParteCuerpo=mutableSetOf<String>()
+    val filtrosTipoEjercicio=mutableSetOf<String>()
+    var favorito=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -76,34 +77,9 @@ class EjerciciosActivity : AppCompatActivity() {
         )
         ejercicioAdapter.ponerListaEjercicios(listaDePrueba)
         ponerFiltros(listaDePrueba)
+    }
 
-    }
-    fun ponerFiltros(listaCompleta: MutableList<Ejercicio>){
-        var favoritos:Boolean=false;
-        binding.botonFavoritos.setOnClickListener {
-            favoritos=!favoritos
-            if(favoritos){
-                binding.imagenCorazon.setImageResource(R.drawable.heart)
-                val listaFavoritos=mutableListOf<Ejercicio>()
-                listaCompleta.forEach {
-                    if(it.favorito){
-                        listaFavoritos.add(it)
-                    }
-                }
-                ejercicioAdapter.ponerListaEjercicios(listaFavoritos)
-            }else{
-                binding.imagenCorazon.setImageResource(R.drawable.corazon_vacio)
-                ejercicioAdapter.ponerListaEjercicios(listaCompleta)
-            }
-        }
-        binding.botonParteCuerpo.setOnClickListener{
-            mostrarMenuParteCuerpo(listaCompleta,binding.botonParteCuerpo)
-        }
-        binding.botonTipoEjercicio.setOnClickListener{
-            mostrarMenuTipoEjercicio(listaCompleta,binding.botonTipoEjercicio)
-        }
-    }
-    fun mostrarMenuParteCuerpo(listaCompleta: MutableList<Ejercicio>,ancla: View){
+    fun mostrarMenuParteCuerpo(ancla: View){
         val bindingMenu= MenuParteCuerpoBinding.inflate(layoutInflater)
         val ancho = dpToPx(250)
         val altura = dpToPx(325)
@@ -116,32 +92,32 @@ class EjerciciosActivity : AppCompatActivity() {
         popupWindow.elevation = 10f
         popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         bindingMenu.botonFiltrarBrazos.setOnClickListener {
-            ponerListaNuevaParteCuerpo(listaCompleta,"Brazos")
+            filtrosParteCuerpo.add("Brazos")
             popupWindow.dismiss()
         }
         bindingMenu.botonFiltrarEspalda.setOnClickListener {
-            ponerListaNuevaParteCuerpo(listaCompleta,"Espalda")
+            filtrosParteCuerpo.add("Espalda")
             popupWindow.dismiss()
         }
         bindingMenu.botonFiltrarPiernas.setOnClickListener {
-            ponerListaNuevaParteCuerpo(listaCompleta,"Pierna")
+            filtrosParteCuerpo.add("Pierna")
             popupWindow.dismiss()
         }
         bindingMenu.botonFiltrarAmdominales.setOnClickListener {
-            ponerListaNuevaParteCuerpo(listaCompleta,"Abdominales")
+            filtrosParteCuerpo.add("Abdominales")
             popupWindow.dismiss()
         }
         bindingMenu.botonFiltrarHombros.setOnClickListener {
-            ponerListaNuevaParteCuerpo(listaCompleta,"Hombro")
+            filtrosParteCuerpo.add("Hombro")
             popupWindow.dismiss()
         }
         bindingMenu.botonFiltrarPecho.setOnClickListener {
-            ponerListaNuevaParteCuerpo(listaCompleta,"Pecho")
+            filtrosParteCuerpo.add("Pecho")
             popupWindow.dismiss()
         }
         popupWindow.showAsDropDown(ancla, 0, 0)
     }
-    fun mostrarMenuTipoEjercicio(listaCompleta: MutableList<Ejercicio>,ancla: View){
+    fun mostrarMenuTipoEjercicio(ancla: View){
         val bindingMenu= MenuTipoEjercicioBinding.inflate(layoutInflater)
         val ancho = dpToPx(250)
         val altura = dpToPx(325)
@@ -154,52 +130,77 @@ class EjerciciosActivity : AppCompatActivity() {
         popupWindow.elevation = 10f
         popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         bindingMenu.botonFiltrarBarra.setOnClickListener {
-            ponerListaNuevaTipo(listaCompleta,"Barra")
+            filtrosTipoEjercicio.add("Barra")
             popupWindow.dismiss()
         }
         bindingMenu.botonFiltrarMancuernas.setOnClickListener {
-            ponerListaNuevaTipo(listaCompleta,"Mancuernas")
+            filtrosTipoEjercicio.add("Mancuernas")
             popupWindow.dismiss()
         }
         bindingMenu.botonFiltrarPolea.setOnClickListener {
-            ponerListaNuevaTipo(listaCompleta,"Polea")
+            filtrosTipoEjercicio.add("Polea")
             popupWindow.dismiss()
         }
         bindingMenu.botonFiltrarCardio.setOnClickListener {
-            ponerListaNuevaTipo(listaCompleta,"Cardio")
+            filtrosTipoEjercicio.add("Cardio")
             popupWindow.dismiss()
         }
         bindingMenu.botonFiltrarMaquina.setOnClickListener {
-            ponerListaNuevaTipo(listaCompleta,"Maquina")
+            filtrosTipoEjercicio.add("Maquina")
             popupWindow.dismiss()
         }
         bindingMenu.botonFiltrarPesoCorporal.setOnClickListener {
-            ponerListaNuevaTipo(listaCompleta,"Peso Corporal")
+            filtrosTipoEjercicio.add("Peso Corporal")
             popupWindow.dismiss()
         }
         val xoff = ancla.width - ancho
         popupWindow.showAsDropDown(ancla, xoff, 0)
     }
-    fun ponerListaNuevaParteCuerpo(listaAnterior:MutableList<Ejercicio>, categoria:String){
-        val nuevaLista=mutableListOf<Ejercicio>()
-        listaAnterior.forEach {
-            if(it.parteCuerpo==categoria){
-                nuevaLista.add(it)
-            }
-        }
-        ejercicioAdapter.ponerListaEjercicios(nuevaLista)
-    }
-    fun ponerListaNuevaTipo(listaAnterior:MutableList<Ejercicio>, categoria:String){
-        val nuevaLista=mutableListOf<Ejercicio>()
-        listaAnterior.forEach {
-            if(it.tipo==categoria){
-                nuevaLista.add(it)
-            }
-        }
-        ejercicioAdapter.ponerListaEjercicios(nuevaLista)
-    }
+
     private fun dpToPx(dp: Int): Int {
         val density = resources.displayMetrics.density
         return (dp * density).toInt()
+    }
+    fun ponerFiltros(listaCompleta: MutableList<Ejercicio>){
+        binding.botonFavoritos.setOnClickListener {
+            favorito=!favorito
+            if(favorito){
+                binding.imagenCorazon.setImageResource(R.drawable.heart)
+            }else{
+                binding.imagenCorazon.setImageResource(R.drawable.corazon_vacio)
+            }
+            actualizarLista(listaCompleta)
+        }
+        binding.botonParteCuerpo.setOnClickListener {
+            mostrarMenuParteCuerpo(binding.botonParteCuerpo)
+            actualizarLista(listaCompleta)
+        }
+        binding.botonTipoEjercicio.setOnClickListener{
+            mostrarMenuTipoEjercicio(binding.botonTipoEjercicio)
+            actualizarLista(listaCompleta)
+        }
+    }
+
+
+    fun actualizarLista(listaCompleta: MutableList<Ejercicio>) {
+        var resultado: List<Ejercicio> = listaCompleta
+
+        if (favorito) {
+            resultado = resultado.filter { ejercicio -> ejercicio.favorito }
+        }
+        if (filtrosTipoEjercicio.isNotEmpty()) {
+            resultado = resultado.filter { ejercicio ->
+                filtrosTipoEjercicio.contains(ejercicio.tipo)
+            }
+        }
+
+        if (filtrosParteCuerpo.isNotEmpty()) {
+            resultado = resultado.filter { ejercicio ->
+                filtrosParteCuerpo.contains(ejercicio.parteCuerpo)
+            }
+        }
+
+        ejercicioAdapter.ponerListaEjercicios(resultado)
+        // TODO poner chips para actualizar sets
     }
 }
