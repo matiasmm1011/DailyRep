@@ -21,9 +21,6 @@
             android:exported="false" >
         </activity>
         <activity
-            android:name=".adapters.EjercicioAdapter"
-            android:exported="false" />
-        <activity
             android:name=".Ejercicios"
             android:exported="false">
         </activity>

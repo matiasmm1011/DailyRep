@@ -30,11 +30,11 @@ class Login : AppCompatActivity() {
         binding.botonInicioSesion.setOnClickListener {
             val correo=binding.correo.text.toString()
             val password=binding.password.text.toString()
-            crearUsuario(correo,password)
+            loginUsuario(correo,password)
         }
         val currentUser=auth.currentUser
         if(currentUser!=null){
-            val intentUsuarioLogueado=Intent(this, ConfiguracionInicial1Activity::class.java)
+            val intentUsuarioLogueado=Intent(this, Ejercicios::class.java)
             startActivity(intentUsuarioLogueado)
         }
     }
