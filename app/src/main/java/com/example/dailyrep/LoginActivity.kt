@@ -1,5 +1,6 @@
 package com.example.dailyrep
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -12,16 +13,19 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 
-class Login : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth
+    val context: Context =this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         binding= ActivityLoginBinding.inflate(layoutInflater)
         auth= Firebase.auth
         setContentView(binding.root)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -32,11 +36,19 @@ class Login : AppCompatActivity() {
             val password=binding.password.text.toString()
             loginUsuario(correo,password)
         }
-        val currentUser=auth.currentUser
+
+        val currentUser = auth.currentUser
+
         if(currentUser!=null){
-            val intentUsuarioLogueado=Intent(this, EjerciciosActivity::class.java)
+            val intentUsuarioLogueado=Intent(context, EjerciciosActivity::class.java)
             startActivity(intentUsuarioLogueado)
         }
+
+        binding.buttonCrearUsuario.setOnClickListener {
+            val intentCambioRegistro: Intent = Intent(context, RegistroUsuariosActivity::class.java)
+            startActivity(intentCambioRegistro)
+        }
+
     }
 
     fun loginUsuario(correo:String, password:String){
@@ -44,27 +56,14 @@ class Login : AppCompatActivity() {
             .addOnCompleteListener {
             task->
                 if(task.isSuccessful){
-                    val intentLogueado:Intent= Intent(this, EjerciciosActivity::class.java)
+                    val intentLogueado:Intent = Intent(context, EjerciciosActivity::class.java)
                     startActivity(intentLogueado)
                 }else{
                     Toast.makeText(
-                        baseContext,"No pudo loguerarse",
+                        baseContext,"El usuario no pudo loguearse correctamente",
                         Toast.LENGTH_LONG
                     ).show()
                 }
-        }
-    }
-    fun crearUsuario(correo: String, password: String){
-        auth.createUserWithEmailAndPassword(correo, password).addOnCompleteListener {
-            task->
-            if(task.isSuccessful){
-                //Creado correctamente
-            }else{
-                Toast.makeText(
-                    baseContext,"No se pudo crear un usuario",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
         }
     }
 }

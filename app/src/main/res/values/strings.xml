@@ -40,5 +40,8 @@
     <string name="PesoCorporal">Peso Corporal</string>
     <string name="cardio">Cardio</string>
     <string name="Barra">Barra</string>
+    <string name="continuar">CONTINUAR</string>
+    <string name="registro">REGISTRARME</string>
+    <string name="primerosPasos">Registrate para empezar con tu transformacion</string>
     <string name="Filtrar">Filtros:</string>
 </resources>
