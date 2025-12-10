@@ -28,4 +28,16 @@
     <string name="viernes">VIERNES</string>
     <string name="sabado">SABADO</string>
     <string name="domingo">DOMINGO</string>
+    <string name="Brazos">Brazos</string>
+    <string name="Espalda">Espalda</string>
+    <string name="Pecho">Pecho</string>
+    <string name="Abdominales">Abdominales</string>
+    <string name="Hombros">Hombros</string>
+    <string name="Piernas">Piernas</string>
+    <string name="Maquina">Maquina</string>
+    <string name="Polea">Polea</string>
+    <string name="Mancuernas">Mancuernas</string>
+    <string name="PesoCorporal">Peso Corporal</string>
+    <string name="cardio">Cardio</string>
+    <string name="Barra">Barra</string>
 </resources>

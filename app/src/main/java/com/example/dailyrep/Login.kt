@@ -34,7 +34,7 @@ class Login : AppCompatActivity() {
         }
         val currentUser=auth.currentUser
         if(currentUser!=null){
-            val intentUsuarioLogueado=Intent(this, Ejercicios::class.java)
+            val intentUsuarioLogueado=Intent(this, EjerciciosActivity::class.java)
             startActivity(intentUsuarioLogueado)
         }
     }
@@ -44,7 +44,7 @@ class Login : AppCompatActivity() {
             .addOnCompleteListener {
             task->
                 if(task.isSuccessful){
-                    val intentLogueado:Intent= Intent(this, Ejercicios::class.java)
+                    val intentLogueado:Intent= Intent(this, EjerciciosActivity::class.java)
                     startActivity(intentLogueado)
                 }else{
                     Toast.makeText(
