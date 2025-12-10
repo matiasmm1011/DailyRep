@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login"
+    tools:context=".LoginActivity"
     android:background="@drawable/fondo_login"
     >
 
@@ -83,7 +83,7 @@
             android:layout_margin="5dp"
             android:text="@string/lunes"
             android:gravity="center"
-            android:background="@color/naranja"
+            android:background="@drawable/dia_selector"
             android:textColor="@color/textos">
         </TextView>
         <TextView
@@ -94,7 +94,7 @@
             android:layout_margin="5dp"
             android:text="@string/martes"
             android:gravity="center"
-            android:background="@color/naranja"
+            android:background="@drawable/dia_selector"
             android:textColor="@color/textos">
         </TextView>
         <TextView
@@ -105,7 +105,7 @@
             android:layout_margin="5dp"
             android:text="@string/miercoles"
             android:gravity="center"
-            android:background="@color/plomo_oscuro"
+            android:background="@drawable/dia_selector"
             android:textColor="@color/textos">
         </TextView>
         <TextView
@@ -116,7 +116,7 @@
             android:layout_margin="5dp"
             android:text="@string/jueves"
             android:gravity="center"
-            android:background="@color/naranja"
+            android:background="@drawable/dia_selector"
             android:textColor="@color/textos">
         </TextView>
         <TextView
@@ -127,7 +127,7 @@
             android:layout_margin="5dp"
             android:text="@string/viernes"
             android:gravity="center"
-            android:background="@color/plomo_oscuro"
+            android:background="@drawable/dia_selector"
             android:textColor="@color/textos">
         </TextView>
         <TextView
@@ -138,7 +138,7 @@
             android:layout_margin="5dp"
             android:text="@string/sabado"
             android:gravity="center"
-            android:background="@color/naranja"
+            android:background="@drawable/dia_selector"
             android:textColor="@color/textos">
         </TextView>
         <TextView
@@ -149,14 +149,15 @@
             android:layout_margin="5dp"
             android:text="@string/domingo"
             android:gravity="center"
-            android:background="@color/plomo_oscuro"
+            android:background="@drawable/dia_selector"
             android:textColor="@color/textos">
         </TextView>
     </LinearLayout>
     <TextView
+        android:id="@+id/buttonContinuar2"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="@string/login"
+        android:text="@string/continuar"
         android:gravity="center"
         android:layout_marginHorizontal="50dp"
         android:background="@color/naranja"
