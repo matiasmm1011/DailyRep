@@ -14,13 +14,13 @@
         android:layout_height="48dp"
         android:layout_marginTop="10dp"
         app:cardCornerRadius="30dp">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/buscador">
             <ImageView
                 android:id="@+id/vector_lupa"
-                android:layout_width="100dp"
+                android:layout_width="95dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -31,17 +31,26 @@
             </ImageView>
             <EditText
                 android:id="@+id/buscador"
-                android:layout_width="match_parent"
+                android:layout_width="200dp"
                 android:layout_height="match_parent"
                 android:background="@color/buscador"
                 android:hint="@string/buscar_ejercicio"
                 android:textColorHint="@color/textos"
                 android:textColor="@color/textos"
                 android:textSize="25sp"
-                android:paddingStart="80dp"
-                >
+                android:maxLines="1"
+                android:inputType="text"
+                android:imeOptions="actionSearch">
             </EditText>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/quitarTextoBuscador"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/x"
+                android:tint="@color/textos">
+            </ImageView>
+
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
     <LinearLayout
         android:id="@+id/chips"
@@ -50,13 +59,14 @@
         android:visibility="gone">
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingEnd="1dp"
             android:text="@string/Filtrar"
-            android:textSize="20sp"
             android:textColor="@color/textos"
-            android:paddingEnd="1dp">
+            android:textSize="20sp">
         </TextView>
         <com.google.android.material.chip.ChipGroup
+            android:id="@+id/grupoChips"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:chipSpacing="4dp"
@@ -201,6 +211,7 @@
                 app:layout_constraintHorizontal_bias="0.10">
             </TextView>
             <ImageView
+                android:id="@+id/apartadoPerfil"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
                 android:src="@drawable/perfil"
@@ -262,10 +273,10 @@
                 app:tint="@color/textos">
             </ImageView>
             <TextView
-                android:id="@+id/textoEjercicios"
+                android:id="@+id/apartadoEjercicios"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textos"
+                android:textColor="@color/naranja"
                 android:text="@string/ejercicios"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

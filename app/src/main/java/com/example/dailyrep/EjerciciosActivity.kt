@@ -3,9 +3,10 @@ package com.example.dailyrep
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -18,6 +19,8 @@ import com.example.dailyrep.databinding.MenuParteCuerpoBinding
 import com.example.dailyrep.databinding.MenuTipoEjercicioBinding
 import com.example.dailyrep.dataclases.Ejercicio
 import com.google.android.material.chip.Chip
+import androidx.core.graphics.drawable.toDrawable
+import java.util.Locale
 
 class EjerciciosActivity : AppCompatActivity() {
    private lateinit var binding: ActivityEjerciciosBinding
@@ -65,6 +68,7 @@ class EjerciciosActivity : AppCompatActivity() {
     val filtrosParteCuerpo=mutableSetOf<String>()
     val filtrosTipoEjercicio=mutableSetOf<String>()
     var favorito=false
+    var textoEnBuscador:String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -84,6 +88,15 @@ class EjerciciosActivity : AppCompatActivity() {
         binding.apartadoRutinas.setOnClickListener {
             startActivity(intentCambioRutinas)
         }
+        buscador()
+        cambiarApartados()
+    }
+
+    private fun cambiarApartados() {
+        binding.apartadoPerfil.setOnClickListener {
+            val cambiarAPerfilIntent: Intent =Intent(context, PerfilActivity::class.java)
+            startActivity(cambiarAPerfilIntent)
+        }
     }
 
     fun mostrarMenuParteCuerpo(ancla: View){
@@ -97,22 +110,34 @@ class EjerciciosActivity : AppCompatActivity() {
             true
         )
         popupWindow.elevation = 10f
-        popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        popupWindow.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
         bindingMenu.botonFiltrarBrazos.setOnClickListener {
             filtrosParteCuerpo.add("Brazos")
             popupWindow.dismiss()
+            ancla.post {
+                actualizarLista(listaDePrueba)
+            }
         }
         bindingMenu.botonFiltrarEspalda.setOnClickListener {
             filtrosParteCuerpo.add("Espalda")
             popupWindow.dismiss()
+            ancla.post {
+                actualizarLista(listaDePrueba)
+            }
         }
         bindingMenu.botonFiltrarPiernas.setOnClickListener {
             filtrosParteCuerpo.add("Pierna")
             popupWindow.dismiss()
+            ancla.post {
+                actualizarLista(listaDePrueba)
+            }
         }
         bindingMenu.botonFiltrarAmdominales.setOnClickListener {
             filtrosParteCuerpo.add("Abdominales")
             popupWindow.dismiss()
+            ancla.post {
+                actualizarLista(listaDePrueba)
+            }
         }
         bindingMenu.botonFiltrarHombros.setOnClickListener {
             filtrosParteCuerpo.add("Hombro")
@@ -141,11 +166,13 @@ class EjerciciosActivity : AppCompatActivity() {
             true
         )
         popupWindow.elevation = 10f
-        popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        popupWindow.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
         bindingMenu.botonFiltrarBarra.setOnClickListener {
             filtrosTipoEjercicio.add("Barra")
             popupWindow.dismiss()
-
+            ancla.post {
+                actualizarLista(listaDePrueba)
+            }
         }
         bindingMenu.botonFiltrarMancuernas.setOnClickListener {
             filtrosTipoEjercicio.add("Mancuernas")
@@ -153,22 +180,38 @@ class EjerciciosActivity : AppCompatActivity() {
             ancla.post {
                 actualizarLista(listaDePrueba)
             }
+
         }
         bindingMenu.botonFiltrarPolea.setOnClickListener {
             filtrosTipoEjercicio.add("Polea")
             popupWindow.dismiss()
+            ancla.post {
+                actualizarLista(listaDePrueba)
+            }
         }
         bindingMenu.botonFiltrarCardio.setOnClickListener {
             filtrosTipoEjercicio.add("Cardio")
             popupWindow.dismiss()
+            ancla.post {
+                actualizarLista(listaDePrueba)
+            }
+
         }
         bindingMenu.botonFiltrarMaquina.setOnClickListener {
             filtrosTipoEjercicio.add("Maquina")
             popupWindow.dismiss()
+            ancla.post {
+                actualizarLista(listaDePrueba)
+            }
+
         }
         bindingMenu.botonFiltrarPesoCorporal.setOnClickListener {
             filtrosTipoEjercicio.add("Peso Corporal")
             popupWindow.dismiss()
+            ancla.post {
+                actualizarLista(listaDePrueba)
+            }
+
         }
         val xoff = ancla.width - ancho
         popupWindow.showAsDropDown(ancla, xoff, 0)
@@ -190,11 +233,9 @@ class EjerciciosActivity : AppCompatActivity() {
         }
         binding.botonParteCuerpo.setOnClickListener {
             mostrarMenuParteCuerpo(binding.botonParteCuerpo)
-            actualizarLista(listaCompleta)
         }
         binding.botonTipoEjercicio.setOnClickListener{
             mostrarMenuTipoEjercicio(binding.botonTipoEjercicio)
-            actualizarLista(listaCompleta)
         }
     }
 
@@ -214,20 +255,26 @@ class EjerciciosActivity : AppCompatActivity() {
                 filtrosParteCuerpo.contains(ejercicio.parteCuerpo)
             }
         }
+        if(textoEnBuscador!=null){
+            val texto=textoEnBuscador.toString().lowercase()
+            resultado=resultado.filter{
+                ejercicio->  ejercicio.nombre.contains(texto)
+            }
+        }
         dibujarEtiquetas()
         ejercicioAdapter.ponerListaEjercicios(resultado)
 
     }
     fun dibujarEtiquetas(){
-        val bindingChip=binding.chips
-        bindingChip.removeAllViews()
+        val controladorChips=binding.grupoChips
+        controladorChips.removeAllViews()
         filtrosParteCuerpo.forEach {filtro->
-            val chip: Chip =crearChipDeFiltro(filtro)
-            bindingChip.addView(chip)
+            val chip: Chip =crearChipDeFiltro(filtro,true)
+            controladorChips.addView(chip)
         }
         filtrosTipoEjercicio.forEach { filtro->
-            val chip: Chip =crearChipDeFiltro(filtro)
-            bindingChip.addView(chip)
+            val chip: Chip =crearChipDeFiltro(filtro,false)
+            controladorChips.addView(chip)
         }
         val vistaEtiquetas=filtrosParteCuerpo.isNotEmpty() || filtrosTipoEjercicio.isNotEmpty()
         if(vistaEtiquetas){
@@ -237,20 +284,43 @@ class EjerciciosActivity : AppCompatActivity() {
         }
 
     }
-    private fun crearChipDeFiltro(texto: String): Chip {
+    private fun crearChipDeFiltro(texto: String, esFiltroParteCuerpo:Boolean): Chip {
         val chip = Chip(context)
         chip.text = texto
-
         chip.isCloseIconVisible = true
         chip.setChipBackgroundColorResource(R.color.cuadros)
         chip.setTextColor(getColor(R.color.textos))
         chip.setCloseIconTintResource(R.color.naranja)
-
         chip.setOnCloseIconClickListener {
+            if(esFiltroParteCuerpo){
             filtrosParteCuerpo.remove(texto)
+            }else{
+                filtrosTipoEjercicio.remove(texto)
+
+            }
             actualizarLista(listaDePrueba)
         }
-
         return chip
+    }
+    fun buscador(){
+        binding.buscador.setOnEditorActionListener {
+            vista, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val textoBuscado = binding.buscador.text.toString()
+                textoEnBuscador=textoBuscado
+                actualizarLista(listaDePrueba)
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(vista.windowToken, 0)
+                vista.clearFocus()
+                true
+            }else{
+            false
+            }
+        }
+        binding.quitarTextoBuscador.setOnClickListener {
+            binding.buscador.text=null
+            textoEnBuscador=null
+            actualizarLista(listaDePrueba)
+        }
     }
 }
