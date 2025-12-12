@@ -18,6 +18,9 @@
             android:name=".RutinasActivity"
             android:exported="false" />
         <activity
+            android:name=".DescripcionEjercicioActivity"
+            android:exported="false" />
+        <activity
             android:name=".PerfilActivity"
             android:exported="false" />
         <activity

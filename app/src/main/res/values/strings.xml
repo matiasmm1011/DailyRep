@@ -62,4 +62,7 @@
     <string name="configuracion">Configuracion:</string>
     <string name="modoOscuro">MODO OSCURO</string>
     <string name="logOut">Log Out</string>
+    <string name="genero">Genero</string>
+    <string name="femenino">F</string>
+    <string name="masculino">M</string>
 </resources>

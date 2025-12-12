@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.dailyrep.databinding.ActivityPerfilBinding
@@ -28,6 +29,7 @@ class PerfilActivity : AppCompatActivity() {
             insets
         }
         cambiarApartados()
+        editarDatosUsuario()
         binding.logOut.setOnClickListener {
             logOut()
         }
@@ -43,5 +45,19 @@ class PerfilActivity : AppCompatActivity() {
         auth.signOut()
         val volverALoginIntent:Intent=Intent(context, LoginActivity::class.java)
         startActivity(volverALoginIntent)
+    }
+    private fun editarDatosUsuario(){
+        binding.masculino.setOnClickListener {
+            //cambiar a usuario su genero
+            binding.masculino.setBackgroundColor(ContextCompat.getColor(context, R.color.naranja))
+            binding.femenino.setBackgroundColor(ContextCompat.getColor(context, R.color.cuadros))
+
+        }
+        binding.femenino.setOnClickListener {
+            binding.masculino.setBackgroundColor(ContextCompat.getColor(context, R.color.cuadros))
+            binding.femenino.setBackgroundColor(ContextCompat.getColor(context, R.color.naranja))
+
+        }
+        //TODO configurar demas botones
     }
 }
