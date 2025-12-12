@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DailyRep">
         <activity
+            android:name=".PerfilActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegistroUsuariosActivity"
             android:exported="false" />
         <activity

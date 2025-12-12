@@ -44,4 +44,20 @@
     <string name="registro">REGISTRARME</string>
     <string name="primerosPasos">Registrate para empezar con tu transformacion</string>
     <string name="Filtrar">Filtros:</string>
+    <string name="usuario">"Usuario "</string>
+    <string name="Salud">Salud</string>
+    <string name="PesoActual">Peso Actual</string>
+    <string name="setenta">70</string>
+    <string name="kg">Kg</string>
+    <string name="cm">cm</string>
+    <string name="alturaHint">170</string>
+    <string name="edadHint">25</string>
+    <string name="años">años</string>
+    <string name="IMC">IMC</string>
+    <string name="tuIMC">Tu IMC es</string>
+    <string name="Normal">Normal</string>
+    <string name="caloriasMentenimiento">Calorias de mantenimiento:</string>
+    <string name="caloriasMantenimiento">Calorias de mantenimiento</string>
+    <string name="caloriasRespuesta">2400 kcal</string>
+    <string name="configuracion">Configuracion:</string>
 </resources>
