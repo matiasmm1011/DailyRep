@@ -65,4 +65,6 @@
     <string name="genero">Genero</string>
     <string name="femenino">F</string>
     <string name="masculino">M</string>
+    <string name="pruebaNombreEjercicio">Nombre ejercicio</string>
+    <string name="descripcion">Descripcion:</string>
 </resources>

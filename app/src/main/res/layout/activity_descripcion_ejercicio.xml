@@ -6,33 +6,186 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="2"
+    android:weightSum="15"
     tools:context=".DescripcionEjercicioActivity">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="6.5"
         app:cardCornerRadius="30dp"
         android:layout_margin="2dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:background="@color/cuadros">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:weightSum="10"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/volverAtras"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:padding="15dp"
+                    android:src="@drawable/atras"
+                    android:tint="@color/naranja"
+                    android:elevation="2dp">
+                </ImageView>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="8"
+                    android:textColor="@color/textos"
+                    android:textSize="37sp"
+                    android:text="@string/pruebaNombreEjercicio">
+                </TextView>
+            </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:src="@drawable/mancuernas">
+            </ImageView>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="6.5"
+        app:cardCornerRadius="30dp"
+        android:layout_margin="2dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/cuadros"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:textColor="@color/textos"
+                android:textSize="30sp"
+                android:text="@string/descripcion">
+            </TextView>
+            <TextView
+                android:id="@+id/descipcion"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:textColor="@color/textos"
+                android:textSize="25sp"
+                >
+            </TextView>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        app:cardCornerRadius="30dp"
-        android:layout_margin="2dp">
-        <LinearLayout
+        android:layout_weight="2"
+        app:cardCornerRadius="30dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/cuadros">
+            <TextView
+                android:id="@+id/textoPerfil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/naranja"
+                android:text="@string/perfil"
 
-        </LinearLayout>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0.75"
+                app:layout_constraintHorizontal_bias="0.10">
+            </TextView>
+            <ImageView
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:src="@drawable/perfil"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.07"
+                app:layout_constraintVertical_bias="0.10"
+                app:tint="@color/naranja"
+                >
+            </ImageView>
+            <TextView
+                android:id="@+id/textoRutinas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textos"
+                android:text="@string/rutinas"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0.75"
+                app:layout_constraintHorizontal_bias="0.36">
+            </TextView>
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/rutinas"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingBottom="25dp"
+                app:layout_constraintHorizontal_bias="0.34"
+                app:tint="@color/textos">
+            </ImageView>
+            <TextView
+                android:id="@+id/textoProgreso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textos"
+                android:text="@string/progreso"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0.75"
+                app:layout_constraintHorizontal_bias="0.65">
+            </TextView>
+            <ImageView
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:src="@drawable/progreso"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingBottom="25dp"
+                app:layout_constraintHorizontal_bias="0.66"
+                app:tint="@color/textos">
+            </ImageView>
+            <TextView
+                android:id="@+id/textoEjercicios"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textos"
+                android:text="@string/ejercicios"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0.75"
+                app:layout_constraintHorizontal_bias="0.95">
+            </TextView>
+            <ImageView
+                android:id="@+id/apartadoEjercicios"
+                android:layout_width="110dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ejercicios"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingBottom="25dp"
+                app:tint="@color/textos">
+            </ImageView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-
 </LinearLayout>

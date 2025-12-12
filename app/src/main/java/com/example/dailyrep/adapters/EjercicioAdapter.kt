@@ -1,16 +1,20 @@
 package com.example.dailyrep.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.dailyrep.DescripcionEjercicioActivity
 import com.example.dailyrep.R
 import com.example.dailyrep.databinding.ActivityAdapterEjercicioBinding
 import com.example.dailyrep.dataclases.Ejercicio
 
-class EjercicioAdapter: RecyclerView.Adapter<EjercicioAdapter.EjercicioViewHolder>() {
+class EjercicioAdapter(
+    private var listaEjercicios: MutableList<Ejercicio> = mutableListOf<Ejercicio>(),
+    private val onEjercicioClick: (Ejercicio) -> Unit): RecyclerView.Adapter<EjercicioAdapter.EjercicioViewHolder>() {
     private var context: Context? = null
-    private val listaEjercicios = mutableListOf<Ejercicio>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EjercicioViewHolder {
         context = parent.context
         return EjercicioViewHolder(
@@ -22,7 +26,11 @@ class EjercicioAdapter: RecyclerView.Adapter<EjercicioAdapter.EjercicioViewHolde
         )
     }
     override fun onBindViewHolder(holder: EjercicioAdapter.EjercicioViewHolder, position: Int) {
-        holder.binding(listaEjercicios[position])
+        val ejercicio=listaEjercicios[position]
+        holder.binding(ejercicio)
+        holder.itemView.setOnClickListener {
+            onEjercicioClick(ejercicio)
+        }
     }
 
     override fun getItemCount(): Int = listaEjercicios.size
@@ -61,8 +69,7 @@ class EjercicioAdapter: RecyclerView.Adapter<EjercicioAdapter.EjercicioViewHolde
             }
             binding.parteCuerpo.setImageResource(iconoParteCuerpo)
             binding.tipoEjercicio.setImageResource(iconoTipoEjercicio)
-            binding.root.setOnClickListener {
-            }
+
         }
     }
     fun ponerListaEjercicios(nuevaLista: List<Ejercicio>) {

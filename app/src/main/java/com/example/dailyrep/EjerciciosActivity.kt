@@ -57,7 +57,12 @@ class EjerciciosActivity : AppCompatActivity() {
         Ejercicio("Cinta de Correr", "Cardio", "Pierna", false),
         Ejercicio("Remo en Ergonómetro", "Cardio", "Espalda", false)
     )
-   private val ejercicioAdapter: EjercicioAdapter by lazy{ EjercicioAdapter() }
+   private val ejercicioAdapter: EjercicioAdapter by lazy{ EjercicioAdapter(){ejercicioClickeado ->
+       val intent = Intent(this, DescripcionEjercicioActivity::class.java)
+       //TODO pasarle los datos del ejercicio que mostrara
+       startActivity(intent)
+   }
+   }
     val context: Context =this
     val filtrosParteCuerpo=mutableSetOf<String>()
     val filtrosTipoEjercicio=mutableSetOf<String>()
