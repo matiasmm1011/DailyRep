@@ -1,6 +1,7 @@
 package com.example.dailyrep
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -78,6 +79,11 @@ class EjerciciosActivity : AppCompatActivity() {
         binding.recyclerEjercicios.adapter=ejercicioAdapter
         ejercicioAdapter.ponerListaEjercicios(listaDePrueba)
         ponerFiltros(listaDePrueba)
+
+        val intentCambioRutinas: Intent = Intent(context, RutinasActivity::class.java)
+        binding.apartadoRutinas.setOnClickListener {
+            startActivity(intentCambioRutinas)
+        }
     }
 
     fun mostrarMenuParteCuerpo(ancla: View){

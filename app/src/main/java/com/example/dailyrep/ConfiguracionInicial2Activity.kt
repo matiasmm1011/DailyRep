@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.dailyrep.databinding.ActivityConfiguracionInicial2Binding
@@ -40,8 +41,14 @@ class ConfiguracionInicial2Activity : AppCompatActivity() {
         binding.sabado.isSelected = false
         binding.domingo.isSelected = false
 
+        var lunes = false
         binding.lunes.setOnClickListener {
-            binding.lunes.isSelected = !binding.lunes.isSelected
+            lunes = !lunes
+            if (lunes) {
+                binding.lunes.setBackgroundColor(ContextCompat.getColor(this, R.color.naranja))
+            } else {
+                binding.lunes.setBackgroundColor(ContextCompat.getColor(this, R.color.plomo_oscuro))
+            }
         }
 
         binding.martes.setOnClickListener {

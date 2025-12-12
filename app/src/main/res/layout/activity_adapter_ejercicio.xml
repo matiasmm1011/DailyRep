@@ -32,7 +32,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="3"
                     android:src="@drawable/corazon"
-                    android:tint="@color/naranja">
+                    app:tint="@color/naranja">
                 </ImageView>
                 <ImageView
                     android:id="@+id/parteCuerpo"
@@ -40,7 +40,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="3"
                     android:src="@drawable/brazos"
-                    android:tint="@color/naranja">
+                    app:tint="@color/naranja">
                 </ImageView>
                 <ImageView
                     android:id="@+id/tipoEjercicio"
@@ -48,7 +48,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="3"
                     android:src="@drawable/maquina"
-                    android:tint="@color/naranja">
+                    app:tint="@color/naranja">
                 </ImageView>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
