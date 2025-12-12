@@ -30,35 +30,29 @@ class EjerciciosActivity : AppCompatActivity() {
         Ejercicio("Aperturas Inclinadas", "Mancuernas", "Pecho", false),
         Ejercicio("Flexiones (Push-ups)", "Peso Corporal", "Pecho", true),
         Ejercicio("Cruce de Poleas", "Polea", "Pecho", false),
-
         // --- ESPALDA ---
         Ejercicio("Dominadas", "Peso Corporal", "Espalda", true),
         Ejercicio("Remo con Barra T", "Barra", "Espalda", true),
         Ejercicio("Jalón al Pecho", "Polea", "Espalda", false),
         Ejercicio("Remo en Máquina Sentado", "Maquina", "Espalda", false),
-
         // --- PIERNA ---
         Ejercicio("Sentadilla Trasera", "Barra", "Pierna", true),
         Ejercicio("Prensa Inclinada", "Maquina", "Pierna", true),
         Ejercicio("Zancadas con Mancuernas", "Mancuernas", "Pierna", false),
         Ejercicio("Sentadilla Búlgara", "Peso Corporal", "Pierna", true),
-
         // --- HOMBRO ---
         Ejercicio("Press Militar", "Barra", "Hombro", true),
         Ejercicio("Elevaciones Laterales", "Mancuernas", "Hombro", true),
         Ejercicio("Pájaros en Polea", "Polea", "Hombro", false),
-
         // --- BRAZOS ---
         Ejercicio("Curl de Bíceps con Barra Z", "Barra", "Brazos", true),
         Ejercicio("Curl Martillo", "Mancuernas", "Brazos", false),
         Ejercicio("Extensiones de Tríceps", "Polea", "Brazos", true),
         Ejercicio("Fondos entre Bancos", "Peso Corporal", "Brazos", false),
-
         // --- ABDOMINALES ---
         Ejercicio("Plancha Abdominal", "Peso Corporal", "Abdominales", true),
         Ejercicio("Crunch en Polea Alta", "Polea", "Abdominales", true),
         Ejercicio("Encogimientos en Máquina", "Maquina", "Abdominales", false),
-
         // --- CARDIO (Ejemplo extra por si lo usas) ---
         Ejercicio("Cinta de Correr", "Cardio", "Pierna", false),
         Ejercicio("Remo en Ergonómetro", "Cardio", "Espalda", false)
@@ -258,7 +252,6 @@ class EjerciciosActivity : AppCompatActivity() {
         }
         dibujarEtiquetas()
         ejercicioAdapter.ponerListaEjercicios(resultado)
-
     }
     fun dibujarEtiquetas(){
         val controladorChips=binding.grupoChips
