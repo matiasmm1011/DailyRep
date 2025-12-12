@@ -229,6 +229,52 @@
                 android:textSize="35sp"
                 android:paddingStart="5dp">
             </TextView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="30dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="horizontal"
+                    android:background="@color/cuadros">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/textos"
+                        android:text="@string/modoOscuro"
+                        android:textSize="30sp"
+                        android:layout_marginEnd="10dp"
+                        android:gravity="center_vertical">
+                    </TextView>
+                    <ImageView
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/switch_modo"
+                        app:tint="@color/naranja">
+                    </ImageView>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="30dp">
+                <TextView
+                    android:id="@+id/logOut"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:background="@color/naranja"
+                    android:textColor="@color/textos"
+                    android:text="@string/logOut"
+                    android:gravity="center"
+                    android:textSize="50sp">
+                </TextView>
+            </androidx.cardview.widget.CardView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="300dp">
+            </TextView>
         </LinearLayout>
 
     </ScrollView>
@@ -246,8 +292,9 @@
                 android:id="@+id/textoPerfil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textos"
+                android:textColor="@color/naranja"
                 android:text="@string/perfil"
+
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -265,7 +312,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.07"
                 app:layout_constraintVertical_bias="0.10"
-                app:tint="@color/textos">
+                app:tint="@color/naranja"
+                >
             </ImageView>
             <TextView
                 android:id="@+id/textoRutinas"
@@ -329,13 +377,14 @@
                 app:layout_constraintHorizontal_bias="0.95">
             </TextView>
             <ImageView
+                android:id="@+id/apartadoEjercicios"
                 android:layout_width="110dp"
                 android:layout_height="100dp"
                 android:src="@drawable/ejercicios"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:paddingBottom="25dp"
-                app:tint="@color/naranja">
+                app:tint="@color/textos">
             </ImageView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

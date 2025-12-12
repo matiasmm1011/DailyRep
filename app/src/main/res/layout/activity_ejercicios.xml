@@ -211,6 +211,7 @@
                 app:layout_constraintHorizontal_bias="0.10">
             </TextView>
             <ImageView
+                android:id="@+id/apartadoPerfil"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
                 android:src="@drawable/perfil"
@@ -271,10 +272,10 @@
                 app:tint="@color/textos">
             </ImageView>
             <TextView
-                android:id="@+id/textoEjercicios"
+                android:id="@+id/apartadoEjercicios"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textos"
+                android:textColor="@color/naranja"
                 android:text="@string/ejercicios"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

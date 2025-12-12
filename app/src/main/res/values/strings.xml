@@ -60,4 +60,6 @@
     <string name="caloriasMantenimiento">Calorias de mantenimiento</string>
     <string name="caloriasRespuesta">2400 kcal</string>
     <string name="configuracion">Configuracion:</string>
+    <string name="modoOscuro">MODO OSCURO</string>
+    <string name="logOut">Log Out</string>
 </resources>

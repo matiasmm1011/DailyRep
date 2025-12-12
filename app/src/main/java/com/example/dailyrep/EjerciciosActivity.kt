@@ -1,6 +1,7 @@
 package com.example.dailyrep
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -19,6 +20,7 @@ import com.example.dailyrep.databinding.MenuTipoEjercicioBinding
 import com.example.dailyrep.dataclases.Ejercicio
 import com.google.android.material.chip.Chip
 import androidx.core.graphics.drawable.toDrawable
+import java.util.Locale
 
 class EjerciciosActivity : AppCompatActivity() {
    private lateinit var binding: ActivityEjerciciosBinding
@@ -82,6 +84,14 @@ class EjerciciosActivity : AppCompatActivity() {
         ejercicioAdapter.ponerListaEjercicios(listaDePrueba)
         ponerFiltros(listaDePrueba)
         buscador()
+        cambiarApartados()
+    }
+
+    private fun cambiarApartados() {
+        binding.apartadoPerfil.setOnClickListener {
+            val cambiarAPerfilIntent: Intent =Intent(context, PerfilActivity::class.java)
+            startActivity(cambiarAPerfilIntent)
+        }
     }
 
     fun mostrarMenuParteCuerpo(ancla: View){
@@ -241,9 +251,9 @@ class EjerciciosActivity : AppCompatActivity() {
             }
         }
         if(textoEnBuscador!=null){
-            val texto=textoEnBuscador.toString()
+            val texto=textoEnBuscador.toString().lowercase()
             resultado=resultado.filter{
-                ejercicio->ejercicio.nombre.contains(texto)
+                ejercicio->  ejercicio.nombre.contains(texto)
             }
         }
         dibujarEtiquetas()
