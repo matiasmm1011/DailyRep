@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
+    id("com.google.devtools.ksp")
 }
 
 
@@ -50,6 +51,10 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(platform("com.google.firebase:firebase-bom:34.6.0"))
     implementation("com.google.firebase:firebase-auth")
+    implementation("androidx.room:room-runtime:2.8.3")
+    implementation("androidx.room:room-ktx:2.8.3")
+    ksp("androidx.room:room-compiler:2.8.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
