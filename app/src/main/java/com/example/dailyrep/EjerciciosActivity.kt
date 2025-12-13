@@ -81,7 +81,11 @@ class EjerciciosActivity : AppCompatActivity() {
         binding.recyclerEjercicios.adapter=ejercicioAdapter
         ejercicioAdapter.ponerListaEjercicios(listaDePrueba)
         ponerFiltros(listaDePrueba)
+        buscador()
+        cambiarApartados()
+    }
 
+    private fun cambiarApartados() {
         val intentCambioRutinas: Intent = Intent(context, RutinasActivity::class.java)
         binding.apartadoRutinas.setOnClickListener {
             startActivity(intentCambioRutinas)
@@ -90,13 +94,8 @@ class EjerciciosActivity : AppCompatActivity() {
         binding.apartadoProgreso.setOnClickListener {
             startActivity(intentCambioProgreso)
         }
-        buscador()
-        cambiarApartados()
-    }
-
-    private fun cambiarApartados() {
-        binding.apartadoPerfil.setOnClickListener {
-            val cambiarAPerfilIntent: Intent =Intent(context, PerfilActivity::class.java)
+        val cambiarAPerfilIntent: Intent =Intent(context, PerfilActivity::class.java)
+        binding.apartadoPerfil.setOnClickListener{
             startActivity(cambiarAPerfilIntent)
         }
     }

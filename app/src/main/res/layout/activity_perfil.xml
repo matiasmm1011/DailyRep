@@ -254,7 +254,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:text="@string/caloriasRespuesta"
-                android:textColor="@color/naranja"
+                android:textColor="@color/plomo_oscuro"
                 android:textSize="70sp"
                 android:gravity="center"
                 android:background="@color/cuadros">
@@ -392,6 +392,7 @@
                 app:layout_constraintHorizontal_bias="0.65">
             </TextView>
             <ImageView
+                android:id="@+id/apartadoProgreso"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 android:src="@drawable/progreso"

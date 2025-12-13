@@ -57,5 +57,9 @@ class RutinasActivity : AppCompatActivity() {
             val cambiarAEjerciciosIntent:Intent=Intent(context, EjerciciosActivity::class.java)
             startActivity(cambiarAEjerciciosIntent)
         }
+        binding.apartadoProgreso.setOnClickListener{
+            val cambiarAProgresoIntent: Intent =Intent(context, ProgresoActivity::class.java)
+            startActivity(cambiarAProgresoIntent)
+        }
     }
 }

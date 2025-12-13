@@ -40,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
 
         if(currentUser!=null){
-            val intentUsuarioLogueado=Intent(context, EjerciciosActivity::class.java)
+            val intentUsuarioLogueado=Intent(context, PerfilActivity::class.java)
             startActivity(intentUsuarioLogueado)
         }
 

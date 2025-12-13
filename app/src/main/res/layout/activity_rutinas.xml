@@ -124,6 +124,7 @@
                 app:layout_constraintHorizontal_bias="0.65">
             </TextView>
             <ImageView
+                android:id="@+id/apartadoProgreso"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 android:src="@drawable/progreso"

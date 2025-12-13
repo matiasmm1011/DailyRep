@@ -45,6 +45,7 @@ class PerfilActivity : AppCompatActivity() {
         binding.switchModo.isChecked = modoOscuro
 
         binding.switchModo.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(buttonView.isPressed){
             sharedPreferences.edit().apply {
                 putBoolean(DailyRepApp.KEY_MODO_OSCURO, isChecked)
                 apply()
@@ -53,6 +54,7 @@ class PerfilActivity : AppCompatActivity() {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             }else{
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
             }
         }
 
@@ -66,6 +68,10 @@ class PerfilActivity : AppCompatActivity() {
         binding.apartadoRutinas.setOnClickListener {
             val cambiarARutinasIntent: Intent =Intent(context, RutinasActivity::class.java)
             startActivity(cambiarARutinasIntent)
+        }
+        binding.apartadoProgreso.setOnClickListener{
+            val cambiarAProgresoIntent: Intent =Intent(context, ProgresoActivity::class.java)
+            startActivity(cambiarAProgresoIntent)
         }
     }
     private fun logOut(){
