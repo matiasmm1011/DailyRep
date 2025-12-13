@@ -367,6 +367,7 @@
                 app:layout_constraintHorizontal_bias="0.36">
             </TextView>
             <ImageView
+                android:id="@+id/apartadoRutinas"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:src="@drawable/rutinas"

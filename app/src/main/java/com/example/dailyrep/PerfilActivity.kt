@@ -40,6 +40,10 @@ class PerfilActivity : AppCompatActivity() {
             val cambiarAEjerciciosIntent: Intent =Intent(context, EjerciciosActivity::class.java)
             startActivity(cambiarAEjerciciosIntent)
         }
+        binding.apartadoRutinas.setOnClickListener {
+            val cambiarARutinasIntent: Intent =Intent(context, RutinasActivity::class.java)
+            startActivity(cambiarARutinasIntent)
+        }
     }
     private fun logOut(){
         auth.signOut()
