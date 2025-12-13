@@ -282,15 +282,15 @@
                         android:textColor="@color/textos"
                         android:text="@string/modoOscuro"
                         android:textSize="30sp"
-                        android:layout_marginEnd="10dp"
+                        android:layout_marginEnd="85dp"
                         android:gravity="center_vertical">
                     </TextView>
-                    <ImageView
-                        android:layout_width="200dp"
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchModo"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/switch_modo"
-                        app:tint="@color/naranja">
-                    </ImageView>
+                        app:thumbTint="@color/color_switch_bolita">
+                    </com.google.android.material.switchmaterial.SwitchMaterial>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="fondoPantallas" >
-        #05070B
-    </color>
-    <color name="textos">
         #FFFFFF
     </color>
+    <color name="textos">
+        #495355
+    </color>
     <color name="cuadros">
-        #1E293B
+        #D8E6FF
     </color>
     <color name="naranja">
         #FF7A1A
@@ -15,10 +15,7 @@
     <color name="plomo">
         #979E8E
     </color>
-    <color name="plomo_oscuro">
-        #322F35
-    </color>
     <color name="buscador">
         #283548
     </color>
-     </resources>
+</resources>

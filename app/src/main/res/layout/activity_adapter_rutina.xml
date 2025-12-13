@@ -22,6 +22,7 @@
                 android:layout_width="0dp"
                 android:layout_height="110dp"
                 android:layout_weight="9"
+                android:gravity="center_vertical"
                 android:textColor="@color/textos"
                 android:text="@string/mensaje"
                 android:textSize="28sp">

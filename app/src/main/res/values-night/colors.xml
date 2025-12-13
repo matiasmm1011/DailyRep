@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-        <color name="fondoPantallas" >
-            #FFFFFF
-        </color>
-        <color name="textos">
-            #FFFFFF
-        </color>
-        <color name="cuadros">
-            #D8E6FF
-        </color>
-        <color name="naranja">
-            #FF7A1A
-        </color>
-    <color name="plomo">
-        #979E8E
-    </color>
-    <color name="buscador">
-        #283548
-    </color>
+<color name="fondoPantallas" >
+    #05070B
+</color>
+<color name="textos">
+    #FFFFFF
+</color>
+<color name="cuadros">
+    #1E293B
+</color>
+<color name="naranja">
+    #FF7A1A
+</color>
+<color name="plomo">
+    #979E8E
+</color>
+<color name="plomo_oscuro">
+    #322F35
+</color>
+<color name="buscador">
+    #283548
+</color>
 </resources>
