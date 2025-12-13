@@ -31,7 +31,7 @@
                     android:layout_weight="2"
                     android:padding="15dp"
                     android:src="@drawable/atras"
-                    android:tint="@color/naranja"
+                    app:tint="@color/naranja"
                     android:elevation="2dp">
                 </ImageView>
                 <TextView

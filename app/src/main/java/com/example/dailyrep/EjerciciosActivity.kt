@@ -20,7 +20,6 @@ import com.example.dailyrep.databinding.MenuTipoEjercicioBinding
 import com.example.dailyrep.dataclases.Ejercicio
 import com.google.android.material.chip.Chip
 import androidx.core.graphics.drawable.toDrawable
-import java.util.Locale
 
 class EjerciciosActivity : AppCompatActivity() {
    private lateinit var binding: ActivityEjerciciosBinding
@@ -86,6 +85,10 @@ class EjerciciosActivity : AppCompatActivity() {
         val intentCambioRutinas: Intent = Intent(context, RutinasActivity::class.java)
         binding.apartadoRutinas.setOnClickListener {
             startActivity(intentCambioRutinas)
+        }
+        val intentCambioProgreso: Intent = Intent(context, ProgresoActivity::class.java)
+        binding.apartadoProgreso.setOnClickListener {
+            startActivity(intentCambioProgreso)
         }
         buscador()
         cambiarApartados()

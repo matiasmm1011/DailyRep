@@ -24,7 +24,8 @@
                 android:layout_weight="9"
                 android:textColor="@color/textos"
                 android:text="@string/mensaje"
-                android:textSize="28sp">
+                android:textSize="23sp"
+                android:padding="15dp">
             </TextView>
             <ImageView
                 android:id="@+id/comenzarRutina"
