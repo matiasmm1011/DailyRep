@@ -1,6 +1,7 @@
 package com.example.dailyrep
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -37,10 +38,20 @@ class RutinasActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+        cambiarApartados()
         binding.recyclerRutinas.layoutManager= LinearLayoutManager(context)
         binding.recyclerRutinas.adapter = rutinasAdapter
         rutinasAdapter.ponerListaEjercicios(listaDePruebaRutinas)
+    }
 
+    private fun cambiarApartados() {
+        binding.apartadoPerfil.setOnClickListener {
+            val cambiarAPerfilIntent: Intent =Intent(context, PerfilActivity::class.java)
+            startActivity(cambiarAPerfilIntent)
+        }
+        binding.apartadoEjercicios.setOnClickListener {
+            val cambiarAEjerciciosIntent:Intent=Intent(context, EjerciciosActivity::class.java)
+            startActivity(cambiarAEjerciciosIntent)
+        }
     }
 }

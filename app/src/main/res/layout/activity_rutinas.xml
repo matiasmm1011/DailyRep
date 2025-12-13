@@ -43,6 +43,7 @@
                 app:layout_constraintHorizontal_bias="0.10">
             </TextView>
             <ImageView
+                android:id="@+id/apartadoPerfil"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
                 android:src="@drawable/perfil"
@@ -58,7 +59,7 @@
                 android:id="@+id/textoRutinas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textos"
+                android:textColor="@color/naranja"
                 android:text="@string/rutinas"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -116,6 +117,7 @@
                 app:layout_constraintHorizontal_bias="0.95">
             </TextView>
             <ImageView
+                android:id="@+id/apartadoEjercicios"
                 android:layout_width="110dp"
                 android:layout_height="100dp"
                 android:src="@drawable/ejercicios"
