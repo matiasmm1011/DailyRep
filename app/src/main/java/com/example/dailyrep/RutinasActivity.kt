@@ -24,6 +24,10 @@ class RutinasActivity : AppCompatActivity() {
         Rutina("LOWER A"),
         Rutina("UPPER B"),
         Rutina("LOWER B"),
+        Rutina("PUSH"),
+        Rutina("PULL"),
+        Rutina("LEGS"),
+        Rutina("ARMS - SHOULDERS")
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

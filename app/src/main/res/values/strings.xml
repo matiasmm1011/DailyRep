@@ -67,4 +67,24 @@
     <string name="masculino">M</string>
     <string name="pruebaNombreEjercicio">Nombre ejercicio</string>
     <string name="descripcion">Descripcion:</string>
+    <string name="TuProgreso">Tu Progreso</string>
+    <string name="mensaje2">Constancia diaria y records personales</string>
+    <string name="L">L</string>
+    <string name="M">M</string>
+    <string name="J">J</string>
+    <string name="V">V</string>
+    <string name="S">S</string>
+    <string name="D">D</string>
+    <string name="mensaje3">Completaste 4/5 dias de entrenamiento</string>
+    <string name="RachaActual">Racha Actual</string>
+    <string name="cantidadDias">12 dias</string>
+    <string name="PRs">PRs personales</string>
+    <string name="PressBanca">Press banca:</string>
+    <string name="PesoMuerto">Peso muerto:</string>
+    <string name="Sentadilla">Sentadilla:</string>
+    <string name="PesoPressBanca">120 KG / 264 lbs</string>
+    <string name="PesoPesoMuerto">150 KG / 330 lbs</string>
+    <string name="PesoSentadilla">180 KG / 396 lbs</string>
+    <string name="EntrenamientosCompletados">Entrenamientos Completados:</string>
+    <string name="contadorEntrenamientos">147</string>
 </resources>
