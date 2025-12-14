@@ -20,13 +20,13 @@ class ConfiguracionInicial1Activity : AppCompatActivity() {
     val context: Context = this
     var generoMasculino:Boolean?=null
     companion object{
-        const val USER_ID1="usuario_id"
-        const val USER_NAME1="nombre_usuario"
-        const val USER_CORREO1="user_correo"
-        const val USER_EDAD1="user_edad"
-        const val USER_PESO1="user_peso"
-        const val USER_ALTURA1="user_altura"
-        const val USER_GENERO1="user_genero"
+        const val USER_ID1="usuario_id1"
+        const val USER_NAME1="nombre_usuario1"
+        const val USER_CORREO1="user_correo1"
+        const val USER_EDAD1="user_edad1"
+        const val USER_PESO1="user_peso1"
+        const val USER_ALTURA1="user_altura1"
+        const val USER_GENERO1="user_genero1"
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

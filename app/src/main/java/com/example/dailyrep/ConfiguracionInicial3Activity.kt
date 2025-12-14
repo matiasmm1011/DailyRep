@@ -12,7 +12,7 @@ import com.example.dailyrep.databinding.ActivityConfiguracionInicial3Binding
 
 class ConfiguracionInicial3Activity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityConfiguracionInicial3Binding
+    private lateinit var binding:Activity
     val context: Context = this
 
     override fun onCreate(savedInstanceState: Bundle?) {

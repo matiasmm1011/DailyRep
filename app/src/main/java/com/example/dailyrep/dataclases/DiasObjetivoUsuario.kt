@@ -3,7 +3,7 @@ package com.example.dailyrep.dataclases
 import androidx.room.Entity
 import androidx.room.ForeignKey
 
-@Entity(primaryKeys = ["usuarioId", "diaSemanaIndex"],
+@Entity(primaryKeys = ["usuarioId", "diaSemanaIndice"],
     foreignKeys = [
         ForeignKey(
             entity = Usuario::class,
@@ -14,5 +14,5 @@ import androidx.room.ForeignKey
     ])
 data class DiasObjetivoUsuario(
     val usuarioId: String,
-    val diaSemanaIndex: Int
+    val diaSemanaIndice: Int
 )
