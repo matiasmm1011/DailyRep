@@ -58,7 +58,7 @@ class ConfiguracionInicial2Activity : AppCompatActivity() {
                 return@setOnClickListener
             }else{
                 val intentCambioConfig3: Intent = Intent(context, ConfiguracionInicial3Activity::class.java)
-                val listaParaEnviar= ArrayList(listaDias)
+                val listaParaEnviar= listaDias.toIntArray()
                 intentCambioConfig3.apply{
                     intentCambioConfig3.putExtra(USER_ID2,idRecibido)
                     intentCambioConfig3.putExtra(USER_NAME2,nombreRecibido)

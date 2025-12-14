@@ -107,6 +107,7 @@
     <string name="anterior">ANTERIOR</string>
     <string name="siguiente">SIGUIENTE</string>
     <string name="finalizarSesion">FINALIZAR SESION</string>
+    <string name="guardar">GUARDAR</string>
 
 
 </resources>

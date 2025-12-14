@@ -55,8 +55,7 @@ class EjerciciosActivity : AppCompatActivity() {
         binding.recyclerEjercicios.layoutManager= LinearLayoutManager(context)
         binding.recyclerEjercicios.adapter=ejercicioAdapter
         myApp=applicationContext as DailyRepApp
-        listaEjercicios= myApp.ejercicioDao.getAll()
-        ejercicioAdapter.ponerListaEjercicios(listaEjercicios)
+        actualizarLista()
         ponerFiltros()
         buscador()
         cambiarApartados()

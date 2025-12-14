@@ -55,14 +55,15 @@ class ConfiguracionInicial3Activity : AppCompatActivity() {
         val pesoRecibido=intent.getIntExtra(USER_PESO2,0)
         val diasSeleccionadosRecibido=intent.getIntArrayExtra(LISTA_DIAS2)
         val listaDiasSeleccionados=diasSeleccionadosRecibido?.toList()?:emptyList()
-        var nivelActividad=-1
-        for(i in 0..5){
-            if(listaSeleccionado[i]==1){
-                nivelActividad=i
-                break
-            }
-        }
+
         binding.buttonContinuar3.setOnClickListener {
+            var nivelActividad=-1
+            for(i in 0..4){
+                if(listaSeleccionado[i]==1){
+                    nivelActividad=i
+                    break
+                }
+            }
             if(nivelActividad==-1){
                 Toast.makeText(this, "Por favor, introduce tu nivel de actividad.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -72,24 +73,31 @@ class ConfiguracionInicial3Activity : AppCompatActivity() {
                 val correo=correoRecibido?:""
                 val usuario= Usuario(id,nombre,correo,
                     edadRecibida,generoMasculinoRecibido,pesoRecibido,alturaRecibida,0,null, nivelActividad)
-                val listaObjetosDias = listaDiasSeleccionados.map { diaIndex ->
+                val listaObjetosDias = listaDiasSeleccionados.map { diaIndice ->
                     DiasObjetivoUsuario(
                         usuarioId = id,
-                        diaSemanaIndice = diaIndex
+                        diaSemanaIndice = diaIndice
                     )
                 }
                 lifecycleScope.launch(Dispatchers.IO) {
-                    val db = (applicationContext as DailyRepApp).database
-                    db.usuarioDao().insertAll(usuario)
-                    db.rachaDao().insertarDiasObjetivo(listaObjetosDias)
+                    try {
+                        val db = (applicationContext as DailyRepApp).database
+                        db.usuarioDao().insertAll(usuario)
+                        db.rachaDao().insertarDiasObjetivo(listaObjetosDias)
 
-                    withContext(Dispatchers.Main) {
-                        val intentCambioLogin: Intent = Intent(context, LoginActivity::class.java)
-                        startActivity(intentCambioLogin)
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(context, "¡Registro completado con éxito!", Toast.LENGTH_SHORT).show()
+                            val intentCambioLogin: Intent = Intent(context, LoginActivity::class.java)
+                            startActivity(intentCambioLogin)
+                            finish()
+                        }
+                    } catch (e: Exception) {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(context, "Error al guardar en BD: ${e.message}", Toast.LENGTH_LONG).show()
+                            e.printStackTrace()
+                        }
                     }
-
-            }
-
+                }
         }
     } }
 
@@ -155,7 +163,7 @@ class ConfiguracionInicial3Activity : AppCompatActivity() {
                 listaSeleccionado[0]=0
                 listaSeleccionado[1]=0
                 listaSeleccionado[2]=0
-                listaSeleccionado[3]=4
+                listaSeleccionado[3]=1
                 listaSeleccionado[4]=0
                 binding.muyActivo.setBackgroundColor(ContextCompat.getColor(this, R.color.naranja))
                 binding.sedentario.setBackgroundColor(ContextCompat.getColor(this, R.color.plomo_oscuro))
