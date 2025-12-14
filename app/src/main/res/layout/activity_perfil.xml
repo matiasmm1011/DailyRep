@@ -34,7 +34,8 @@
                     android:textSize="40sp"
                     android:textColor="@color/textos"
                     android:text="@string/usuario"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:textStyle="bold">>
                 </TextView>
             </LinearLayout>
             <TextView
@@ -43,7 +44,8 @@
                 android:text="@string/Salud"
                 android:textColor="@color/naranja"
                 android:textSize="45sp"
-                android:paddingStart="5dp">
+                android:paddingStart="5dp"
+                android:textStyle="bold">
             </TextView>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -201,7 +203,8 @@
                 android:text="@string/IMC"
                 android:textColor="@color/naranja"
                 android:textSize="35sp"
-                android:paddingStart="5dp">
+                android:paddingStart="5dp"
+                android:textStyle="bold">
             </TextView>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -248,7 +251,8 @@
                 android:text="@string/caloriasMantenimiento"
                 android:textColor="@color/naranja"
                 android:textSize="35sp"
-                android:paddingStart="5dp">
+                android:paddingStart="5dp"
+                android:textStyle="bold">
             </TextView>
             <TextView
                 android:layout_width="match_parent"
@@ -265,7 +269,8 @@
                 android:text="@string/configuracion"
                 android:textColor="@color/naranja"
                 android:textSize="35sp"
-                android:paddingStart="5dp">
+                android:paddingStart="5dp"
+                android:textStyle="bold">
             </TextView>
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -285,11 +290,13 @@
                         android:layout_marginEnd="85dp"
                         android:gravity="center_vertical">
                     </TextView>
+
                     <com.google.android.material.switchmaterial.SwitchMaterial
                         android:id="@+id/switchModo"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         app:thumbTint="@color/color_switch_bolita">
+
                     </com.google.android.material.switchmaterial.SwitchMaterial>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
