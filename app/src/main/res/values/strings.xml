@@ -87,4 +87,26 @@
     <string name="PesoSentadilla">180 KG / 396 lbs</string>
     <string name="EntrenamientosCompletados">Entrenamientos Completados:</string>
     <string name="contadorEntrenamientos">147</string>
+    <string name="NombreUsuario">Nombre de Usuario</string>
+    <string name="selecciona_actividad">Selecciona tu nivel de actividad</string>
+    <string name="sedentario">SEDENTARIO</string>
+    <string name="ligeramente_activo">LIGERAMENTE ACTIVO</string>
+    <string name="moderadamente_activo">MODERADAMENTE ACTIVO</string>
+    <string name="muy_activo">MUY ACTIVO</string>
+    <string name="extremadamente_activo">EXTREMADAMENTE ACTIVO</string>
+    <string name="nombreRutina">UPPER A</string>
+    <string name="sesionEntrenamiento">Sesion de entrenamiento</string>
+    <string name="nombreEjercicio">Press banca</string>
+    <string name="serie1">Serie 1:</string>
+    <string name="peso">100</string>
+    <string name="cantidadReps">10</string>
+    <string name="reps">reps</string>
+    <string name="serie2">Serie 2</string>
+    <string name="notas">Notas:</string>
+    <string name="notasMensaje">Realiza un movimiento lento y controlado</string>
+    <string name="anterior">ANTERIOR</string>
+    <string name="siguiente">SIGUIENTE</string>
+    <string name="finalizarSesion">FINALIZAR SESION</string>
+
+
 </resources>
