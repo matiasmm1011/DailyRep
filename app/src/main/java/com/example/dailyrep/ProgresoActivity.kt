@@ -7,15 +7,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.dailyrep.databinding.ActivityRachaBinding
+import com.example.dailyrep.databinding.ActivityProgresoBinding
 
 class ProgresoActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityRachaBinding
+    private lateinit var binding: ActivityProgresoBinding
     val context: Context =this
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding=ActivityRachaBinding.inflate(layoutInflater)
+        binding=ActivityProgresoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

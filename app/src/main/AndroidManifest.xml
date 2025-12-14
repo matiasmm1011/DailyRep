@@ -16,6 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DailyRep">
         <activity
+            android:name=".EntrenamientoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ConfiguracionInicial3Activity"
+            android:exported="false"/>
+        <activity
             android:name=".ProgresoActivity"
             android:exported="false" />
         <activity
@@ -41,7 +47,7 @@
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
