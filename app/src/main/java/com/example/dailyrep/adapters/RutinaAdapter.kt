@@ -36,7 +36,7 @@ class RutinaAdapter: RecyclerView.Adapter<RutinaAdapter.RutinaViewHolder>() {
             }
         }
 
-        fun ponerListaEjercicios(nuevaLista: List<Rutina>) {
+        fun ponerListaRutinas(nuevaLista: List<Rutina>) {
             listaRutinas.clear()
             listaRutinas.addAll(nuevaLista)
             notifyDataSetChanged()

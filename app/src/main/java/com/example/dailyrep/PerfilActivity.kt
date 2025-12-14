@@ -20,6 +20,7 @@ import com.google.firebase.auth.auth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.roundToInt
 
 class PerfilActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPerfilBinding
@@ -29,6 +30,7 @@ class PerfilActivity : AppCompatActivity() {
     private lateinit var myApp: DailyRepApp
     private lateinit var usuarioActualId:String
     private lateinit var usuarioActual: Usuario
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -50,16 +52,16 @@ class PerfilActivity : AppCompatActivity() {
         } else {
             usuarioActualId = idGlobal
         }
-        ponerDatosUsuario()
+
+        ponerDatosUsuarioYBotones()
         cambiarApartados()
-        editarDatosUsuario()
         cambiarModo()
         binding.logOut.setOnClickListener {
             logOut()
         }
     }
 
-    private fun ponerDatosUsuario() {
+    private fun ponerDatosUsuarioYBotones() {
         lifecycleScope.launch(Dispatchers.IO) {
             val usuarioDb = myApp.usuarioDao.getUsuarioPorId(usuarioActualId)
             withContext(Dispatchers.Main) {
@@ -78,7 +80,58 @@ class PerfilActivity : AppCompatActivity() {
                     }else{
                         binding.femenino.setBackgroundColor(ContextCompat.getColor(context, R.color.naranja))
                     }
-                    //TODO calcular IMC Y calorias
+                    val alturaMetros = altura / 100.0
+                    val imc = (peso.toDouble() / (alturaMetros * alturaMetros)).roundToInt()
+                    val calorias=if(generoMasculino){
+                        (88.362+(13.397*peso)+(4.799*altura)-(5.677*edad)).roundToInt()
+                    }else{
+                        (447.593+(9.247*peso)+(3.098*altura)-(4.330*edad)).roundToInt()
+                    }
+                    val textoCalorias="$calorias kcal"
+                    binding.imc.setText(imc.toString())
+                    binding.calorias.setText(textoCalorias)
+                    var generoMNuevo = usuarioActual.generoMasculino
+
+                    binding.masculino.setOnClickListener {
+                        generoMNuevo = true
+                        binding.masculino.setBackgroundColor(ContextCompat.getColor(context, R.color.naranja))
+                        binding.femenino.setBackgroundColor(ContextCompat.getColor(context, R.color.cuadros))
+                    }
+                    binding.femenino.setOnClickListener {
+                        generoMNuevo = false
+                        binding.masculino.setBackgroundColor(ContextCompat.getColor(context, R.color.cuadros))
+                        binding.femenino.setBackgroundColor(ContextCompat.getColor(context, R.color.naranja))
+                    }
+
+                    binding.guardar.setOnClickListener {
+                        val edadActual = usuarioActual.edad
+                        val alturaActual = usuarioActual.altura
+                        val pesoActual = usuarioActual.peso
+                        val generoMActual = usuarioActual.generoMasculino
+
+                        val edadNueva = binding.editarEdad.text.toString().toIntOrNull() ?: edadActual
+                        val alturaNueva = binding.editarAltura.text.toString().toIntOrNull() ?: alturaActual
+                        val pesoNuevo = binding.editarPeso.text.toString().toIntOrNull() ?: pesoActual
+
+                        if (edadNueva != edadActual || alturaNueva != alturaActual || pesoNuevo != pesoActual || generoMActual != generoMNuevo) {
+                            val usuarioActualizado = usuarioActual.copy(
+                                peso = pesoNuevo,
+                                altura = alturaNueva,
+                                edad = edadNueva,
+                                generoMasculino = generoMNuevo
+                            )
+                            lifecycleScope.launch(Dispatchers.IO) {
+                                myApp.usuarioDao.updateUsuario(usuarioActualizado)
+                                withContext(Dispatchers.Main) {
+                                    Toast.makeText(baseContext, "Perfil actualizado", Toast.LENGTH_SHORT).show()
+                                    usuarioActual = usuarioActualizado
+                                    ponerDatosUsuarioYBotones()
+                                }
+                            }
+                        } else {
+                            Toast.makeText(context, "No hubo cambios para guardar", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 } else {
                     Toast.makeText(baseContext, "Error al cargar perfil", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(baseContext, LoginActivity::class.java))
@@ -125,21 +178,6 @@ class PerfilActivity : AppCompatActivity() {
         auth.signOut()
         val volverALoginIntent:Intent=Intent(context, LoginActivity::class.java)
         startActivity(volverALoginIntent)
-    }
-    private fun editarDatosUsuario(){
-        binding.masculino.setOnClickListener {
-            //cambiar a usuario su genero
-            binding.masculino.setBackgroundColor(ContextCompat.getColor(context, R.color.naranja))
-            binding.femenino.setBackgroundColor(ContextCompat.getColor(context, R.color.cuadros))
-
-        }
-        binding.femenino.setOnClickListener {
-            binding.masculino.setBackgroundColor(ContextCompat.getColor(context, R.color.cuadros))
-            binding.femenino.setBackgroundColor(ContextCompat.getColor(context, R.color.naranja))
-
-        }
-
-        //TODO configurar demas botones
     }
 
 }
