@@ -31,9 +31,25 @@ class EjerciciosActivity : AppCompatActivity() {
    private lateinit var listaEjercicios:List<Ejercicio>
    private val usuarioActualId = "usuario_prueba_1"
     private lateinit var myApp: DailyRepApp
-   private val ejercicioAdapter: EjercicioAdapter by lazy{ EjercicioAdapter(){ejercicioClickeado ->
+    companion object{
+        const val NOMBRE_EJERCICIO="nombre_ejercicio"
+        const val DESCRIPCION_EJERCICIO="descripcion_ejercicio"
+        const val TIPO_EJERCICIO="tipo_ejercicio"
+        const val PARTE_CUERPO_EJERCICIO="parte_cuerpo_ejercicio"
+        const val IMAGEN_EJERCICIO="imagen_ejercicio"
+
+    }
+   private val ejercicioAdapter: EjercicioAdapter by lazy{ EjercicioAdapter(){
+       ejercicioClickeado ->
+
        val intent = Intent(this, DescripcionEjercicioActivity::class.java)
-       //TODO pasarle los datos del ejercicio que mostrara
+       intent.apply {
+           intent.putExtra(NOMBRE_EJERCICIO,ejercicioClickeado.nombre)
+           intent.putExtra(DESCRIPCION_EJERCICIO, ejercicioClickeado.descripcion)
+           intent.putExtra(IMAGEN_EJERCICIO,ejercicioClickeado.nombreImagen)
+           intent.putExtra(TIPO_EJERCICIO,ejercicioClickeado.tipo)
+           intent.putExtra(PARTE_CUERPO_EJERCICIO, ejercicioClickeado.parteCuerpo)
+       }
        startActivity(intent)
    }
    }

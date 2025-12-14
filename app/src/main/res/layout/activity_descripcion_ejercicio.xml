@@ -35,18 +35,20 @@
                     android:elevation="2dp">
                 </ImageView>
                 <TextView
+                    android:id="@+id/nombreEjercicio"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="8"
                     android:textColor="@color/textos"
-                    android:textSize="37sp"
+                    android:textSize="32sp"
                     android:text="@string/pruebaNombreEjercicio"
                     android:textStyle="bold">
                 </TextView>
             </LinearLayout>
             <ImageView
+                android:id="@+id/imagenEjercicio"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="210dp"
                 android:src="@drawable/mancuernas">
             </ImageView>
         </LinearLayout>
@@ -70,9 +72,9 @@
                 android:text="@string/descripcion">
             </TextView>
             <TextView
-                android:id="@+id/descipcion"
+                android:id="@+id/descripcion"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="250dp"
                 android:textColor="@color/textos"
                 android:textSize="25sp"
                 >
