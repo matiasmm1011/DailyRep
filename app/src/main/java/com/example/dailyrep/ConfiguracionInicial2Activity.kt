@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.dailyrep.databinding.ActivityConfiguracionInicial2Binding
+import com.example.dailyrep.databinding.ActivityConfiguracionInicial3Binding
 
 class ConfiguracionInicial2Activity : AppCompatActivity() {
 
@@ -29,17 +30,9 @@ class ConfiguracionInicial2Activity : AppCompatActivity() {
         }
 
         binding.buttonContinuar2.setOnClickListener {
-            val intentCambioLoginActivity: Intent = Intent(context, LoginActivity::class.java)
-            startActivity(intentCambioLoginActivity)
+            val intentCambioConfig3: Intent = Intent(context, ConfiguracionInicial3Activity::class.java)
+            startActivity(intentCambioConfig3)
         }
-
-        binding.lunes.isSelected = false
-        binding.martes.isSelected = false
-        binding.miercoles.isSelected = false
-        binding.jueves.isSelected = false
-        binding.viernes.isSelected = false
-        binding.sabado.isSelected = false
-        binding.domingo.isSelected = false
 
         var lunes = false
         binding.lunes.setOnClickListener {
@@ -51,30 +44,64 @@ class ConfiguracionInicial2Activity : AppCompatActivity() {
             }
         }
 
+        var martes = false
         binding.martes.setOnClickListener {
-            binding.martes.isSelected = !binding.martes.isSelected
+            martes = !martes
+            if (martes) {
+                binding.martes.setBackgroundColor(ContextCompat.getColor(this, R.color.naranja))
+            } else {
+                binding.martes.setBackgroundColor(ContextCompat.getColor(this, R.color.plomo_oscuro))
+            }
         }
 
+        var miercoles = false
         binding.miercoles.setOnClickListener {
-            binding.miercoles.isSelected = !binding.miercoles.isSelected
+            miercoles = !miercoles
+            if (miercoles) {
+                binding.miercoles.setBackgroundColor(ContextCompat.getColor(this, R.color.naranja))
+            } else {
+                binding.miercoles.setBackgroundColor(ContextCompat.getColor(this, R.color.plomo_oscuro))
+            }
         }
 
+        var jueves = false
         binding.jueves.setOnClickListener {
-            binding.jueves.isSelected = !binding.jueves.isSelected
+            jueves = !jueves
+            if (jueves) {
+                binding.jueves.setBackgroundColor(ContextCompat.getColor(this, R.color.naranja))
+            } else {
+                binding.jueves.setBackgroundColor(ContextCompat.getColor(this, R.color.plomo_oscuro))
+            }
         }
 
+        var viernes = false
         binding.viernes.setOnClickListener {
-            binding.viernes.isSelected = !binding.viernes.isSelected
+            viernes = !viernes
+            if (viernes) {
+                binding.viernes.setBackgroundColor(ContextCompat.getColor(this, R.color.naranja))
+            } else {
+                binding.viernes.setBackgroundColor(ContextCompat.getColor(this, R.color.plomo_oscuro))
+            }
         }
 
+        var sabado = false
         binding.sabado.setOnClickListener {
-            binding.sabado.isSelected = !binding.sabado.isSelected
+            sabado = !sabado
+            if (sabado) {
+                binding.sabado.setBackgroundColor(ContextCompat.getColor(this, R.color.naranja))
+            } else {
+                binding.sabado.setBackgroundColor(ContextCompat.getColor(this, R.color.plomo_oscuro))
+            }
         }
 
+        var domingo = false
         binding.domingo.setOnClickListener {
-            binding.domingo.isSelected = !binding.domingo.isSelected
+            domingo = !domingo
+            if (domingo) {
+                binding.domingo.setBackgroundColor(ContextCompat.getColor(this, R.color.naranja))
+            } else {
+                binding.domingo.setBackgroundColor(ContextCompat.getColor(this, R.color.plomo_oscuro))
+            }
         }
-
-
     }
 }

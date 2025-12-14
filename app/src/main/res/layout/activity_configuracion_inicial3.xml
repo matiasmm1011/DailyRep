@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ConfiguracionInicial2Activity"
+    tools:context=".ConfiguracionInicial3Activity"
     android:background="@drawable/fondo_login"
     >
 
@@ -58,7 +58,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="12dp"
         android:textColor="@color/textos"
-        android:text="@string/dias_entrenamiento"
+        android:text="@string/selecciona_actividad"
         android:textSize="25sp">
     </TextView>
 
@@ -66,7 +66,7 @@
         android:id="@+id/formularioDiasEntrenamiento"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:weightSum="7"
+        android:weightSum="5"
         android:orientation="vertical"
         android:layout_marginTop="27dp"
         app:layout_constraintTop_toBottomOf="@id/nombre_app"
@@ -76,85 +76,63 @@
         android:background="@android:color/transparent">
 
         <TextView
-            android:id="@+id/lunes"
+            android:id="@+id/sedentario"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:text="@string/lunes"
+            android:text="@string/sedentario"
             android:gravity="center"
             android:background="@color/plomo_oscuro"
             android:textColor="@color/textos">
         </TextView>
         <TextView
-            android:id="@+id/martes"
+            android:id="@+id/ligeramente_activo"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:text="@string/martes"
+            android:text="@string/ligeramente_activo"
             android:gravity="center"
             android:background="@color/plomo_oscuro"
             android:textColor="@color/textos">
         </TextView>
         <TextView
-            android:id="@+id/miercoles"
+            android:id="@+id/moderadamente_activo"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:text="@string/miercoles"
+            android:text="@string/moderadamente_activo"
             android:gravity="center"
             android:background="@color/plomo_oscuro"
             android:textColor="@color/textos">
         </TextView>
         <TextView
-            android:id="@+id/jueves"
+            android:id="@+id/muy_activo"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:text="@string/jueves"
+            android:text="@string/muy_activo"
             android:gravity="center"
             android:background="@color/plomo_oscuro"
             android:textColor="@color/textos">
         </TextView>
         <TextView
-            android:id="@+id/viernes"
+            android:id="@+id/extremadamente_activo"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:text="@string/viernes"
-            android:gravity="center"
-            android:background="@color/plomo_oscuro"
-            android:textColor="@color/textos">
-        </TextView>
-        <TextView
-            android:id="@+id/sabado"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_margin="5dp"
-            android:text="@string/sabado"
-            android:gravity="center"
-            android:background="@color/plomo_oscuro"
-            android:textColor="@color/textos">
-        </TextView>
-        <TextView
-            android:id="@+id/domingo"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_margin="5dp"
-            android:text="@string/domingo"
+            android:text="@string/extremadamente_activo"
             android:gravity="center"
             android:background="@color/plomo_oscuro"
             android:textColor="@color/textos">
         </TextView>
     </LinearLayout>
     <TextView
-        android:id="@+id/buttonContinuar2"
+        android:id="@+id/buttonContinuar3"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="@string/continuar"
