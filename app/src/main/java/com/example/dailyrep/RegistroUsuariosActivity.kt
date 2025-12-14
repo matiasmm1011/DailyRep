@@ -18,6 +18,9 @@ class RegistroUsuariosActivity : AppCompatActivity() {
     val context: Context = this
     private lateinit var binding: ActivityRegistroUsuariosBinding
     private lateinit var auth: FirebaseAuth
+    companion object{
+        const val USER_ID="usuario_id"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,8 +48,12 @@ class RegistroUsuariosActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(correo, password).addOnCompleteListener {
                 task->
             if(task.isSuccessful){
-                //Creado correctamente
+                val firebaseUser = auth.currentUser
+                val nuevoUid = firebaseUser?.uid
                 val intentConfig1: Intent = Intent(context, ConfiguracionInicial1Activity::class.java)
+                intentConfig1.apply {
+                    intentConfig1.putExtra(USER_ID,nuevoUid)
+                }
                 startActivity(intentConfig1)
             }else{
                 Toast.makeText(

@@ -40,6 +40,9 @@ class LoginActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
 
         if(currentUser!=null){
+            val uidGuardado = currentUser.uid
+            val myApp = applicationContext as DailyRepApp
+            myApp.usuarioActualId = uidGuardado
             val intentUsuarioLogueado=Intent(context, PerfilActivity::class.java)
             startActivity(intentUsuarioLogueado)
         }
@@ -56,6 +59,12 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener {
             task->
                 if(task.isSuccessful){
+                    val uidLogueado = auth.currentUser?.uid
+
+                    if (uidLogueado != null) {
+                        // Guardamos el ID en la variable global
+                        val myApp = applicationContext as DailyRepApp
+                        myApp.usuarioActualId = uidLogueado
                     val intentLogueado:Intent = Intent(context, EjerciciosActivity::class.java)
                     startActivity(intentLogueado)
                 }else{
@@ -66,4 +75,5 @@ class LoginActivity : AppCompatActivity() {
                 }
         }
     }
+}
 }
