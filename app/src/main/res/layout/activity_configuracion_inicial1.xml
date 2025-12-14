@@ -98,17 +98,6 @@
             android:textColor="@color/textos">
         </EditText>
         <EditText
-            android:id="@+id/sexo"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_margin="5dp"
-            android:hint="@string/sexo"
-            android:paddingStart="10dp"
-            android:background="@color/plomo"
-            android:textColor="@color/textos">
-        </EditText>
-        <EditText
             android:id="@+id/altura"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -130,6 +119,38 @@
             android:background="@color/plomo"
             android:textColor="@color/textos">
         </EditText>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_margin="5dp">
+            <TextView
+                android:id="@+id/masculino"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textColor="@color/textos"
+                android:text="@string/masculino"
+                android:textSize="45sp"
+                android:layout_marginEnd="3dp"
+                android:background="@color/plomo"
+                android:gravity="center">
+            </TextView>
+            <TextView
+                android:id="@+id/femenino"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textColor="@color/textos"
+                android:text="@string/femenino"
+                android:textSize="45sp"
+                android:layout_marginStart="3dp"
+                android:background="@color/plomo"
+                android:gravity="center">
+            </TextView>
+        </LinearLayout>
         <TextView
             android:id="@+id/buttonContinuar1"
             android:layout_width="match_parent"

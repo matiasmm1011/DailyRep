@@ -20,6 +20,8 @@ class RegistroUsuariosActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     companion object{
         const val USER_ID="usuario_id"
+        const val USER_NAME="nombre_usuario"
+        const val USER_CORREO="user_correo"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,12 +41,28 @@ class RegistroUsuariosActivity : AppCompatActivity() {
         binding.botonRegistrarme.setOnClickListener {
             val correo = binding.correoNuevo.text.toString()
             val password = binding.passwordNuevo.text.toString()
-            crearUsuario(correo,password)
+            val nombre=binding.nombreUsuario.text.toString()
+            if (correo.isEmpty()) {
+                Toast.makeText(this, "Por favor, escribe un correo electrónico.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (nombre.isEmpty()) {
+                Toast.makeText(this, "El nombre es obligatorio.", Toast.LENGTH_SHORT).show()
+                binding.nombreUsuario.requestFocus()
+                return@setOnClickListener
+            }
+
+            if (password.length < 6) {
+                Toast.makeText(this, "La contraseña debe tener al menos 6 caracteres.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            crearUsuario(correo,password,nombre)
         }
 
     }
 
-    fun crearUsuario(correo: String, password: String){
+    fun crearUsuario(correo: String, password: String,nombre:String){
         auth.createUserWithEmailAndPassword(correo, password).addOnCompleteListener {
                 task->
             if(task.isSuccessful){
@@ -53,6 +71,8 @@ class RegistroUsuariosActivity : AppCompatActivity() {
                 val intentConfig1: Intent = Intent(context, ConfiguracionInicial1Activity::class.java)
                 intentConfig1.apply {
                     intentConfig1.putExtra(USER_ID,nuevoUid)
+                    intentConfig1.putExtra(USER_NAME,nombre)
+                    intentConfig1.putExtra(USER_CORREO,correo)
                 }
                 startActivity(intentConfig1)
             }else{
