@@ -20,14 +20,6 @@ class RutinasActivity : AppCompatActivity() {
     val context: Context = this
 
     private val listaDePruebaRutinas = mutableListOf<Rutina>(
-        Rutina("UPPER A"),
-        Rutina("LOWER A"),
-        Rutina("UPPER B"),
-        Rutina("LOWER B"),
-        Rutina("PUSH"),
-        Rutina("PULL"),
-        Rutina("LEGS"),
-        Rutina("ARMS - SHOULDERS")
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

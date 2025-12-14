@@ -39,7 +39,7 @@ class EjercicioAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun binding(ejercicio: Ejercicio) {
             binding.nombreEjercicio.text=ejercicio.nombre
-            if(ejercicio.favorito){
+            if(ejercicio.esFavorito){
                 binding.corazon.setImageResource(R.drawable.heart)
 
             }else {

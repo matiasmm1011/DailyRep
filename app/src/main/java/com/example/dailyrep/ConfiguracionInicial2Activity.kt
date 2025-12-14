@@ -3,6 +3,7 @@ package com.example.dailyrep
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -14,6 +15,7 @@ import com.example.dailyrep.ConfiguracionInicial1Activity.Companion.USER_EDAD1
 import com.example.dailyrep.ConfiguracionInicial1Activity.Companion.USER_GENERO1
 import com.example.dailyrep.ConfiguracionInicial1Activity.Companion.USER_ID1
 import com.example.dailyrep.ConfiguracionInicial1Activity.Companion.USER_NAME1
+import com.example.dailyrep.ConfiguracionInicial1Activity.Companion.USER_PESO1
 import com.example.dailyrep.databinding.ActivityConfiguracionInicial2Binding
 
 class ConfiguracionInicial2Activity : AppCompatActivity() {
@@ -21,13 +23,14 @@ class ConfiguracionInicial2Activity : AppCompatActivity() {
     private lateinit var binding: ActivityConfiguracionInicial2Binding
     val context: Context = this
     companion object{
-        const val USER_ID12="usuario_id2"
+        const val USER_ID2="usuario_id2"
         const val USER_NAME2="nombre_usuario2"
         const val USER_CORREO2="user_correo2"
         const val USER_EDAD2="user_edad2"
         const val USER_PESO2="user_peso2"
         const val USER_ALTURA2="user_altura2"
         const val USER_GENERO2="user_genero2"
+        const val LISTA_DIAS2="lista_dias_seleccionados"
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,21 +47,31 @@ class ConfiguracionInicial2Activity : AppCompatActivity() {
         val correoRecibido=intent.getStringExtra(USER_CORREO1)
         val nombreRecibido=intent.getStringExtra(USER_NAME1)
         val idRecibido=intent.getStringExtra(USER_ID1)
-        val edadRecibida=intent.getStringExtra(USER_EDAD1)
-        val alturaRecibida=intent.getStringExtra(USER_ALTURA1)
-        val generoMasculinoRecibido=intent.getStringExtra(USER_GENERO1)
+        val edadRecibida=intent.getIntExtra(USER_EDAD1,0)
+        val alturaRecibida=intent.getIntExtra(USER_ALTURA1,0)
+        val generoMasculinoRecibido=intent.getBooleanExtra(USER_GENERO1,true)
+        val pesoRecibido=intent.getIntExtra(USER_PESO1,0)
         val listaDias=mutableSetOf<Int>()
         binding.buttonContinuar2.setOnClickListener {
-            val intentCambioConfig3: Intent = Intent(context, ConfiguracionInicial3Activity::class.java)
-            intentCambioConfig3.apply{
-                intentCambioConfig3.putExtra(USER_ID1,idRecibido)
-                intentCambioConfig3.putExtra(USER_NAME1,nombreRecibido)
-                intentCambioConfig3.putExtra(USER_CORREO1,correoRecibido)
-                intentCambioConfig3.putExtra(USER_EDAD1,edadRecibida)
-                intentCambioConfig3.putExtra(USER_ALTURA1,alturaRecibida)
-                intentCambioConfig3.putExtra(USER_GENERO1,generoMasculinoRecibido)
+            if(listaDias.isEmpty()){
+                Toast.makeText(this, "Por favor, selecciona al menos un dia.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }else{
+                val intentCambioConfig3: Intent = Intent(context, ConfiguracionInicial3Activity::class.java)
+                val listaParaEnviar= ArrayList(listaDias)
+                intentCambioConfig3.apply{
+                    intentCambioConfig3.putExtra(USER_ID2,idRecibido)
+                    intentCambioConfig3.putExtra(USER_NAME2,nombreRecibido)
+                    intentCambioConfig3.putExtra(USER_CORREO2,correoRecibido)
+                    intentCambioConfig3.putExtra(USER_EDAD2,edadRecibida)
+                    intentCambioConfig3.putExtra(USER_ALTURA2,alturaRecibida)
+                    intentCambioConfig3.putExtra(USER_GENERO2,generoMasculinoRecibido)
+                    intentCambioConfig3.putExtra(LISTA_DIAS2, listaParaEnviar)
+                    intentCambioConfig3.putExtra(USER_PESO2,pesoRecibido)
+                }
+                startActivity(intentCambioConfig3)
             }
-            startActivity(intentCambioConfig3)
+
         }
 
         var lunes = false

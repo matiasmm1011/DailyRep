@@ -28,6 +28,7 @@ class DailyRepApp: Application() {
     lateinit var rutinaDao: RutinaDao
     lateinit var usuarioDao: UsuarioDao
     lateinit var usuarioActualId:String
+    lateinit var database: DataBase
     override fun onCreate(){
         super.onCreate()
         sharedPreferences = getSharedPreferences(NOMBRE_FICHERO_SHARED_PREFERENCES,MODE_PRIVATE)
@@ -37,10 +38,10 @@ class DailyRepApp: Application() {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
-        val data_Base=Room.databaseBuilder(context, DataBase::class.java, NOMBRE_BASE_DE_DATOS).build()
-        ejercicioDao=data_Base.EjercicioDao()
-        rutinaDao=data_Base.RutinaDao()
-        usuarioDao=data_Base.UsuarioDao()
+        database=Room.databaseBuilder(context, DataBase::class.java, NOMBRE_BASE_DE_DATOS).build()
+        ejercicioDao=database.ejercicioDao()
+        rutinaDao=database.rutinaDao()
+        usuarioDao=database.usuarioDao()
         verificarEInsertarDatosIniciales()
     }
     private fun verificarEInsertarDatosIniciales() {

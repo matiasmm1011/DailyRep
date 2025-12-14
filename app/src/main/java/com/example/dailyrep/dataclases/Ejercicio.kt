@@ -2,6 +2,7 @@ package com.example.dailyrep.dataclases
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
 @Entity
@@ -14,4 +15,7 @@ data class Ejercicio(
     @ColumnInfo(name="esPredeterminado")val esPredeterminado: Boolean = true,
     @ColumnInfo(name="creadorId")val creadorId: String? = null,
     @ColumnInfo(name="nombreImagen")val nombreImagen: String? = null
-)
+){
+    @Ignore
+    var esFavorito: Boolean = false
+}

@@ -70,6 +70,7 @@ class ConfiguracionInicial1Activity : AppCompatActivity() {
                 intentCambioConfig2.putExtra(USER_CORREO1,correoRecibido)
                 intentCambioConfig2.putExtra(USER_EDAD1,edad)
                 intentCambioConfig2.putExtra(USER_ALTURA1,altura)
+                intentCambioConfig2.putExtra(USER_PESO1,pesoActual)
                 intentCambioConfig2.putExtra(USER_GENERO1,generoMasculino)
             }
             startActivity(intentCambioConfig2)

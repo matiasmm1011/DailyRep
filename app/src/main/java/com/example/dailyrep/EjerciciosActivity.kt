@@ -20,7 +20,9 @@ import com.example.dailyrep.databinding.MenuTipoEjercicioBinding
 import com.example.dailyrep.dataclases.Ejercicio
 import com.google.android.material.chip.Chip
 import androidx.core.graphics.drawable.toDrawable
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
@@ -218,23 +220,19 @@ class EjerciciosActivity : AppCompatActivity() {
 
     fun actualizarLista() {
         dibujarEtiquetas()
-        var listaNueva: List<Ejercicio> = emptyList()
-         runBlocking {
-                withContext(Dispatchers.IO) {
-                    if (favorito) {
-                        listaNueva = myApp.ejercicioDao.getEjerciciosFavoritosConBusqueda(
-                            usuarioActualId,
-                            textoEnBuscador
-                        )
-                    } else {
-                        listaNueva = myApp.ejercicioDao.getEjerciciosGeneralesConBusqueda(
-                            usuarioActualId,
-                            textoEnBuscador
-                        )
-                    }
+        lifecycleScope.launch {
+            val (listaNueva, setIdsFavoritos) = withContext(Dispatchers.IO) {
+                val ejercicios = if (favorito) {
+                    myApp.ejercicioDao.getEjerciciosFavoritosConBusqueda(usuarioActualId, textoEnBuscador)
+                } else {
+                    myApp.ejercicioDao.getEjerciciosGeneralesConBusqueda(usuarioActualId, textoEnBuscador)
                 }
+                val listaIds = myApp.ejercicioDao.obtenerIdsFavoritos(usuarioActualId)
+                Pair(ejercicios, listaIds.toSet())
             }
-
+            listaNueva.forEach { ejercicio ->
+                ejercicio.esFavorito = setIdsFavoritos.contains(ejercicio.id)
+            }
             var listaFinalFiltrada = listaNueva
 
             if (filtrosTipoEjercicio.isNotEmpty()) {
@@ -245,10 +243,11 @@ class EjerciciosActivity : AppCompatActivity() {
 
             if (filtrosParteCuerpo.isNotEmpty()) {
                 listaFinalFiltrada = listaFinalFiltrada.filter { ejercicio ->
-                    filtrosParteCuerpo.contains(ejercicio.tipo)
+                    filtrosParteCuerpo.contains(ejercicio.parteCuerpo)
                 }
             }
             ejercicioAdapter.ponerListaEjercicios(listaFinalFiltrada)
+        }
     }
     fun dibujarEtiquetas(){
         val controladorChips=binding.grupoChips
