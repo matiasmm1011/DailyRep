@@ -40,7 +40,8 @@
                     android:layout_weight="8"
                     android:textColor="@color/textos"
                     android:textSize="37sp"
-                    android:text="@string/pruebaNombreEjercicio">
+                    android:text="@string/pruebaNombreEjercicio"
+                    android:textStyle="bold">
                 </TextView>
             </LinearLayout>
             <ImageView
