@@ -42,17 +42,18 @@ class PerfilActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        auth= Firebase.auth
+        val currentUser=auth.currentUser
+        if(currentUser!=null){
+            usuarioActualId=currentUser.uid
+        }else{
+            val intentLogin:Intent=Intent(context, LoginActivity::class.java)
+            startActivity(intentLogin)
+            finish()
+            return
+        }
         myApp=(applicationContext as DailyRepApp)
         sharedPreferences=getSharedPreferences(DailyRepApp.NOMBRE_FICHERO_SHARED_PREFERENCES, MODE_PRIVATE)
-        usuarioActualId = myApp.usuarioActualId
-//        if (idGlobal.isNullOrEmpty()) {
-//            startActivity(Intent(this, LoginActivity::class.java))
-//            finish()
-//            return
-//        } else {
-//            usuarioActualId = idGlobal
-//        }
-
         ponerDatosUsuarioYBotones()
         cambiarApartados()
         cambiarModo()

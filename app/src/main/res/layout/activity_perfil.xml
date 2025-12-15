@@ -274,7 +274,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:text="@string/caloriasRespuesta"
-                android:textColor="@color/plomo_oscuro"
+                android:textColor="@color/calorias"
                 android:textSize="70sp"
                 android:gravity="center"
                 android:background="@color/cuadros">

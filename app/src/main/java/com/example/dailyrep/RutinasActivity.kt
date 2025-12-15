@@ -21,6 +21,9 @@ import com.example.dailyrep.databinding.MenuParteCuerpoBinding
 import com.example.dailyrep.dataclases.Ejercicio
 import com.example.dailyrep.dataclases.Rutina
 import com.google.android.material.chip.Chip
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -32,8 +35,7 @@ class RutinasActivity : AppCompatActivity() {
     private var listaRutinas: MutableList<Rutina> = mutableListOf<Rutina>()
     val rutinas = mutableSetOf<String>()
     private lateinit var rutinaDao: RutinaDao
-
-
+    private lateinit var auth: FirebaseAuth
     private val rutinasAdapter: RutinaAdapter by lazy{ RutinaAdapter() }
     val context: Context = this
     private lateinit var myApp:DailyRepApp
@@ -54,14 +56,21 @@ class RutinasActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        auth= Firebase.auth
+        val currentUser=auth.currentUser
+        if(currentUser!=null){
+            usuarioActualId=currentUser.uid
+        }else{
+            val intentLogin:Intent=Intent(context, LoginActivity::class.java)
+            startActivity(intentLogin)
+            finish()
+            return
+        }
         cambiarApartados()
         binding.recyclerRutinas.layoutManager= LinearLayoutManager(context)
         binding.recyclerRutinas.adapter = rutinasAdapter
-
         myApp = applicationContext as DailyRepApp
         rutinaDao = myApp.rutinaDao
-        usuarioActualId = myApp.usuarioActualId
-
         ponerRutinas()
         crearRutina()
     }
@@ -74,12 +83,10 @@ class RutinasActivity : AppCompatActivity() {
 
     private fun ponerRutinas() {
         lifecycleScope.launch {
-            val (listaNueva, setIds) = withContext(Dispatchers.IO) {
-                val rutinas = myApp.rutinaDao.getAll()
-                val listaIds = myApp.rutinaDao.obtenerIds(usuarioActualId)
-                Pair(rutinas, listaIds.toSet())
+            val listaNueva = withContext(Dispatchers.IO) {
+                val rutinas = myApp.rutinaDao.getAll(usuarioActualId)
+                rutinas
             }
-
             rutinasAdapter.ponerListaRutinas(listaNueva)
         }
     }
@@ -98,25 +105,27 @@ class RutinasActivity : AppCompatActivity() {
             altura,
             true
         )
-        val nombreRutinaET: String = bindingMenu.etNombreRutina.text.toString()
-        bindingMenu.buttonCrearRutinaPP.setOnClickListener {
-            popupWindow.dismiss()
-            ancla.post {
-                lifecycleScope.launch(Dispatchers.IO) {
-                val rutinaEjemplo = Rutina(
-                    id = 0,
-                    nombreRutina = nombreRutinaET,
-                    creadorId = usuarioActualId
-                )
-                rutinaDao.insertAll(rutinaEjemplo)
-                //TODO llevar al apartado de crear rutina, nueva activity
-                }
-            }
-        }
         val xoff = ancla.width - ancho
         popupWindow.elevation = 10f
         popupWindow.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
         popupWindow.showAsDropDown(ancla, xoff, 0)
+        bindingMenu.buttonCrearRutinaPP.setOnClickListener {
+            val nombreRutinaET: String = bindingMenu.etNombreRutina.text.toString()
+            popupWindow.dismiss()
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val rutinaEjemplo = Rutina(
+                        id = 0,
+                        nombreRutina = nombreRutinaET,
+                        creadorId = usuarioActualId
+                    )
+                    withContext(Dispatchers.IO) {
+                        rutinaDao.insertAll(rutinaEjemplo)
+                    }
+                //TODO llevar al apartado de crear rutina, nueva activity
+            }
+            ponerRutinas()
+        }
+
 
     }
 
