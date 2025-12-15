@@ -47,7 +47,7 @@
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/x"
-                android:tint="@color/textos">
+                app:tint="@color/textos">
             </ImageView>
 
         </LinearLayout>

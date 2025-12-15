@@ -44,14 +44,14 @@ class PerfilActivity : AppCompatActivity() {
         }
         myApp=(applicationContext as DailyRepApp)
         sharedPreferences=getSharedPreferences(DailyRepApp.NOMBRE_FICHERO_SHARED_PREFERENCES, MODE_PRIVATE)
-        val idGlobal = myApp.usuarioActualId
-        if (idGlobal.isNullOrEmpty()) {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-            return
-        } else {
-            usuarioActualId = idGlobal
-        }
+        usuarioActualId = myApp.usuarioActualId
+//        if (idGlobal.isNullOrEmpty()) {
+//            startActivity(Intent(this, LoginActivity::class.java))
+//            finish()
+//            return
+//        } else {
+//            usuarioActualId = idGlobal
+//        }
 
         ponerDatosUsuarioYBotones()
         cambiarApartados()

@@ -16,4 +16,7 @@ interface RutinaDao {
 
     @Delete
     fun delete(rutina: Rutina)
+
+    @Query("SELECT id FROM Rutina AS ID WHERE ID.id = :usuarioId ")
+    suspend fun obtenerIds(usuarioId:String):List<Long>
 }

@@ -2,29 +2,46 @@ package com.example.dailyrep
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
+import android.widget.PopupWindow
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dailyrep.adapters.RutinaAdapter
+import com.example.dailyrep.dao.RutinaDao
 import com.example.dailyrep.databinding.ActivityRutinasBinding
+import com.example.dailyrep.databinding.MenuCrearRutinaBinding
+import com.example.dailyrep.databinding.MenuParteCuerpoBinding
 import com.example.dailyrep.dataclases.Ejercicio
 import com.example.dailyrep.dataclases.Rutina
+import com.google.android.material.chip.Chip
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class RutinasActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRutinasBinding
+    private var listaRutinas: MutableList<Rutina> = mutableListOf<Rutina>()
+    val rutinas = mutableSetOf<String>()
+    private lateinit var rutinaDao: RutinaDao
+
+
     private val rutinasAdapter: RutinaAdapter by lazy{ RutinaAdapter() }
     val context: Context = this
     private lateinit var myApp:DailyRepApp
     private lateinit var usuarioActualId:String
+    companion object{
+        const val NOMBRE_RUTINA="nombre_rutina"
 
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -40,25 +57,67 @@ class RutinasActivity : AppCompatActivity() {
         cambiarApartados()
         binding.recyclerRutinas.layoutManager= LinearLayoutManager(context)
         binding.recyclerRutinas.adapter = rutinasAdapter
-        myApp=applicationContext as DailyRepApp
-        usuarioActualId=myApp.usuarioActualId
+
+        myApp = applicationContext as DailyRepApp
+        rutinaDao = myApp.rutinaDao
+        usuarioActualId = myApp.usuarioActualId
+
         ponerRutinas()
         crearRutina()
     }
 
     private fun crearRutina() {
         binding.agregarRutina.setOnClickListener {
-
+            mostrarCrearRutina(binding.agregarRutina)
         }
     }
 
     private fun ponerRutinas() {
         lifecycleScope.launch {
-            val listaRutinas=myApp.rutinaDao.getAll()
-            withContext(Dispatchers.IO){
-                rutinasAdapter.ponerListaRutinas(listaRutinas)
+            val (listaNueva, setIds) = withContext(Dispatchers.IO) {
+                val rutinas = myApp.rutinaDao.getAll()
+                val listaIds = myApp.rutinaDao.obtenerIds(usuarioActualId)
+                Pair(rutinas, listaIds.toSet())
+            }
+
+            rutinasAdapter.ponerListaRutinas(listaNueva)
+        }
+    }
+
+    private fun dpToPx(dp: Int): Int {
+        val density = resources.displayMetrics.density
+        return (dp * density).toInt()
+    }
+    fun mostrarCrearRutina(ancla: View){
+        val bindingMenu = MenuCrearRutinaBinding.inflate(layoutInflater)
+        val ancho = dpToPx(250)
+        val altura = dpToPx(150)
+        val popupWindow = PopupWindow(
+            bindingMenu.root,
+            ancho,
+            altura,
+            true
+        )
+        val nombreRutinaET: String = bindingMenu.etNombreRutina.text.toString()
+        bindingMenu.buttonCrearRutinaPP.setOnClickListener {
+            popupWindow.dismiss()
+            ancla.post {
+                lifecycleScope.launch(Dispatchers.IO) {
+                val rutinaEjemplo = Rutina(
+                    id = 0,
+                    nombreRutina = nombreRutinaET,
+                    creadorId = usuarioActualId
+                )
+                rutinaDao.insertAll(rutinaEjemplo)
+                //TODO llevar al apartado de crear rutina, nueva activity
+                }
             }
         }
+        val xoff = ancla.width - ancho
+        popupWindow.elevation = 10f
+        popupWindow.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
+        popupWindow.showAsDropDown(ancla, xoff, 0)
+
     }
 
     private fun cambiarApartados() {

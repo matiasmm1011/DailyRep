@@ -108,6 +108,8 @@
     <string name="siguiente">SIGUIENTE</string>
     <string name="finalizarSesion">FINALIZAR SESION</string>
     <string name="guardar">GUARDAR</string>
+    <string name="IngresarNombreRutina">Ingresar nombre de la rutina</string>
+    <string name="crearRutina">CREAR RUTINA</string>
 
 
 </resources>
