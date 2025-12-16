@@ -18,9 +18,9 @@ interface EjercicioDao {
     @Query(" SELECT E.* FROM Ejercicio AS E INNER JOIN EjercicioFavorito AS EF ON E.id = EF.ejercicioId WHERE EF.usuarioId = :usuarioId AND (:searchText IS NULL OR LOWER(E.nombre) LIKE '%' || LOWER(:searchText) || '%') ORDER BY E.nombre ASC")
     suspend fun getEjerciciosFavoritosConBusqueda(usuarioId: String, searchText: String?): List<Ejercicio>
     @Insert
-    suspend fun insertAll(vararg ejercicio: Ejercicio)
-
-
+    suspend fun insert(ejercicio: Ejercicio):Long
     @Query("SELECT id FROM EjercicioFavorito AS EF INNER JOIN Ejercicio AS E ON E.id=EF.ejercicioId WHERE EF.usuarioId = :usuarioId ")
     suspend fun obtenerIdsFavoritos(usuarioId:String):List<Long>
+    @Insert
+    fun insertAll(vararg ejercicio:Ejercicio)
 }

@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.PopupWindow
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toDrawable
@@ -19,13 +21,16 @@ import com.example.dailyrep.databinding.ActivityRutinasBinding
 import com.example.dailyrep.databinding.MenuCrearRutinaBinding
 import com.example.dailyrep.databinding.MenuParteCuerpoBinding
 import com.example.dailyrep.dataclases.Ejercicio
+import com.example.dailyrep.dataclases.RelacionEjeRut
 import com.example.dailyrep.dataclases.Rutina
+import com.example.dailyrep.dataclases.SeriePlanificada
 import com.google.android.material.chip.Chip
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -36,14 +41,26 @@ class RutinasActivity : AppCompatActivity() {
     val rutinas = mutableSetOf<String>()
     private lateinit var rutinaDao: RutinaDao
     private lateinit var auth: FirebaseAuth
-    private val rutinasAdapter: RutinaAdapter by lazy{ RutinaAdapter() }
+    companion object{
+        const val NOMBRE_RUTINA="nombre_rutina"
+        const val ID_RUTINA="id_rutina"
+        const val ID_USUARIO="id_usuario"
+    }
+    private val rutinasAdapter: RutinaAdapter by lazy{ RutinaAdapter(){
+        rutina ->
+        val intentComenzarEntrenamiento:Intent=Intent(context, EntrenamientoActivity::class.java)
+        intentComenzarEntrenamiento.apply{
+            intentComenzarEntrenamiento.putExtra(NOMBRE_RUTINA,rutina.nombreRutina)
+            intentComenzarEntrenamiento.putExtra(ID_RUTINA, rutina.id)
+            intentComenzarEntrenamiento.putExtra(ID_USUARIO,rutina.creadorId)
+        }
+        startActivity(intentComenzarEntrenamiento)
+        //TODO poner true de enEtrenamiento en sharedPreferences
+    }
+    }
     val context: Context = this
     private lateinit var myApp:DailyRepApp
     private lateinit var usuarioActualId:String
-    companion object{
-        const val NOMBRE_RUTINA="nombre_rutina"
-
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -73,6 +90,96 @@ class RutinasActivity : AppCompatActivity() {
         rutinaDao = myApp.rutinaDao
         ponerRutinas()
         crearRutina()
+        // --- INICIO BLOQUE DE PRUEBA (PEGAR AL FINAL DE ONCREATE) ---
+        lifecycleScope.launch(Dispatchers.IO) {
+            // Esperamos un poco para asegurar que la UI cargó
+            delay(1000)
+
+            val userId = auth.currentUser?.uid
+
+            if (userId != null) {
+                // 1. Verificar si ya existe la rutina de prueba para no duplicar
+                // Nota: Asegúrate de que el usuario exista en la tabla 'Usuario' local,
+                // si no Room lanzará error de ForeignKey.
+
+                val nombrePrueba = "Rutina TEST Completa"
+                // Hacemos una consulta rápida para ver si existe (puedes omitir el if si quieres crearla siempre)
+                val rutinas = myApp.rutinaDao.getAll(userId)
+                val existe = rutinas.any { it.nombreRutina == nombrePrueba }
+
+                if (!existe) {
+                    Log.d("SEMILLA", "Iniciando creación de datos de prueba...")
+
+                    // A) CREAR RUTINA
+                    val nuevaRutina = Rutina(
+                        id = 0, // 0 para autogenerar
+                        nombreRutina = nombrePrueba,
+                        creadorId = userId
+                    )
+                    // Aquí usamos el nuevo método que devuelve Long
+                    val rutinaId = myApp.rutinaDao.insert(nuevaRutina)
+                    Log.d("SEMILLA", "Rutina creada ID: $rutinaId")
+
+                    // B) DEFINIR EJERCICIOS A INSERTAR
+                    // Triple: (Nombre, Tipo, Lista de Series(Peso, Reps))
+                    val datosPrueba = listOf(
+                        Triple("Press Banca Test", "Pecho", listOf(100 to "10", 100 to "8")),
+                        Triple("Sentadilla Test", "Pierna", listOf(120 to "5", 130 to "5")),
+                        Triple("Curl Biceps Test", "Brazo", listOf(30 to "12", 30 to "10"))
+                    )
+
+                    // C) INSERTAR EJERCICIOS, RELACIONES Y SERIES
+                    for ((nombreEj, parteCuerpo, seriesData) in datosPrueba) {
+
+                        // 1. Insertar Ejercicio
+                        val nuevoEjercicio = Ejercicio(
+                            id = 0,
+                            nombre = nombreEj,
+                            tipo = "Pesas", // Valor por defecto
+                            parteCuerpo = parteCuerpo,
+                            descripcion = "Ejercicio de prueba generado automáticamente",
+                            creadorId = userId,
+                            esPredeterminado = false
+                        )
+                        val ejercicioId = myApp.ejercicioDao.insert(nuevoEjercicio)
+
+                        // 2. Insertar RELACIÓN (El puente vital)
+                        val nuevaRelacion = RelacionEjeRut(
+                            id = 0,
+                            rutinaId = rutinaId,
+                            ejercicioId = ejercicioId,
+                            notas = "Nota de prueba para $nombreEj"
+                        )
+                        // Asumiendo que agregaste el DAO de Relacion a tu database
+                        val relacionId = myApp.database.relacionEjeRutDao().insert(nuevaRelacion)
+
+                        // 3. Insertar SERIES (Apuntando a la Relación)
+                        var contadorSerie = 1
+                        for ((peso, reps) in seriesData) {
+                            val nuevaSerie = SeriePlanificada(
+                                id = 0,
+                                relacionId = relacionId, // <--- CLAVE: Apunta a la relación
+                                numeroSerie = contadorSerie++,
+                                peso = peso,
+                                repeticiones = reps.toInt()// En tu entidad es String
+                            )
+                            myApp.serieDao.insert(nuevaSerie)
+                        }
+                    }
+
+                    Log.d("SEMILLA", "¡Datos insertados correctamente! Actualizando UI...")
+
+                    // Recargamos la lista en el hilo principal para verlo al instante
+                    withContext(Dispatchers.Main) {
+                        ponerRutinas()
+                        Toast.makeText(context, "Rutina de prueba creada", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Log.d("SEMILLA", "La rutina de prueba ya existe.")
+                }
+            }
+        }
+// --- FIN BLOQUE DE PRUEBA ---
     }
 
     private fun crearRutina() {

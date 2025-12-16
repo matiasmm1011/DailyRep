@@ -7,9 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dailyrep.R
 import com.example.dailyrep.databinding.ActivityAdapterRutinaBinding
 import com.example.dailyrep.databinding.ActivityRutinasBinding
+import com.example.dailyrep.dataclases.Ejercicio
 import com.example.dailyrep.dataclases.Rutina
 
-class RutinaAdapter: RecyclerView.Adapter<RutinaAdapter.RutinaViewHolder>() {
+class RutinaAdapter(
+    private val onRutinaPlayClick: (Rutina) -> Unit):
+    RecyclerView.Adapter<RutinaAdapter.RutinaViewHolder>() {
     private var context: Context? = null
     private val listaRutinas = mutableListOf<Rutina>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RutinaViewHolder {
@@ -33,6 +36,9 @@ class RutinaAdapter: RecyclerView.Adapter<RutinaAdapter.RutinaViewHolder>() {
         RecyclerView.ViewHolder(binding.root) {
             fun binding(rutina: Rutina) {
                 binding.nombreRutina.text = rutina.nombreRutina
+                binding.comenzarRutina.setOnClickListener {
+                    onRutinaPlayClick(rutina)
+                }
             }
         }
 

@@ -6,7 +6,9 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.room.Room
 import com.example.dailyrep.dao.EjercicioDao
+import com.example.dailyrep.dao.RelacionEjeRutDao
 import com.example.dailyrep.dao.RutinaDao
+import com.example.dailyrep.dao.SerieDao
 import com.example.dailyrep.dao.UsuarioDao
 import com.example.dailyrep.dataclases.Ejercicio
 import kotlinx.coroutines.CoroutineScope
@@ -212,7 +214,10 @@ class DailyRepApp: Application() {
     lateinit var rutinaDao: RutinaDao
     lateinit var usuarioDao: UsuarioDao
     lateinit var usuarioActualId:String
+    lateinit var serieDao: SerieDao
     lateinit var database: DataBase
+    lateinit var relacionEjeRutDao: RelacionEjeRutDao
+
     override fun onCreate(){
         super.onCreate()
         sharedPreferences = getSharedPreferences(NOMBRE_FICHERO_SHARED_PREFERENCES,MODE_PRIVATE)
@@ -225,7 +230,9 @@ class DailyRepApp: Application() {
         database=Room.databaseBuilder(context, DataBase::class.java, NOMBRE_BASE_DE_DATOS).build()
         ejercicioDao=database.ejercicioDao()
         rutinaDao=database.rutinaDao()
+        relacionEjeRutDao=database.relacionEjeRutDao()
         usuarioDao=database.usuarioDao()
+        serieDao=database.serieDao()
         verificarEInsertarDatosIniciales()
     }
     private fun verificarEInsertarDatosIniciales() {

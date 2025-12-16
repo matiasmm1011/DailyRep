@@ -4,7 +4,9 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.example.dailyrep.dao.EjercicioDao
 import com.example.dailyrep.dao.RachaDao
+import com.example.dailyrep.dao.RelacionEjeRutDao
 import com.example.dailyrep.dao.RutinaDao
+import com.example.dailyrep.dao.SerieDao
 import com.example.dailyrep.dao.UsuarioDao
 import com.example.dailyrep.dataclases.DiasObjetivoUsuario
 import com.example.dailyrep.dataclases.Ejercicio
@@ -21,4 +23,6 @@ abstract class DataBase: RoomDatabase(){
     abstract fun rutinaDao(): RutinaDao
     abstract fun usuarioDao(): UsuarioDao
     abstract fun rachaDao(): RachaDao
+    abstract fun serieDao(): SerieDao
+    abstract fun relacionEjeRutDao(): RelacionEjeRutDao
 }

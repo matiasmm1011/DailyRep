@@ -39,7 +39,7 @@ class EjerciciosActivity : AppCompatActivity() {
         const val IMAGEN_EJERCICIO="imagen_ejercicio"
 
     }
-   private val ejercicioAdapter: EjercicioAdapter by lazy{ EjercicioAdapter(){
+   private val ejercicioAdapter: EjercicioAdapter by lazy{ EjercicioAdapter{
        ejercicioClickeado ->
 
        val intent = Intent(this, DescripcionEjercicioActivity::class.java)

@@ -9,14 +9,15 @@ import androidx.room.ColumnInfo
         ForeignKey(
             entity = RelacionEjeRut::class,
             parentColumns = ["id"],
-            childColumns = ["refId"],
+            childColumns = ["relacionId"],
             onDelete = ForeignKey.CASCADE
         )
     ]
 )
 data class SeriePlanificada(
     @PrimaryKey(autoGenerate = true) val id: Long,
-    @ColumnInfo(name="refId") val refId: Long,
+    @ColumnInfo(name="relacionId") val relacionId: Long,
     @ColumnInfo(name="numeroSerie")val numeroSerie: Int,
-    @ColumnInfo(name="repeticiones")val repeticiones: String,
+    @ColumnInfo(name="repeticiones")val repeticiones: Int,
+    @ColumnInfo(name="peso") val peso:Int
 )

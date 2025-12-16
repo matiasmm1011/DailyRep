@@ -11,10 +11,9 @@ import com.example.dailyrep.databinding.ActivityAdapterEjercicioBinding
 import com.example.dailyrep.dataclases.Ejercicio
 
 class EjercicioAdapter(
-    private var listaEjercicios: MutableList<Ejercicio> = mutableListOf<Ejercicio>(),
     private val onEjercicioClick: (Ejercicio) -> Unit): RecyclerView.Adapter<EjercicioAdapter.EjercicioViewHolder>() {
     private var context: Context? = null
-
+    private var listaEjercicios: MutableList<Ejercicio> = mutableListOf<Ejercicio>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EjercicioViewHolder {
         context = parent.context
         return EjercicioViewHolder(
