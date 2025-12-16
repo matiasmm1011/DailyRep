@@ -72,7 +72,7 @@ class ConfiguracionInicial3Activity : AppCompatActivity() {
                 val nombre=nombreRecibido?:""
                 val correo=correoRecibido?:""
                 val usuario= Usuario(id,nombre,correo,
-                    edadRecibida,generoMasculinoRecibido,pesoRecibido,alturaRecibida,0,null, nivelActividad)
+                    edadRecibida,generoMasculinoRecibido,pesoRecibido,alturaRecibida,0,null, nivelActividad,0)
                 val listaObjetosDias = listaDiasSeleccionados.map { diaIndice ->
                     DiasObjetivoUsuario(
                         usuarioId = id,

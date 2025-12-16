@@ -19,6 +19,7 @@ import com.example.dailyrep.dao.EjercicioDao
 import com.example.dailyrep.dao.RelacionEjeRutDao
 import com.example.dailyrep.dao.RutinaDao
 import com.example.dailyrep.dao.SerieDao
+import com.example.dailyrep.dao.UsuarioDao
 import com.example.dailyrep.databinding.ActivityEntrenamientoBinding
 import com.example.dailyrep.dataclases.Ejercicio
 import com.example.dailyrep.dataclases.itemEntrenamiento
@@ -39,12 +40,13 @@ class EntrenamientoActivity : AppCompatActivity() {
     private var nombreRutina: String? = null
     private lateinit var rutinaDao: RutinaDao
     private lateinit var serieDao: SerieDao
+    private lateinit var usuarioDao: UsuarioDao
     private lateinit var ejercicioDao: EjercicioDao
     private lateinit var relacionEjeRutDao: RelacionEjeRutDao
     private var rutinaId: Long= 0
     private lateinit var auth: FirebaseAuth
     companion object{
-        const val RUTINA_TERMINADO="ejercicio_terminado"
+        const val EN_ENTRENAMIENTO="rutina_en_entrenamiento"
     }
     private val ejercicioEntrenamientoAdapter: EjercicioEntrenamientoAdapter by lazy{ EjercicioEntrenamientoAdapter() }
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,24 +74,35 @@ class EntrenamientoActivity : AppCompatActivity() {
         rutinaDao=myApp.rutinaDao
         ejercicioDao=myApp.ejercicioDao
         serieDao=myApp.serieDao
+        usuarioDao=myApp.usuarioDao
         relacionEjeRutDao=myApp.relacionEjeRutDao
+        sharedPreferences=getSharedPreferences(NOMBRE_FICHERO_SHARED_PREFERENCES,MODE_PRIVATE)
         usuarioActualId = intent.getStringExtra(ID_USUARIO).toString()
         nombreRutina = intent.getStringExtra(NOMBRE_RUTINA)
         rutinaId = intent.getLongExtra(ID_RUTINA, 0)
-        sharedPreferences=getSharedPreferences(NOMBRE_FICHERO_SHARED_PREFERENCES,MODE_PRIVATE)
-        sharedPreferences.edit().putBoolean(RUTINA_TERMINADO,false)
         binding.recyclerEjerciciosEntrenamiento.layoutManager = LinearLayoutManager(context)
         binding.recyclerEjerciciosEntrenamiento.adapter = ejercicioEntrenamientoAdapter
         binding.nombreRutina.setText(nombreRutina)
-
         cambiarApartados()
         ponerEjercicios()
         terminarEntrenamiento()
     }
 
+    private fun aumentarDiasCompletados() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val usuario= usuarioDao.getUsuarioPorId(usuarioActualId)
+            if(usuario!=null){
+                usuario.diasEntrenados++
+                usuarioDao.updateUsuario(usuario)
+            }
+
+        }
+    }
+
     private fun terminarEntrenamiento() {
         binding.finalizarSesion.setOnClickListener {
-            sharedPreferences.edit().putBoolean(RUTINA_TERMINADO, true).apply()
+            sharedPreferences.edit().putBoolean(EN_ENTRENAMIENTO, false).apply()
+            aumentarDiasCompletados()
             val intentVolverARutinas=Intent(context, RutinasActivity::class.java)
             startActivity(intentVolverARutinas)
         }

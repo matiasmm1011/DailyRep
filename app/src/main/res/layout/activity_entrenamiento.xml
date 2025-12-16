@@ -108,7 +108,7 @@
                 android:id="@+id/textoRutinas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textos"
+                android:textColor="@color/naranja"
                 android:text="@string/rutinas"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -127,13 +127,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:paddingBottom="25dp"
                 app:layout_constraintHorizontal_bias="0.34"
-                app:tint="@color/textos">
+                app:tint="@color/naranja">
             </ImageView>
             <TextView
                 android:id="@+id/textoProgreso"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/naranja"
+                android:textColor="@color/textos"
                 android:text="@string/progreso"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -152,7 +152,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:paddingBottom="25dp"
                 app:layout_constraintHorizontal_bias="0.66"
-                app:tint="@color/naranja">
+                app:tint="@color/textos">
             </ImageView>
             <TextView
                 android:layout_width="wrap_content"

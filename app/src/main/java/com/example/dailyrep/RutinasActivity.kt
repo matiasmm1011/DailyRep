@@ -15,7 +15,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dailyrep.DailyRepApp.Companion.NOMBRE_FICHERO_SHARED_PREFERENCES
-import com.example.dailyrep.EntrenamientoActivity.Companion.RUTINA_TERMINADO
+import com.example.dailyrep.EntrenamientoActivity.Companion.EN_ENTRENAMIENTO
 import com.example.dailyrep.adapters.RutinaAdapter
 import com.example.dailyrep.dao.RutinaDao
 import com.example.dailyrep.databinding.ActivityRutinasBinding
@@ -44,23 +44,33 @@ class RutinasActivity : AppCompatActivity() {
         const val ULTIMA_RUTINA_ID="ultima_rutina_id"
         const val ULTIMA_RUTINA_NOMBRE="ultima_rutina_nombre"
     }
-    private val rutinasAdapter: RutinaAdapter by lazy{ RutinaAdapter(){
-        rutina ->
+
+
+    val context: Context = this
+    private lateinit var myApp:DailyRepApp
+
+    private lateinit var usuarioActualId:String
+    private val rutinasAdapter: RutinaAdapter by lazy{ RutinaAdapter({rutina ->
         val intentComenzarEntrenamiento:Intent=Intent(context, EntrenamientoActivity::class.java)
+        sharedPreferences.edit().putString(ULTIMA_RUTINA_NOMBRE,rutina.nombreRutina).apply()
+        sharedPreferences.edit().putLong(ULTIMA_RUTINA_ID,rutina.id).apply()
+        sharedPreferences.edit().putBoolean(EN_ENTRENAMIENTO,true).apply()
         intentComenzarEntrenamiento.apply{
             intentComenzarEntrenamiento.putExtra(NOMBRE_RUTINA,rutina.nombreRutina)
             intentComenzarEntrenamiento.putExtra(ID_RUTINA, rutina.id)
             intentComenzarEntrenamiento.putExtra(ID_USUARIO,rutina.creadorId)
         }
         startActivity(intentComenzarEntrenamiento)
-        sharedPreferences.edit().putBoolean(RUTINA_TERMINADO,true)
-        //TODO poner true de enEtrenamiento en sharedPreferences
-    }
-    }
-    val context: Context = this
-    private lateinit var myApp:DailyRepApp
-
-    private lateinit var usuarioActualId:String
+        }
+        ,{rutina->
+            var listaRutinasActualizada=listOf<Rutina>()
+            lifecycleScope.launch{
+                withContext(Dispatchers.IO){
+                    rutinaDao.delete(rutina)
+                    listaRutinasActualizada=rutinaDao.getAll(usuarioActualId)
+                }
+                ponerRutinas()
+            }})}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -85,14 +95,14 @@ class RutinasActivity : AppCompatActivity() {
         }
         cambiarApartados()
         sharedPreferences=getSharedPreferences(NOMBRE_FICHERO_SHARED_PREFERENCES,MODE_PRIVATE)
-        val enEntrenamiento=sharedPreferences.getBoolean(RUTINA_TERMINADO,false)
+        val enEntrenamiento=sharedPreferences.getBoolean(EN_ENTRENAMIENTO,false)
         if(enEntrenamiento){
-            val ultimaRutinaId=sharedPreferences.getInt(ULTIMA_RUTINA_ID, 0)
+            val ultimaRutinaId=sharedPreferences.getLong(ULTIMA_RUTINA_ID, 0)
             val nombreRutina=sharedPreferences.getString(ULTIMA_RUTINA_NOMBRE,"")
             val intentComenzarEntrenamiento:Intent=Intent(context, EntrenamientoActivity::class.java)
             intentComenzarEntrenamiento.apply{
-                intentComenzarEntrenamiento.putExtra(ULTIMA_RUTINA_NOMBRE, nombreRutina)
-                intentComenzarEntrenamiento.putExtra(ULTIMA_RUTINA_ID, ultimaRutinaId)
+                intentComenzarEntrenamiento.putExtra(NOMBRE_RUTINA, nombreRutina)
+                intentComenzarEntrenamiento.putExtra(ID_RUTINA, ultimaRutinaId)
                 intentComenzarEntrenamiento.putExtra(ID_USUARIO,usuarioActualId)
             }
             startActivity(intentComenzarEntrenamiento)

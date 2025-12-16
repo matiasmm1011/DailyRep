@@ -11,7 +11,8 @@ import com.example.dailyrep.dataclases.Ejercicio
 import com.example.dailyrep.dataclases.Rutina
 
 class RutinaAdapter(
-    private val onRutinaPlayClick: (Rutina) -> Unit):
+    private val onRutinaPlayClick: (Rutina) -> Unit,
+    private val onRutinaBorrarClick:(Rutina)->Unit):
     RecyclerView.Adapter<RutinaAdapter.RutinaViewHolder>() {
     private var context: Context? = null
     private val listaRutinas = mutableListOf<Rutina>()
@@ -38,6 +39,9 @@ class RutinaAdapter(
                 binding.nombreRutina.text = rutina.nombreRutina
                 binding.comenzarRutina.setOnClickListener {
                     onRutinaPlayClick(rutina)
+                }
+                binding.eliminarRutina.setOnClickListener {
+                    onRutinaBorrarClick(rutina)
                 }
             }
         }

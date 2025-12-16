@@ -7,10 +7,23 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
+import com.example.dailyrep.dao.UsuarioDao
 import com.example.dailyrep.databinding.ActivityProgresoBinding
+import com.example.dailyrep.dataclases.Usuario
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ProgresoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProgresoBinding
+    private lateinit var auth: FirebaseAuth
+    private lateinit var usuarioDao: UsuarioDao
+    private lateinit var usuarioActualId:String
+    private lateinit var myApp: DailyRepApp
     val context: Context =this
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +35,33 @@ class ProgresoActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        auth= Firebase.auth
+        val currentUser=auth.currentUser
+
+        if(currentUser!=null){
+            usuarioActualId=currentUser.uid
+        }else{
+            val intentLogin:Intent=Intent(context, LoginActivity::class.java)
+            startActivity(intentLogin)
+            finish()
+            return
+        }
+        myApp=applicationContext as DailyRepApp
+        usuarioDao=myApp.usuarioDao
+        ponerEntrenamientosCompletados()
         cambiarApartados()
+    }
+
+    private fun ponerEntrenamientosCompletados() {
+        var usuario: Usuario?=null
+        lifecycleScope.launch{
+            withContext(Dispatchers.IO){
+                usuario=usuarioDao.getUsuarioPorId(usuarioActualId)
+            }
+            val diasEntrenados=usuario?.diasEntrenados?:0
+            binding.entrenamientosCompletados.setText(diasEntrenados.toString())
+
+        }
     }
 
     private fun cambiarApartados() {

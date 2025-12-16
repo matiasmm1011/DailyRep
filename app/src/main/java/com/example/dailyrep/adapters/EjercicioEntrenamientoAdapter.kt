@@ -2,6 +2,7 @@ package com.example.dailyrep.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -43,6 +44,10 @@ class EjercicioEntrenamientoAdapter
                 binding.recyclerSeries.layoutManager= LinearLayoutManager(context)
                 binding.recyclerSeries.adapter=serieAdapter
             }
+                if(item.relacion.notas!=null){
+                    binding.notas.visibility= View.VISIBLE
+                    binding.descripcionNotas.setText(item.relacion.notas)
+                }
                 val nombreEjercicio=item.ejercicio.nombre
                 val listaSeries=item.series
             serieAdapter.ponerListaSeries(listaSeries)

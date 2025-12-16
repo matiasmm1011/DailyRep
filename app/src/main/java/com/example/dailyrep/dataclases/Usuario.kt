@@ -15,5 +15,6 @@ data class Usuario(
     @ColumnInfo(name="altura")var altura:Int,
     @ColumnInfo(name = "rachaActual") val rachaActual: Int = 0,
     @ColumnInfo(name = "ultimoDiaRachaFecha")val ultimoDiaRachaFecha: Long? = null,
-    @ColumnInfo(name = "nivelActividadId") val nivelActividadId: Int
+    @ColumnInfo(name = "nivelActividadId") val nivelActividadId: Int,
+    @ColumnInfo(name="diasEntrenados") var diasEntrenados:Int
 )

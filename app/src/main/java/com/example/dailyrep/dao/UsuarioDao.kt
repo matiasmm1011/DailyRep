@@ -16,4 +16,6 @@ interface UsuarioDao {
 
     @Update
     suspend fun updateUsuario(usuario: Usuario)
+
+
 }

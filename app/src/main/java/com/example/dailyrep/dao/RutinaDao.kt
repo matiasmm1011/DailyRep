@@ -25,4 +25,5 @@ interface RutinaDao {
     @Insert
     fun insertAll(rutinaEjemplo: Rutina):Long
 
+
 }
