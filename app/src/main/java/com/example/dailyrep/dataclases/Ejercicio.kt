@@ -18,4 +18,7 @@ data class Ejercicio(
 ){
     @Ignore
     var esFavorito: Boolean = false
+
+    @Ignore
+    var seleccionado: Boolean = false
 }

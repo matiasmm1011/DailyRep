@@ -121,7 +121,8 @@ class RutinasActivity : AppCompatActivity() {
                     withContext(Dispatchers.IO) {
                         rutinaDao.insertAll(rutinaEjemplo)
                     }
-                //TODO llevar al apartado de crear rutina, nueva activity
+                    val intentCambioACreadorR: Intent = Intent(context, CrearRutinaActivity::class.java)
+                    startActivity(intentCambioACreadorR)
             }
             ponerRutinas()
         }

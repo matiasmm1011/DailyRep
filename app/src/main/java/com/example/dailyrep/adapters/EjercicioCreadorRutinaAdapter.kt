@@ -7,41 +7,37 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dailyrep.DescripcionEjercicioActivity
 import com.example.dailyrep.R
-import com.example.dailyrep.databinding.ActivityAdapterEjercicioBinding
+import com.example.dailyrep.databinding.ActivityEjercicioCreadorRutinaAdapterBinding
 import com.example.dailyrep.dataclases.Ejercicio
 
-class EjercicioAdapter(
+class EjercicioCreadorRutinaAdapter(
     private var listaEjercicios: MutableList<Ejercicio> = mutableListOf<Ejercicio>(),
-    private val onEjercicioClick: (Ejercicio) -> Unit): RecyclerView.Adapter<EjercicioAdapter.EjercicioViewHolder>() {
+    private val onSeleccionCambio: (Ejercicio, Boolean) -> Unit): RecyclerView.Adapter<EjercicioCreadorRutinaAdapter.EjercicioCreadorRutinaViewHolder>() {
     private var context: Context? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EjercicioViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EjercicioCreadorRutinaViewHolder {
         context = parent.context
-        return EjercicioViewHolder(
-            ActivityAdapterEjercicioBinding.inflate(
+        return EjercicioCreadorRutinaViewHolder(
+            ActivityEjercicioCreadorRutinaAdapterBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
             )
         )
     }
-    override fun onBindViewHolder(holder: EjercicioAdapter.EjercicioViewHolder, position: Int) {
-        val ejercicio=listaEjercicios[position]
+    override fun onBindViewHolder(holder: EjercicioCreadorRutinaAdapter.EjercicioCreadorRutinaViewHolder, position: Int) {
+        val ejercicio = listaEjercicios[position]
         holder.binding(ejercicio)
-        holder.itemView.setOnClickListener {
-            onEjercicioClick(ejercicio)
-        }
     }
 
     override fun getItemCount(): Int = listaEjercicios.size
 
-    inner class EjercicioViewHolder(private val binding: ActivityAdapterEjercicioBinding) :
+    inner class EjercicioCreadorRutinaViewHolder(private val binding: ActivityEjercicioCreadorRutinaAdapterBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun binding(ejercicio: Ejercicio) {
             binding.nombreEjercicio.text=ejercicio.nombre
             if(ejercicio.esFavorito){
                 binding.corazon.setImageResource(R.drawable.heart)
-
             }else {
                 binding.corazon.setImageResource(R.drawable.corazon_vacio)
             }
@@ -69,6 +65,26 @@ class EjercicioAdapter(
             }
             binding.parteCuerpo.setImageResource(iconoParteCuerpo)
             binding.tipoEjercicio.setImageResource(iconoTipoEjercicio)
+
+            val iconoSeleccionado = R.drawable.listo
+            val iconoDeseleccionado = R.drawable.circulo_vacio
+
+            if (ejercicio.seleccionado) {
+                binding.seleccionarEjercicio.setImageResource(iconoSeleccionado)
+            } else {
+                binding.seleccionarEjercicio.setImageResource(iconoDeseleccionado)
+            }
+
+            binding.seleccionarEjercicio.setOnClickListener {
+                ejercicio.seleccionado = !ejercicio.seleccionado
+                if (ejercicio.seleccionado) {
+                    binding.seleccionarEjercicio.setImageResource(iconoSeleccionado)
+                    onSeleccionCambio(ejercicio, true)
+                } else {
+                    binding.seleccionarEjercicio.setImageResource(iconoDeseleccionado)
+                    onSeleccionCambio(ejercicio, false)
+                }
+            }
         }
     }
     fun ponerListaEjercicios(nuevaLista: List<Ejercicio>) {

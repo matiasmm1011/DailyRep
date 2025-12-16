@@ -63,7 +63,7 @@
                android:layout_height="match_parent"
                android:layout_weight="5"
                android:src="@drawable/tres_puntos"
-               android:tint="@color/naranja"
+               app:tint="@color/naranja"
                android:layout_marginTop="10dp">
 
            </ImageView>
@@ -105,7 +105,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:src="@drawable/listo"
-                    android:tint="@color/naranja"
+                    app:tint="@color/naranja"
                     android:layout_marginTop="4dp">
 
                 </ImageView>
