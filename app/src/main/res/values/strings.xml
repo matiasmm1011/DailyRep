@@ -110,6 +110,7 @@
     <string name="guardar">GUARDAR</string>
     <string name="IngresarNombreRutina">Ingresar nombre de la rutina</string>
     <string name="crearRutina">CREAR RUTINA</string>
+    <string name="listo">LISTO</string>
 
 
 </resources>

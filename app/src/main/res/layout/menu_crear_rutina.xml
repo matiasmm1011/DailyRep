@@ -22,7 +22,7 @@
         android:layout_height="0dp"
         android:layout_weight="1.5"
         android:layout_marginTop="10dp"
-        android:text="@string/crearRutina"
+        android:text="@string/listo"
         android:textColor="@color/textos"
         android:backgroundTint="@color/naranja"
         android:layout_gravity="center_horizontal">
