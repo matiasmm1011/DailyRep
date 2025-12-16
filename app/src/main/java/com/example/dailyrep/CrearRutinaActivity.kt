@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.dailyrep.adapters.EjercicioAdapter
 import android.widget.PopupWindow
 import com.example.dailyrep.databinding.MenuParteCuerpoBinding
 import com.example.dailyrep.databinding.MenuTipoEjercicioBinding
@@ -20,16 +19,21 @@ import com.example.dailyrep.dataclases.Ejercicio
 import com.google.android.material.chip.Chip
 import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.lifecycleScope
+import com.example.dailyrep.RutinasActivity.Companion.ID_RUTINA
 import com.example.dailyrep.adapters.EjercicioCreadorRutinaAdapter
+import com.example.dailyrep.dao.RelacionEjeRutDao
 import com.example.dailyrep.databinding.ActivityCrearRutinaBinding
+import com.example.dailyrep.dataclases.RelacionEjeRut
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class CrearRutinaActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCrearRutinaBinding
-    private lateinit var listaEjercicios:List<Ejercicio>
     private val usuarioActualId = "usuario_prueba_1"
+    private var rutinaId: Long = 0
+
+    private lateinit var relacionEjeRutDao: RelacionEjeRutDao
 
     val ejerciciosSeleccionados = mutableSetOf<Ejercicio>()
 
@@ -45,8 +49,10 @@ class CrearRutinaActivity : AppCompatActivity() {
     private val ejercicioCreadorRutinaAdapter: EjercicioCreadorRutinaAdapter by lazy{ EjercicioCreadorRutinaAdapter(){
             ejercicio, seleccionado ->
         if (seleccionado) {
+            ejercicio.seleccionado = true
             ejerciciosSeleccionados.add(ejercicio)
         } else {
+            ejercicio.seleccionado = false
             ejerciciosSeleccionados.remove(ejercicio)
         }
     }
@@ -68,18 +74,35 @@ class CrearRutinaActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        rutinaId = intent.getLongExtra(ID_RUTINA, 0)
         binding.recyclerEjerciciosCR.layoutManager= LinearLayoutManager(context)
         binding.recyclerEjerciciosCR.adapter=ejercicioCreadorRutinaAdapter
         myApp=applicationContext as DailyRepApp
+        relacionEjeRutDao=myApp.relacionEjeRutDao
         actualizarLista()
         ponerFiltros()
         buscador()
-//        crearRutina()
+        crearRutina()
     }
+
+
 
     fun crearRutina(){
         binding.botonCrearRutina.setOnClickListener {
-
+            val listaEjeRut: MutableList<RelacionEjeRut> = mutableListOf()
+            ejerciciosSeleccionados.forEach { ejercicio ->
+                val ejercicioId = ejercicio.id
+                val relacionRutinaNueva = RelacionEjeRut(0L,rutinaId,ejercicioId,null)
+                listaEjeRut.add(relacionRutinaNueva)
+            }
+            lifecycleScope.launch(Dispatchers.IO) {
+                withContext(Dispatchers.IO){
+                    relacionEjeRutDao.insertAll(*listaEjeRut.toTypedArray())
+                }
+            }
+            val intentCambioRutinas: Intent = Intent(context, RutinasActivity::class.java)
+            startActivity(intentCambioRutinas)
         }
     }
     fun mostrarMenuParteCuerpo(ancla: View){
@@ -237,6 +260,13 @@ class CrearRutinaActivity : AppCompatActivity() {
             }
             listaNueva.forEach { ejercicio ->
                 ejercicio.esFavorito = setIdsFavoritos.contains(ejercicio.id)
+            }
+            listaNueva.forEach { ejercicio ->
+                ejerciciosSeleccionados.forEach { ejerciciosS ->
+                    if (ejercicio.id == ejerciciosS.id){
+                        ejercicio.seleccionado = true
+                    }
+                }
             }
             var listaFinalFiltrada = listaNueva
 
