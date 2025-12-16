@@ -2,12 +2,11 @@ package com.example.dailyrep
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.PopupWindow
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toDrawable
@@ -15,22 +14,17 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.dailyrep.DailyRepApp.Companion.NOMBRE_FICHERO_SHARED_PREFERENCES
+import com.example.dailyrep.EntrenamientoActivity.Companion.RUTINA_TERMINADO
 import com.example.dailyrep.adapters.RutinaAdapter
 import com.example.dailyrep.dao.RutinaDao
 import com.example.dailyrep.databinding.ActivityRutinasBinding
 import com.example.dailyrep.databinding.MenuCrearRutinaBinding
-import com.example.dailyrep.databinding.MenuParteCuerpoBinding
-import com.example.dailyrep.dataclases.Ejercicio
-import com.example.dailyrep.dataclases.RelacionEjeRut
 import com.example.dailyrep.dataclases.Rutina
-import com.example.dailyrep.dataclases.SeriePlanificada
-import com.google.android.material.chip.Chip
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -40,11 +34,15 @@ class RutinasActivity : AppCompatActivity() {
     private var listaRutinas: MutableList<Rutina> = mutableListOf<Rutina>()
     val rutinas = mutableSetOf<String>()
     private lateinit var rutinaDao: RutinaDao
+    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var auth: FirebaseAuth
     companion object{
         const val NOMBRE_RUTINA="nombre_rutina"
         const val ID_RUTINA="id_rutina"
         const val ID_USUARIO="id_usuario"
+
+        const val ULTIMA_RUTINA_ID="ultima_rutina_id"
+        const val ULTIMA_RUTINA_NOMBRE="ultima_rutina_nombre"
     }
     private val rutinasAdapter: RutinaAdapter by lazy{ RutinaAdapter(){
         rutina ->
@@ -55,11 +53,13 @@ class RutinasActivity : AppCompatActivity() {
             intentComenzarEntrenamiento.putExtra(ID_USUARIO,rutina.creadorId)
         }
         startActivity(intentComenzarEntrenamiento)
+        sharedPreferences.edit().putBoolean(RUTINA_TERMINADO,true)
         //TODO poner true de enEtrenamiento en sharedPreferences
     }
     }
     val context: Context = this
     private lateinit var myApp:DailyRepApp
+
     private lateinit var usuarioActualId:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +84,21 @@ class RutinasActivity : AppCompatActivity() {
             return
         }
         cambiarApartados()
+        sharedPreferences=getSharedPreferences(NOMBRE_FICHERO_SHARED_PREFERENCES,MODE_PRIVATE)
+        val enEntrenamiento=sharedPreferences.getBoolean(RUTINA_TERMINADO,false)
+        if(enEntrenamiento){
+            val ultimaRutinaId=sharedPreferences.getInt(ULTIMA_RUTINA_ID, 0)
+            val nombreRutina=sharedPreferences.getString(ULTIMA_RUTINA_NOMBRE,"")
+            val intentComenzarEntrenamiento:Intent=Intent(context, EntrenamientoActivity::class.java)
+            intentComenzarEntrenamiento.apply{
+                intentComenzarEntrenamiento.putExtra(ULTIMA_RUTINA_NOMBRE, nombreRutina)
+                intentComenzarEntrenamiento.putExtra(ULTIMA_RUTINA_ID, ultimaRutinaId)
+                intentComenzarEntrenamiento.putExtra(ID_USUARIO,usuarioActualId)
+            }
+            startActivity(intentComenzarEntrenamiento)
+            finish()
+            return
+        }
         binding.recyclerRutinas.layoutManager= LinearLayoutManager(context)
         binding.recyclerRutinas.adapter = rutinasAdapter
         myApp = applicationContext as DailyRepApp

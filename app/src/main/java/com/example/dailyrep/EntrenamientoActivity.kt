@@ -2,6 +2,7 @@ package com.example.dailyrep
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.dailyrep.DailyRepApp.Companion.NOMBRE_FICHERO_SHARED_PREFERENCES
 import com.example.dailyrep.RutinasActivity.Companion.ID_RUTINA
 import com.example.dailyrep.RutinasActivity.Companion.ID_USUARIO
 import com.example.dailyrep.RutinasActivity.Companion.NOMBRE_RUTINA
@@ -31,6 +33,8 @@ class EntrenamientoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEntrenamientoBinding
     val context: Context =this
     private lateinit var usuarioActualId:String
+    lateinit var sharedPreferences: SharedPreferences
+
     private lateinit var myApp: DailyRepApp
     private var nombreRutina: String? = null
     private lateinit var rutinaDao: RutinaDao
@@ -39,6 +43,9 @@ class EntrenamientoActivity : AppCompatActivity() {
     private lateinit var relacionEjeRutDao: RelacionEjeRutDao
     private var rutinaId: Long= 0
     private lateinit var auth: FirebaseAuth
+    companion object{
+        const val RUTINA_TERMINADO="ejercicio_terminado"
+    }
     private val ejercicioEntrenamientoAdapter: EjercicioEntrenamientoAdapter by lazy{ EjercicioEntrenamientoAdapter() }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,11 +76,23 @@ class EntrenamientoActivity : AppCompatActivity() {
         usuarioActualId = intent.getStringExtra(ID_USUARIO).toString()
         nombreRutina = intent.getStringExtra(NOMBRE_RUTINA)
         rutinaId = intent.getLongExtra(ID_RUTINA, 0)
+        sharedPreferences=getSharedPreferences(NOMBRE_FICHERO_SHARED_PREFERENCES,MODE_PRIVATE)
+        sharedPreferences.edit().putBoolean(RUTINA_TERMINADO,false)
         binding.recyclerEjerciciosEntrenamiento.layoutManager = LinearLayoutManager(context)
         binding.recyclerEjerciciosEntrenamiento.adapter = ejercicioEntrenamientoAdapter
         binding.nombreRutina.setText(nombreRutina)
+
         cambiarApartados()
         ponerEjercicios()
+        terminarEntrenamiento()
+    }
+
+    private fun terminarEntrenamiento() {
+        binding.finalizarSesion.setOnClickListener {
+            sharedPreferences.edit().putBoolean(RUTINA_TERMINADO, true).apply()
+            val intentVolverARutinas=Intent(context, RutinasActivity::class.java)
+            startActivity(intentVolverARutinas)
+        }
     }
 
     private fun ponerEjercicios() {
