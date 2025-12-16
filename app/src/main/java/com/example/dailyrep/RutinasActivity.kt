@@ -150,11 +150,16 @@ class RutinasActivity : AppCompatActivity() {
                         nombreRutina = nombreRutinaET,
                         creadorId = usuarioActualId
                     )
+                    var rutinaActualId:Long=0
                     withContext(Dispatchers.IO) {
-                        rutinaDao.insertAll(rutinaEjemplo)
+                        rutinaActualId=rutinaDao.insertAll(rutinaEjemplo)
                     }
                     val intentCambioACreadorR: Intent = Intent(context, CrearRutinaActivity::class.java)
+                    intentCambioACreadorR.apply {
+                        intentCambioACreadorR.putExtra(ID_RUTINA, rutinaActualId)
+                    }
                     startActivity(intentCambioACreadorR)
+
             }
             ponerRutinas()
         }

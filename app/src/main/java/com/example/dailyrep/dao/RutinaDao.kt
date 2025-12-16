@@ -23,6 +23,6 @@ interface RutinaDao {
     fun obtenerEjerciciosRutina(rutinaID:Long):List<Ejercicio>
 
     @Insert
-    fun insertAll(vararg rutinaEjemplo: Rutina)
+    fun insertAll(rutinaEjemplo: Rutina):Long
 
 }
