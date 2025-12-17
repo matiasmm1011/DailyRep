@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.room.Room
 import com.example.dailyrep.dao.EjercicioDao
+import com.example.dailyrep.dao.RachaDao
 import com.example.dailyrep.dao.RelacionEjeRutDao
 import com.example.dailyrep.dao.RutinaDao
 import com.example.dailyrep.dao.SerieDao
@@ -215,6 +216,7 @@ class DailyRepApp: Application() {
     lateinit var usuarioDao: UsuarioDao
     lateinit var usuarioActualId:String
     lateinit var serieDao: SerieDao
+    lateinit var rachaDao: RachaDao
     lateinit var database: DataBase
     lateinit var relacionEjeRutDao: RelacionEjeRutDao
 
@@ -233,6 +235,7 @@ class DailyRepApp: Application() {
         relacionEjeRutDao=database.relacionEjeRutDao()
         usuarioDao=database.usuarioDao()
         serieDao=database.serieDao()
+        rachaDao=database.rachaDao()
         verificarEInsertarDatosIniciales()
     }
     private fun verificarEInsertarDatosIniciales() {

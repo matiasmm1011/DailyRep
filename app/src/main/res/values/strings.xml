@@ -111,6 +111,8 @@
     <string name="IngresarNombreRutina">Ingresar nombre de la rutina</string>
     <string name="crearRutina">CREAR RUTINA</string>
     <string name="listo">LISTO</string>
+    <string name="editarDias">EDITAR DIAS\nSELECCIONADOS</string>
+    <string name="editar">EDITAR</string>
 
 
 </resources>
