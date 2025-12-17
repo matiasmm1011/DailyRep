@@ -126,6 +126,8 @@
     <string name="guardarCambios">GUARDAR CAMBIOS</string>
     <string name="guardarCambiosSP">Guardar</string>
     <string name="agregarNota">AGREGAR NOTA</string>
+    <string name="editarDias">EDITAR DIAS\nSELECCIONADOS</string>
+    <string name="editar">EDITAR</string>
 
 
 </resources>
