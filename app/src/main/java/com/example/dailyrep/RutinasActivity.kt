@@ -29,87 +29,97 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class RutinasActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityRutinasBinding
     private var listaRutinas: MutableList<Rutina> = mutableListOf<Rutina>()
     val rutinas = mutableSetOf<String>()
     private lateinit var rutinaDao: RutinaDao
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var auth: FirebaseAuth
-    companion object{
-        const val NOMBRE_RUTINA="nombre_rutina"
-        const val ID_RUTINA="id_rutina"
-        const val ID_USUARIO="id_usuario"
 
-        const val ULTIMA_RUTINA_ID="ultima_rutina_id"
-        const val ULTIMA_RUTINA_NOMBRE="ultima_rutina_nombre"
+    companion object {
+        const val NOMBRE_RUTINA = "nombre_rutina"
+        const val ID_RUTINA = "id_rutina"
+        const val ID_USUARIO = "id_usuario"
+        const val ULTIMA_RUTINA_ID = "ultima_rutina_id"
+        const val ULTIMA_RUTINA_NOMBRE = "ultima_rutina_nombre"
     }
 
-
     val context: Context = this
-    private lateinit var myApp:DailyRepApp
-
-    private lateinit var usuarioActualId:String
-    private val rutinasAdapter: RutinaAdapter by lazy{ RutinaAdapter({rutina ->
-        val intentComenzarEntrenamiento:Intent=Intent(context, EntrenamientoActivity::class.java)
-        sharedPreferences.edit().putString(ULTIMA_RUTINA_NOMBRE,rutina.nombreRutina).apply()
-        sharedPreferences.edit().putLong(ULTIMA_RUTINA_ID,rutina.id).apply()
-        sharedPreferences.edit().putBoolean(EN_ENTRENAMIENTO,true).apply()
-        intentComenzarEntrenamiento.apply{
-            intentComenzarEntrenamiento.putExtra(NOMBRE_RUTINA,rutina.nombreRutina)
-            intentComenzarEntrenamiento.putExtra(ID_RUTINA, rutina.id)
-            intentComenzarEntrenamiento.putExtra(ID_USUARIO,rutina.creadorId)
-        }
-        startActivity(intentComenzarEntrenamiento)
-        }
-        ,{rutina->
-            var listaRutinasActualizada=listOf<Rutina>()
-            lifecycleScope.launch{
-                withContext(Dispatchers.IO){
+    private lateinit var myApp: DailyRepApp
+    private lateinit var usuarioActualId: String
+    private val rutinasAdapter: RutinaAdapter by lazy {
+        RutinaAdapter({ rutina ->
+            val intentComenzarEntrenamiento: Intent =
+                Intent(context, EntrenamientoActivity::class.java)
+            sharedPreferences.edit().putString(ULTIMA_RUTINA_NOMBRE, rutina.nombreRutina).apply()
+            sharedPreferences.edit().putLong(ULTIMA_RUTINA_ID, rutina.id).apply()
+            sharedPreferences.edit().putBoolean(EN_ENTRENAMIENTO, true).apply()
+            intentComenzarEntrenamiento.apply {
+                intentComenzarEntrenamiento.putExtra(NOMBRE_RUTINA, rutina.nombreRutina)
+                intentComenzarEntrenamiento.putExtra(ID_RUTINA, rutina.id)
+                intentComenzarEntrenamiento.putExtra(ID_USUARIO, rutina.creadorId)
+            }
+            startActivity(intentComenzarEntrenamiento)
+        }, { rutina ->
+            val intentEditarRutina: Intent = Intent(context, EditarRutinaActivity::class.java)
+            intentEditarRutina.apply {
+                intentEditarRutina.putExtra(NOMBRE_RUTINA, rutina.nombreRutina)
+                intentEditarRutina.putExtra(ID_RUTINA, rutina.id)
+                intentEditarRutina.putExtra(ID_USUARIO, rutina.creadorId)
+            }
+            startActivity(intentEditarRutina)
+        }, { rutina ->
+            var listaRutinasActualizada = listOf<Rutina>()
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) {
                     rutinaDao.delete(rutina)
-                    listaRutinasActualizada=rutinaDao.getAll(usuarioActualId)
+                    listaRutinasActualizada = rutinaDao.getAll(usuarioActualId)
                 }
                 ponerRutinas()
-            }})}
+            }
+        }
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
         binding = ActivityRutinasBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        auth= Firebase.auth
-        val currentUser=auth.currentUser
-        if(currentUser!=null){
-            usuarioActualId=currentUser.uid
-        }else{
-            val intentLogin:Intent=Intent(context, LoginActivity::class.java)
+        auth = Firebase.auth
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            usuarioActualId = currentUser.uid
+        } else {
+            val intentLogin: Intent = Intent(context, LoginActivity::class.java)
             startActivity(intentLogin)
             finish()
             return
         }
         cambiarApartados()
-        sharedPreferences=getSharedPreferences(NOMBRE_FICHERO_SHARED_PREFERENCES,MODE_PRIVATE)
-        val enEntrenamiento=sharedPreferences.getBoolean(EN_ENTRENAMIENTO,false)
-        if(enEntrenamiento){
-            val ultimaRutinaId=sharedPreferences.getLong(ULTIMA_RUTINA_ID, 0)
-            val nombreRutina=sharedPreferences.getString(ULTIMA_RUTINA_NOMBRE,"")
-            val intentComenzarEntrenamiento:Intent=Intent(context, EntrenamientoActivity::class.java)
-            intentComenzarEntrenamiento.apply{
+        sharedPreferences =
+            getSharedPreferences(NOMBRE_FICHERO_SHARED_PREFERENCES, MODE_PRIVATE)
+        val enEntrenamiento = sharedPreferences.getBoolean(EN_ENTRENAMIENTO, false)
+        if (enEntrenamiento) {
+            val ultimaRutinaId = sharedPreferences.getLong(ULTIMA_RUTINA_ID, 0)
+            val nombreRutina = sharedPreferences.getString(ULTIMA_RUTINA_NOMBRE, "")
+            val intentComenzarEntrenamiento: Intent =
+                Intent(context, EntrenamientoActivity::class.java)
+            intentComenzarEntrenamiento.apply {
                 intentComenzarEntrenamiento.putExtra(NOMBRE_RUTINA, nombreRutina)
                 intentComenzarEntrenamiento.putExtra(ID_RUTINA, ultimaRutinaId)
-                intentComenzarEntrenamiento.putExtra(ID_USUARIO,usuarioActualId)
+                intentComenzarEntrenamiento.putExtra(ID_USUARIO, usuarioActualId)
             }
             startActivity(intentComenzarEntrenamiento)
             finish()
             return
         }
-        binding.recyclerRutinas.layoutManager= LinearLayoutManager(context)
+        binding.recyclerRutinas.layoutManager = LinearLayoutManager(context)
         binding.recyclerRutinas.adapter = rutinasAdapter
         myApp = applicationContext as DailyRepApp
         rutinaDao = myApp.rutinaDao
@@ -137,7 +147,8 @@ class RutinasActivity : AppCompatActivity() {
         val density = resources.displayMetrics.density
         return (dp * density).toInt()
     }
-    fun mostrarCrearRutina(ancla: View){
+
+    fun mostrarCrearRutina(ancla: View) {
         val bindingMenu = MenuCrearRutinaBinding.inflate(layoutInflater)
         val ancho = dpToPx(250)
         val altura = dpToPx(150)
@@ -154,40 +165,38 @@ class RutinasActivity : AppCompatActivity() {
         bindingMenu.buttonCrearRutinaPP.setOnClickListener {
             val nombreRutinaET: String = bindingMenu.etNombreRutina.text.toString()
             popupWindow.dismiss()
-                lifecycleScope.launch(Dispatchers.IO) {
-                    val rutinaEjemplo = Rutina(
-                        id = 0,
-                        nombreRutina = nombreRutinaET,
-                        creadorId = usuarioActualId
-                    )
-                    var rutinaActualId:Long=0
-                    withContext(Dispatchers.IO) {
-                        rutinaActualId=rutinaDao.insertAll(rutinaEjemplo)
-                    }
-                    val intentCambioACreadorR: Intent = Intent(context, CrearRutinaActivity::class.java)
-                    intentCambioACreadorR.apply {
-                        intentCambioACreadorR.putExtra(ID_RUTINA, rutinaActualId)
-                    }
-                    startActivity(intentCambioACreadorR)
-
+            lifecycleScope.launch(Dispatchers.IO) {
+                val rutinaEjemplo = Rutina(
+                    id = 0,
+                    nombreRutina = nombreRutinaET,
+                    creadorId = usuarioActualId
+                )
+                var rutinaActualId: Long = 0
+                withContext(Dispatchers.IO) {
+                    rutinaActualId = rutinaDao.insertAll(rutinaEjemplo)
+                }
+                val intentCambioACreadorR: Intent =
+                    Intent(context, CrearRutinaActivity::class.java)
+                intentCambioACreadorR.apply {
+                    intentCambioACreadorR.putExtra(ID_RUTINA, rutinaActualId)
+                }
+                startActivity(intentCambioACreadorR)
             }
             ponerRutinas()
         }
-
-
     }
 
     private fun cambiarApartados() {
         binding.apartadoPerfil.setOnClickListener {
-            val cambiarAPerfilIntent: Intent =Intent(context, PerfilActivity::class.java)
+            val cambiarAPerfilIntent: Intent = Intent(context, PerfilActivity::class.java)
             startActivity(cambiarAPerfilIntent)
         }
         binding.apartadoEjercicios.setOnClickListener {
-            val cambiarAEjerciciosIntent:Intent=Intent(context, EjerciciosActivity::class.java)
+            val cambiarAEjerciciosIntent: Intent = Intent(context, EjerciciosActivity::class.java)
             startActivity(cambiarAEjerciciosIntent)
         }
-        binding.apartadoProgreso.setOnClickListener{
-            val cambiarAProgresoIntent: Intent =Intent(context, ProgresoActivity::class.java)
+        binding.apartadoProgreso.setOnClickListener {
+            val cambiarAProgresoIntent: Intent = Intent(context, ProgresoActivity::class.java)
             startActivity(cambiarAProgresoIntent)
         }
     }

@@ -3,5 +3,5 @@ package com.example.dailyrep.dataclases
 data class itemEntrenamiento(
     val relacion: RelacionEjeRut,
     val ejercicio: Ejercicio,
-    val series: List<SeriePlanificada>
+    val series: MutableList<SeriePlanificada>
 )

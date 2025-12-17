@@ -16,6 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DailyRep">
         <activity
+            android:name=".adapters.EditarRutinaAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".EditarRutinaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".adapters.serieTablaAdapter"
+            android:exported="false" />
+        <activity
             android:name=".adapters.EjercicioCreadorRutinaAdapter"
             android:exported="false" />
         <activity

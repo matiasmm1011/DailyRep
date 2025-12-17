@@ -86,8 +86,6 @@ class CrearRutinaActivity : AppCompatActivity() {
         crearRutina()
     }
 
-
-
     fun crearRutina(){
         binding.botonCrearRutina.setOnClickListener {
             val listaEjeRut: MutableList<RelacionEjeRut> = mutableListOf()

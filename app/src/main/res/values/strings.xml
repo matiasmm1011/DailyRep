@@ -111,6 +111,21 @@
     <string name="IngresarNombreRutina">Ingresar nombre de la rutina</string>
     <string name="crearRutina">CREAR RUTINA</string>
     <string name="listo">LISTO</string>
+    <string name="series">Series</string>
+    <string name="repeticiones">Repeticiones</string>
+    <string name="pesos">Peso</string>
+    <string name="unidad">Unidad</string>
+    <string name="agregarSerie">AGREGAR SERIE</string>
+    <string name="disminuirSerie">DISMINUIR SERIE</string>
+    <string name="ejemploNombreNota">SEMANA 10-14 NOV</string>
+    <string name="ingresarNota">INGRESA TU NOTA AQUI</string>
+    <string name="guardarNota">GUARDAR NOTA</string>
+    <string name="nroSerieEjemplo">1</string>
+    <string name="NroReps">10</string>
+    <string name="CantPeso">80</string>
+    <string name="guardarCambios">GUARDAR CAMBIOS</string>
+    <string name="guardarCambiosSP">Guardar</string>
+    <string name="agregarNota">AGREGAR NOTA</string>
 
 
 </resources>

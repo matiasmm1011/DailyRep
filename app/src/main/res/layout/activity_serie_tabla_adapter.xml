@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="@color/fondoPantallas">
+
+    <TextView
+        android:id="@+id/tvSerie"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/nroSerieEjemplo"
+        android:textColor="@color/textos"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/etReps"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.6"
+        android:hint="@string/NroReps"
+        android:textColor="@color/textos"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/etPeso"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:hint="@string/CantPeso"
+        android:textColor="@color/textos"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:text="@string/kg"
+        android:textColor="@color/textos"
+        android:gravity="center"/>
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:src="@drawable/guardar"
+        android:tint="@color/naranja">
+
+    </ImageView>
+
+</LinearLayout>
