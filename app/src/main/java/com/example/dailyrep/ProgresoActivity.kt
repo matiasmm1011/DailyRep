@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.dailyrep.dao.RachaDao
+import com.example.dailyrep.dao.SerieDao
 import com.example.dailyrep.dao.UsuarioDao
 import com.example.dailyrep.databinding.ActivityProgresoBinding
 import com.example.dailyrep.dataclases.DiasObjetivoUsuario
@@ -42,6 +43,7 @@ class ProgresoActivity : AppCompatActivity() {
     var listaDias=mutableSetOf<Int>()
     private var editandoDias=false
     val context: Context =this
+    private lateinit var serieDao: SerieDao
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -68,6 +70,7 @@ class ProgresoActivity : AppCompatActivity() {
         myApp=applicationContext as DailyRepApp
         usuarioDao=myApp.usuarioDao
         rachaDao=myApp.rachaDao
+        serieDao=myApp.serieDao
         ponerEntrenamientosCompletados()
         ponerDiasSeleccionados()
         cambiarApartados()
@@ -79,6 +82,32 @@ class ProgresoActivity : AppCompatActivity() {
         setupDiaButton(binding.S, 5)
         setupDiaButton(binding.D, 6)
         editarDiasSeleccionados()
+        ponerPRs()
+    }
+
+    private fun ponerPRs() {
+        lifecycleScope.launch{
+            var prPressBanca:Int?=null
+            var prSentadilla:Int?=null
+            var prPesoMuerto:Int?=null
+            withContext(Dispatchers.IO){
+                prSentadilla=serieDao.obtenerPRMaximo(usuarioActualId, "Sentadilla Libre")
+                prPesoMuerto=serieDao.obtenerPRMaximo(usuarioActualId,"Peso Muerto Convencional")
+                prPressBanca=serieDao.obtenerPRMaximo(usuarioActualId, "Press de Banca con Barra")
+            }
+            if(prPressBanca!=null){
+                val textoPr="$prPressBanca Kg"
+                binding.pesoPressBanca.setText(textoPr)
+            }
+            if(prSentadilla!=null){
+                val textoPr="$prSentadilla Kg"
+                binding.pesoSentadilla.setText(textoPr)
+            }
+            if(prPesoMuerto!=null){
+                val textoPr="$prPesoMuerto Kg"
+                binding.pesoPesoMuerto.setText(textoPr)
+            }
+        }
     }
 
     private fun setupDiaButton(boton: View, indiceDia:Int) {
