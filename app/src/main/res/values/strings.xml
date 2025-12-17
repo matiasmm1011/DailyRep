@@ -113,6 +113,9 @@
     <string name="listo">LISTO</string>
     <string name="editarDias">EDITAR DIAS\nSELECCIONADOS</string>
     <string name="editar">EDITAR</string>
+    <string name="IngresarNombreEjercicio">Ingresar el nombre del ejercicio</string>
+    <string name="selecciona_parte_cuerpo">Selecciona que parte del cuerpo trabaja el ejercicio a crear</string>
+    <string name="selecciona_tipo_ejercicio">Selecciona el tipo de ejericios que estas creando</string>
 
 
 </resources>

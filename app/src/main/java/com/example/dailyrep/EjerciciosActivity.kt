@@ -21,15 +21,21 @@ import com.example.dailyrep.dataclases.Ejercicio
 import com.google.android.material.chip.Chip
 import androidx.core.graphics.drawable.toDrawable
 import androidx.lifecycle.lifecycleScope
+import com.example.dailyrep.dao.EjercicioDao
+import com.example.dailyrep.dao.EjercicioFavoritoDao
+import com.example.dailyrep.databinding.MenuCrearEjercicioBinding
+import com.example.dailyrep.dataclases.EjercicioFavorito
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class EjerciciosActivity : AppCompatActivity() {
    private lateinit var binding: ActivityEjerciciosBinding
    private lateinit var listaEjercicios:List<Ejercicio>
-   private val usuarioActualId = "usuario_prueba_1"
+   private lateinit var usuarioActualId:String
     private lateinit var myApp: DailyRepApp
     companion object{
         const val NOMBRE_EJERCICIO="nombre_ejercicio"
@@ -38,9 +44,10 @@ class EjerciciosActivity : AppCompatActivity() {
         const val PARTE_CUERPO_EJERCICIO="parte_cuerpo_ejercicio"
         const val IMAGEN_EJERCICIO="imagen_ejercicio"
 
+        const val ID_USUARIO="id_usuario"
+
     }
-   private val ejercicioAdapter: EjercicioAdapter by lazy{ EjercicioAdapter{
-       ejercicioClickeado ->
+   private val ejercicioAdapter: EjercicioAdapter by lazy{ EjercicioAdapter({ejercicioClickeado ->
 
        val intent = Intent(this, DescripcionEjercicioActivity::class.java)
        intent.apply {
@@ -51,13 +58,17 @@ class EjerciciosActivity : AppCompatActivity() {
            intent.putExtra(PARTE_CUERPO_EJERCICIO, ejercicioClickeado.parteCuerpo)
        }
        startActivity(intent)
-   }
+   }, {ejercicioClickeado->
+       ponerOQuitarEjercicioDeFavoritos(ejercicioClickeado)})
    }
     val context: Context =this
     val filtrosParteCuerpo=mutableSetOf<String>()
     val filtrosTipoEjercicio=mutableSetOf<String>()
     var favorito=false
+    private lateinit var auth: FirebaseAuth
     var textoEnBuscador:String?=null
+    private lateinit var ejercicioDao: EjercicioDao
+    private lateinit var ejercicioFavoritoDao: EjercicioFavoritoDao
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -71,11 +82,56 @@ class EjerciciosActivity : AppCompatActivity() {
         binding.recyclerEjercicios.layoutManager= LinearLayoutManager(context)
         binding.recyclerEjercicios.adapter=ejercicioAdapter
         myApp=applicationContext as DailyRepApp
+        ejercicioDao=myApp.ejercicioDao
+        auth= Firebase.auth
+        val currentUser=auth.currentUser
+        if(currentUser!=null){
+            usuarioActualId=currentUser.uid
+        }else{
+            val intentLogin:Intent=Intent(context, LoginActivity::class.java)
+            startActivity(intentLogin)
+            finish()
+            return
+        }
+        ejercicioFavoritoDao=myApp.ejercicioFavoritoDao
         actualizarLista()
         ponerFiltros()
         buscador()
+        agregarEjercicio()
         cambiarApartados()
     }
+
+    private fun agregarEjercicio() {
+        binding.agregarEjercicio.setOnClickListener {
+            mostrarCrearEjercicio(binding.agregarEjercicio)
+        }
+    }
+    private fun mostrarCrearEjercicio(ancla: View){
+        val bindingMenu = MenuCrearEjercicioBinding.inflate(layoutInflater)
+        val ancho = dpToPx(250)
+        val altura = dpToPx(150)
+        val popupWindow = PopupWindow(
+            bindingMenu.root,
+            ancho,
+            altura,
+            true
+        )
+        val xoff = ancla.width - ancho
+        popupWindow.elevation = 10f
+        popupWindow.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
+        popupWindow.showAsDropDown(ancla, xoff, 0)
+        bindingMenu.buttonCrearEjercicio.setOnClickListener {
+            val nombreRutinaET: String = bindingMenu.etNombreEjercicio.text.toString()
+            popupWindow.dismiss()
+                val intentCambioACreadorEjercicio: Intent = Intent(context, CrearEjercicioActivity1::class.java)
+                intentCambioACreadorEjercicio.apply {
+                    intentCambioACreadorEjercicio.putExtra(ID_USUARIO,usuarioActualId)
+                    intentCambioACreadorEjercicio.putExtra(NOMBRE_EJERCICIO,nombreRutinaET)
+                }
+                startActivity(intentCambioACreadorEjercicio)
+
+            }
+        }
 
     private fun cambiarApartados() {
         val intentCambioRutinas: Intent = Intent(context, RutinasActivity::class.java)
@@ -91,7 +147,22 @@ class EjerciciosActivity : AppCompatActivity() {
             startActivity(cambiarAPerfilIntent)
         }
     }
+    private fun ponerOQuitarEjercicioDeFavoritos(ejercicio: Ejercicio){
+        lifecycleScope.launch {
+            val ejercicioFavorito= EjercicioFavorito(usuarioActualId, ejercicio.id)
+            withContext(Dispatchers.IO){
+                val esFavorito= ejercicioFavoritoDao.esFavorito(usuarioActualId,ejercicio.id)
+                if(esFavorito){
+                    ejercicioFavoritoDao.borrarEjercicioDeFavoritos(ejercicioFavorito)
+                }else{
+                    ejercicioFavoritoDao.insertarEjercicioAFavoritos(ejercicioFavorito)
+                }
+            }
+            actualizarLista()
 
+        }
+
+    }
     fun mostrarMenuParteCuerpo(ancla: View){
         val bindingMenu= MenuParteCuerpoBinding.inflate(layoutInflater)
         val ancho = dpToPx(250)

@@ -16,6 +16,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DailyRep">
         <activity
+            android:name=".CrearEjercicioActivity3"
+            android:exported="false" />
+        <activity
+            android:name=".CrearEjercicio3Activity"
+            android:exported="false" />
+        <activity
+            android:name=".CrearEjercicioActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".CrearEjercicioActivity1"
+            android:exported="false" />
+        <activity
             android:name=".adapters.EjercicioCreadorRutinaAdapter"
             android:exported="false" />
         <activity
