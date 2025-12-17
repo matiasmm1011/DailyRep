@@ -11,7 +11,8 @@ import com.example.dailyrep.databinding.ActivityAdapterEjercicioBinding
 import com.example.dailyrep.dataclases.Ejercicio
 
 class EjercicioAdapter(
-    private val onEjercicioClick: (Ejercicio) -> Unit): RecyclerView.Adapter<EjercicioAdapter.EjercicioViewHolder>() {
+    private val onEjercicioClick: (Ejercicio) -> Unit,
+private val onCorazonCLick: (Ejercicio)-> Unit): RecyclerView.Adapter<EjercicioAdapter.EjercicioViewHolder>() {
     private var context: Context? = null
     private var listaEjercicios: MutableList<Ejercicio> = mutableListOf<Ejercicio>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EjercicioViewHolder {
@@ -68,7 +69,11 @@ class EjercicioAdapter(
             }
             binding.parteCuerpo.setImageResource(iconoParteCuerpo)
             binding.tipoEjercicio.setImageResource(iconoTipoEjercicio)
+            binding.corazon.setOnClickListener {
+                onCorazonCLick(ejercicio)
+            }
         }
+
     }
     fun ponerListaEjercicios(nuevaLista: List<Ejercicio>) {
         listaEjercicios.clear()

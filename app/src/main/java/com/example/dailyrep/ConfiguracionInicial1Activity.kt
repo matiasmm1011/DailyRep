@@ -75,8 +75,6 @@ class ConfiguracionInicial1Activity : AppCompatActivity() {
             }
             startActivity(intentCambioConfig2)
         }
-
-
     }
 
 

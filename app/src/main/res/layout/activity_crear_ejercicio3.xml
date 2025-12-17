@@ -5,70 +5,57 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EntrenamientoActivity"
-    android:background="@color/fondoPantallas"
-    android:orientation="vertical"
-    android:weightSum="30">
-
-    <TextView
-        android:id="@+id/nombreRutina"
+    tools:context=".CrearEjercicioActivity3"
+    android:orientation="vertical">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3.5"
-        android:text="@string/nombreRutina"
-        android:textColor="@color/textos"
-        android:textSize="40sp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:textStyle="bold">
-
-    </TextView>
-    <TextView
-        android:id="@+id/sesionEntrenamiento"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:text="@string/sesionEntrenamiento"
-        android:textColor="@color/textos"
-        android:textSize="30dp"
-        android:layout_marginStart="20dp">
-    </TextView>
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="22">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerEjerciciosEntrenamiento"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </androidx.recyclerview.widget.RecyclerView>
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2.5"
-        app:cardCornerRadius="10dp"
-        app:cardBackgroundColor="@color/naranja"
-        android:layout_margin="10dp">
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:background="@color/fondoPantallas">
         <TextView
-            android:id="@+id/finalizarSesion"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/finalizarSesion"
-            android:layout_gravity="center"
-            android:textSize="20sp"
-            android:textColor="@color/textos">
-
+            android:text="@string/insertarDescripcion"
+            android:textSize="40sp"
+            android:layout_margin="20dp">
         </TextView>
-
-    </androidx.cardview.widget.CardView>
-
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="30dp"
+            android:layout_margin="30dp"
+            android:layout_marginBottom="40dp">
+        <EditText
+            android:id="@+id/descripcion"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:lines="10"
+            android:textColorHint="@color/textos"
+            android:textStyle="bold"
+            android:hint="@string/introducirDescripcion"
+            android:background="@color/buscador">
+        </EditText>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="250dp"
+            android:layout_height="90dp"
+            app:cardCornerRadius="40dp"
+            android:layout_gravity="center_horizontal">
+            <TextView
+                android:id="@+id/crearEjercicio"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/textos"
+                android:gravity="center"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:background="@color/naranja"
+                android:text="@string/crearEjercicio">
+            </TextView>
+        </androidx.cardview.widget.CardView>
+</LinearLayout>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="96dp"
@@ -108,7 +95,7 @@
                 android:id="@+id/textoRutinas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/naranja"
+                android:textColor="@color/textos"
                 android:text="@string/rutinas"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -127,13 +114,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:paddingBottom="25dp"
                 app:layout_constraintHorizontal_bias="0.34"
-                app:tint="@color/naranja">
+                app:tint="@color/textos">
             </ImageView>
             <TextView
                 android:id="@+id/textoProgreso"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textos"
+                android:textColor="@color/naranja"
                 android:text="@string/progreso"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -152,7 +139,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:paddingBottom="25dp"
                 app:layout_constraintHorizontal_bias="0.66"
-                app:tint="@color/textos">
+                app:tint="@color/naranja">
             </ImageView>
             <TextView
                 android:layout_width="wrap_content"
@@ -178,5 +165,4 @@
             </ImageView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-
 </LinearLayout>

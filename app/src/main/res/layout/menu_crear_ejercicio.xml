@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
+    android:layout_height="150dp"
+    android:weightSum="4"
+    android:orientation="vertical"
+    android:background="@color/textos"
+    android:backgroundTint="@color/cuadros">
+    <EditText
+        android:id="@+id/et_nombre_ejercicio"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:hint="@string/IngresarNombreEjercicio"
+        android:textColorHint="@color/plomo"
+        android:paddingStart="10dp">
+    </EditText>
+    <Button
+        android:id="@+id/button_crearEjercicio"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:layout_marginTop="10dp"
+        android:text="@string/listo"
+        android:textColor="@color/textos"
+        android:backgroundTint="@color/naranja"
+        android:layout_gravity="center_horizontal">
+
+    </Button>
+</LinearLayout>

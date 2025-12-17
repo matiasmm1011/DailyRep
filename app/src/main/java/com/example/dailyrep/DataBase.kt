@@ -3,6 +3,7 @@ package com.example.dailyrep
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.example.dailyrep.dao.EjercicioDao
+import com.example.dailyrep.dao.EjercicioFavoritoDao
 import com.example.dailyrep.dao.RachaDao
 import com.example.dailyrep.dao.RelacionEjeRutDao
 import com.example.dailyrep.dao.RutinaDao
@@ -25,4 +26,5 @@ abstract class DataBase: RoomDatabase(){
     abstract fun rachaDao(): RachaDao
     abstract fun serieDao(): SerieDao
     abstract fun relacionEjeRutDao(): RelacionEjeRutDao
+    abstract fun ejercicioFavoritoDao(): EjercicioFavoritoDao
 }

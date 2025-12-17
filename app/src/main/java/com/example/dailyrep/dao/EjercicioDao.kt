@@ -23,4 +23,7 @@ interface EjercicioDao {
     suspend fun obtenerIdsFavoritos(usuarioId:String):List<Long>
     @Insert
     fun insertAll(vararg ejercicio:Ejercicio)
+
+
+
 }
