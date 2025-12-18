@@ -28,7 +28,7 @@ class EditarRutinaAdapter(
     private val onGuardarCambiosClick: (SeriePlanificada, mandarPesoNuevo: Int, mandarRepsNuevas: Int) -> Unit,
     private val onBorrarEjercicioClick: (itemEntrenamiento) -> Unit,
     private val onGuardarNotasClick: (itemEntrenamiento, mandarNotaNueva: String) -> Unit,
-    private val onBorrarNotasClick: (itemEntrenamiento) -> Unit,
+    private val onBorrarNotasClick: (itemEntrenamiento) -> Unit
     ): RecyclerView.Adapter<EditarRutinaAdapter.EjercicioEditarRutinaViewHolder>() {
     private var context: Context? = null
     private var listaEjerciciosEntrenamiento: MutableList<itemEntrenamiento> = mutableListOf()

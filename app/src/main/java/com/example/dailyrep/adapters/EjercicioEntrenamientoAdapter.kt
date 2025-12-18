@@ -27,7 +27,10 @@ import kotlinx.coroutines.withContext
 
 class EjercicioEntrenamientoAdapter(
     private val onTresPuntosClick: (View, itemEntrenamiento) -> Unit,
-    private val onCheckClick:(SeriePlanificada,Int,Int)->Unit
+    private val onCheckClick:(SeriePlanificada,Int,Int)->Unit,
+    private val onGuardarNotasClick: (itemEntrenamiento, mandarNotaNueva: String) -> Unit,
+    private val onBorrarNotasClick: (itemEntrenamiento) -> Unit,
+    private val onMostrarNotasClick: (itemEntrenamiento) -> Unit
 ) : RecyclerView.Adapter<EjercicioEntrenamientoAdapter.EjercicioEntrenamientoViewHolder>() {
 
     private var context: Context? = null
@@ -42,11 +45,14 @@ class EjercicioEntrenamientoAdapter(
             )
         )
     }
-    override fun onBindViewHolder(holder: EjercicioEntrenamientoAdapter.EjercicioEntrenamientoViewHolder, position: Int) {
-        val itemEntrenamiento=listaEjerciciosEntrenamiento[position]
+    override fun onBindViewHolder(
+        holder: EjercicioEntrenamientoAdapter.EjercicioEntrenamientoViewHolder,
+        position: Int
+    ) {
+        val itemEntrenamiento = listaEjerciciosEntrenamiento[position]
         holder.binding(itemEntrenamiento)
-
     }
+
 
     override fun getItemCount(): Int = listaEjerciciosEntrenamiento.size
 
@@ -55,23 +61,45 @@ class EjercicioEntrenamientoAdapter(
             private val serieAdapter: SerieAdapter by lazy{
                 SerieAdapter(onCheckClick)
             }
-            fun binding(item: itemEntrenamiento) {
-            if(binding.recyclerSeries.adapter == null){
-                binding.recyclerSeries.layoutManager= LinearLayoutManager(context)
-                binding.recyclerSeries.adapter=serieAdapter
-            }
-                if(item.relacion.notas!=null){
-                    binding.notas.visibility= View.VISIBLE
-                    binding.descripcionNotas.setText(item.relacion.notas)
-                }
-                val nombreEjercicio=item.ejercicio.nombre
-                val listaSeries=item.series
-            serieAdapter.ponerListaSeries(listaSeries)
-            binding.nombreEjercicio.setText(nombreEjercicio)
-                binding.editarRutinaEnEntrenamiento.setOnClickListener {
-                    onTresPuntosClick(it, item)
-                }
+        fun mostrarNotas(item: itemEntrenamiento) {
+            binding.tituloNotas.visibility = View.VISIBLE
+            binding.apartadoNotas.visibility = View.VISIBLE
+            binding.agregarNotas.setText(item.relacion.notas ?: "")
         }
+
+        fun ocultarNotas() {
+            binding.tituloNotas.visibility = View.GONE
+            binding.apartadoNotas.visibility = View.GONE
+        }
+
+        fun binding(item: itemEntrenamiento) {
+            if (binding.recyclerSeries.adapter == null) {
+                binding.recyclerSeries.layoutManager = LinearLayoutManager(context)
+                binding.recyclerSeries.adapter = serieAdapter
+            }
+            serieAdapter.ponerListaSeries(item.series)
+            binding.nombreEjercicio.text = item.ejercicio.nombre
+            if (item.relacion.notas != null) {
+                mostrarNotas(item)
+            } else {
+                ocultarNotas()
+            }
+            binding.editarRutinaEnEntrenamiento.setOnClickListener {
+                onTresPuntosClick(it, item)
+            }
+            binding.guardarNotas.setOnClickListener {
+                val notaNueva = binding.agregarNotas.text.toString()
+                if (notaNueva.isNotBlank()) {
+                    onGuardarNotasClick(item, notaNueva)
+                    ocultarNotas()
+                }
+            }
+            binding.borrarNotas.setOnClickListener {
+                onBorrarNotasClick(item)
+                ocultarNotas()
+            }
+        }
+
     }
     fun ponerListaEjercicios(nuevaLista: List<itemEntrenamiento>) {
         listaEjerciciosEntrenamiento.clear()

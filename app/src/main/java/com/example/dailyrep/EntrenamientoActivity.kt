@@ -75,7 +75,28 @@ class EntrenamientoActivity : AppCompatActivity() {
                     }
                     ejercicioEntrenamientoAdapter.notifyDataSetChanged()
                 }
-            })
+            },{itemEntr, notaNueva ->
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO) {
+                        val relacionEjeRut = itemEntr.relacion
+                        relacionEjeRut.notas = notaNueva
+                        relacionEjeRutDao.actualizarNotas(relacionEjeRut)
+                    }
+                    ponerEjercicios()
+                }
+            },{itemEntr->
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO) {
+                        val relacionEjeRut = itemEntr.relacion
+                        relacionEjeRut.notas = null
+                        relacionEjeRutDao.actualizarNotas(relacionEjeRut)
+                    }
+                    ponerEjercicios()
+                }
+            },{
+
+            }
+        )
     }
 
 
@@ -249,7 +270,10 @@ class EntrenamientoActivity : AppCompatActivity() {
             popupWindow.dismiss()
         }
         bindingMenu.botonAgregarNotasPP.setOnClickListener {
-            // Agregar notas
+            if (item.relacion.notas == null) {
+                item.relacion.notas = ""
+            }
+            ejercicioEntrenamientoAdapter.notifyDataSetChanged()
             popupWindow.dismiss()
         }
     }

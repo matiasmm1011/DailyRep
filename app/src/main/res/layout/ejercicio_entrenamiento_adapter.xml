@@ -50,45 +50,73 @@
             android:layout_height="match_parent">
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
-    <androidx.cardview.widget.CardView
-        android:id="@+id/notas"
+    <TextView
+        android:layout_marginTop="15dp"
+        android:id="@+id/tituloNotas"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        app:cardCornerRadius="15dp"
-        app:cardBackgroundColor="@color/cuadros"
-        android:layout_margin="10dp"
+        android:layout_height="wrap_content"
+        android:text="@string/notas"
+        android:textColor="@color/textos"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/apartadoNotas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/cuadros"
+        app:cardCornerRadius="20dp"
         android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:weightSum="3"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            >
+            android:weightSum="15">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/notas"
-                android:textSize="20sp"
-                android:paddingStart="10dp"
-                android:textColor="@color/textos">
+                android:layout_weight="7"
+                android:orientation="horizontal"
+                android:weightSum="30">
 
-            </TextView>
-            <TextView
-                android:id="@+id/descripcionNotas"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="20"
+                    android:paddingStart="12dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/nada"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/guardarNotas"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:paddingTop="3dp"
+                    android:src="@drawable/guardar"
+                    app:tint="@color/naranja" />
+
+                <ImageView
+                    android:id="@+id/borrarNotas"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:paddingTop="3dp"
+                    android:src="@drawable/eliminar_rutina"
+                    app:tint="@color/naranja" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/agregarNotas"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
-                android:text="@string/notasMensaje"
-                android:textSize="15sp"
-                android:paddingTop="5dp"
+                android:layout_weight="7.5"
                 android:paddingStart="10dp"
-                android:paddingEnd="20dp"
-                android:textColor="@color/textos">
-
-            </TextView>
+                android:hint="@string/ingresarNota" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>

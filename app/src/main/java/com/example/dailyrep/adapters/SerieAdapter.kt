@@ -28,7 +28,6 @@ class SerieAdapter(private val onCheckClick: (SeriePlanificada,Int,Int)->Unit)
     override fun onBindViewHolder(holder: SerieAdapter.SerieViewHolder, position: Int) {
         val serie=listaSeries[position]
         holder.binding(serie)
-
     }
 
     override fun getItemCount(): Int = listaSeries.size
