@@ -32,7 +32,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class EjerciciosActivity : AppCompatActivity() {
+class
+EjerciciosActivity : AppCompatActivity() {
    private lateinit var binding: ActivityEjerciciosBinding
    private lateinit var listaEjercicios:List<Ejercicio>
    private lateinit var usuarioActualId:String

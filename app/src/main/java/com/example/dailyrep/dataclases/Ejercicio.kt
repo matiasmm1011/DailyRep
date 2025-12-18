@@ -14,7 +14,8 @@ data class Ejercicio(
     @ColumnInfo(name="descripcion")var descripcion:String,
     @ColumnInfo(name="esPredeterminado")val esPredeterminado: Boolean = true,
     @ColumnInfo(name="creadorId")val creadorId: String? = null,
-    @ColumnInfo(name="nombreImagen")val nombreImagen: String? = null
+    @ColumnInfo(name="nombreImagen")val nombreImagen: String? = null,
+    @ColumnInfo(name="esCardio")val esCardio: Boolean
 
 ){
     @Ignore

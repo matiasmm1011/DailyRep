@@ -73,6 +73,8 @@ class EjercicioEntrenamientoAdapter(
         }
 
         fun binding(item: itemEntrenamiento) {
+            val esCardio = item.ejercicio.esCardio
+            val serieAdapter = SerieAdapter(esCardio, onCheckClick)
             if (binding.recyclerSeries.adapter == null) {
                 binding.recyclerSeries.layoutManager = LinearLayoutManager(context)
                 binding.recyclerSeries.adapter = serieAdapter

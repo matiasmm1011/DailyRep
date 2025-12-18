@@ -204,6 +204,7 @@ class EntrenamientoActivity : AppCompatActivity() {
     }
 
     private fun mostrarPPtresPuntos(ancla: View, item: itemEntrenamiento) {
+        val esCardio = item.ejercicio.esCardio
         val bindingMenu = MenuEditarRutinaBinding.inflate(layoutInflater)
         val popupWindow = PopupWindow(
             bindingMenu.root,
@@ -221,13 +222,25 @@ class EntrenamientoActivity : AppCompatActivity() {
                     val idRelacion = item.relacion.id
                     val ultimo = serieDao.obtenerUltimoNumeroSerie(idRelacion) ?: 0
                     val siguienteNumeroSerie = ultimo + 1
-                    val nuevaSerie = SeriePlanificada(
-                        id = 0L,
-                        relacionId = idRelacion,
-                        numeroSerie = siguienteNumeroSerie,
-                        repeticiones = 10,
-                        peso = 50, false
-                    )
+                    val nuevaSerie = if (esCardio) {
+                        SeriePlanificada(
+                            id = 0L,
+                            relacionId = idRelacion,
+                            numeroSerie = siguienteNumeroSerie,
+                            repeticiones = 30,
+                            peso = 0,
+                            completado = false
+                        )
+                    } else {
+                        SeriePlanificada(
+                            id = 0L,
+                            relacionId = idRelacion,
+                            numeroSerie = siguienteNumeroSerie,
+                            repeticiones = 10,
+                            peso = 50,
+                            completado = false
+                        )
+                    }
                     serieDao.insert(nuevaSerie)
                     val seriesActualizadas = serieDao.obtenerSeries(idRelacion)
                     item.series.clear()
