@@ -29,6 +29,7 @@ import com.example.dailyrep.databinding.ActivityEntrenamientoBinding
 import com.example.dailyrep.databinding.MenuEditarRutinaBinding
 import com.example.dailyrep.dataclases.Ejercicio
 import com.example.dailyrep.dataclases.HistorialEntrenamiento
+import com.example.dailyrep.dataclases.SeriePlanificada
 import com.example.dailyrep.dataclases.itemEntrenamiento
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -47,11 +48,11 @@ class EntrenamientoActivity : AppCompatActivity() {
     private lateinit var myApp: DailyRepApp
     private var nombreRutina: String? = null
     private lateinit var rutinaDao: RutinaDao
-    private lateinit var serieDao: SerieDao
     private lateinit var usuarioDao: UsuarioDao
     private lateinit var ejercicioDao: EjercicioDao
     private lateinit var relacionEjeRutDao: RelacionEjeRutDao
     private lateinit var historialDao: HistorialDao
+    private lateinit var serieDao: SerieDao
     private var rutinaId: Long= 0
     private lateinit var auth: FirebaseAuth
     companion object{
@@ -61,8 +62,18 @@ class EntrenamientoActivity : AppCompatActivity() {
         { view, item ->
         mostrarPPtresPuntos(view, item)
     }
-
         ) }
+    private val ejercicioEntrenamientoAdapter: EjercicioEntrenamientoAdapter by lazy{ EjercicioEntrenamientoAdapter(
+        { serie ->
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) {
+                    val completado=serie.completado
+                    serie.completado= !completado
+                    serieDao.actualizarSerie(serie)
+                }
+                ejercicioEntrenamientoAdapter.notifyDataSetChanged()
+            }
+        }) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

@@ -28,6 +28,7 @@ import kotlinx.coroutines.withContext
 class EjercicioEntrenamientoAdapter(
     private val onTresPuntosClick: (View, itemEntrenamiento) -> Unit
 ) : RecyclerView.Adapter<EjercicioEntrenamientoAdapter.EjercicioEntrenamientoViewHolder>() {
+class EjercicioEntrenamientoAdapter(private val onCheckClick:(SeriePlanificada)->Unit): RecyclerView.Adapter<EjercicioEntrenamientoAdapter.EjercicioEntrenamientoViewHolder>() {
     private var context: Context? = null
     private var listaEjerciciosEntrenamiento: MutableList<itemEntrenamiento> = mutableListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EjercicioEntrenamientoViewHolder {
@@ -51,7 +52,7 @@ class EjercicioEntrenamientoAdapter(
     inner class EjercicioEntrenamientoViewHolder(private val binding: EjercicioEntrenamientoAdapterBinding) :
         RecyclerView.ViewHolder(binding.root) {
             private val serieAdapter: SerieAdapter by lazy{
-                SerieAdapter()
+                SerieAdapter(onCheckClick)
             }
             fun binding(item: itemEntrenamiento) {
             if(binding.recyclerSeries.adapter == null){
