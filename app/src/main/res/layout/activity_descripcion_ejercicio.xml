@@ -49,7 +49,7 @@
                 android:id="@+id/imagenEjercicio"
                 android:layout_width="match_parent"
                 android:layout_height="210dp"
-                android:src="@drawable/mancuernas">
+                android:src="@drawable/imagen_predeterminada">
             </ImageView>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

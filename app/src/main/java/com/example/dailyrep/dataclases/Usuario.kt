@@ -13,8 +13,8 @@ data class Usuario(
     @ColumnInfo(name="generoMasculino")val generoMasculino:Boolean,
     @ColumnInfo(name="peso")var peso:Int,
     @ColumnInfo(name="altura")var altura:Int,
-    @ColumnInfo(name = "rachaActual") val rachaActual: Int = 0,
-    @ColumnInfo(name = "ultimoDiaRachaFecha")val ultimoDiaRachaFecha: Long? = null,
+    @ColumnInfo(name = "rachaActual") var rachaActual: Int = 0,
+    @ColumnInfo(name = "ultimoDiaEntrenamientoFecha")var ultimoDiaEntrenamientoFecha: Long? = null,
     @ColumnInfo(name = "nivelActividadId") val nivelActividadId: Int,
     @ColumnInfo(name="diasEntrenados") var diasEntrenados:Int
 )

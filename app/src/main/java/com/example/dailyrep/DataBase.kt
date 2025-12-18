@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.example.dailyrep.dao.EjercicioDao
 import com.example.dailyrep.dao.EjercicioFavoritoDao
+import com.example.dailyrep.dao.HistorialDao
 import com.example.dailyrep.dao.RachaDao
 import com.example.dailyrep.dao.RelacionEjeRutDao
 import com.example.dailyrep.dao.RutinaDao
@@ -12,13 +13,15 @@ import com.example.dailyrep.dao.UsuarioDao
 import com.example.dailyrep.dataclases.DiasObjetivoUsuario
 import com.example.dailyrep.dataclases.Ejercicio
 import com.example.dailyrep.dataclases.EjercicioFavorito
+import com.example.dailyrep.dataclases.HistorialEntrenamiento
 import com.example.dailyrep.dataclases.RelacionEjeRut
 import com.example.dailyrep.dataclases.Rutina
 import com.example.dailyrep.dataclases.SeriePlanificada
 import com.example.dailyrep.dataclases.Usuario
 
 @Database(entities = arrayOf(Ejercicio::class, EjercicioFavorito::class, RelacionEjeRut::class,
-    Rutina::class, SeriePlanificada::class, Usuario::class, DiasObjetivoUsuario::class),version = 1)
+    Rutina::class, SeriePlanificada::class, Usuario::class, DiasObjetivoUsuario::class,
+    HistorialEntrenamiento::class),version = 1)
 abstract class DataBase: RoomDatabase(){
     abstract fun ejercicioDao(): EjercicioDao
     abstract fun rutinaDao(): RutinaDao
@@ -27,4 +30,5 @@ abstract class DataBase: RoomDatabase(){
     abstract fun serieDao(): SerieDao
     abstract fun relacionEjeRutDao(): RelacionEjeRutDao
     abstract fun ejercicioFavoritoDao(): EjercicioFavoritoDao
+    abstract fun historialDao(): HistorialDao
 }

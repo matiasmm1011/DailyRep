@@ -77,7 +77,7 @@
     <string name="D">D</string>
     <string name="mensaje3">Completaste 4/5 dias de entrenamiento</string>
     <string name="RachaActual">Racha Actual</string>
-    <string name="cantidadDias">12 dias</string>
+    <string name="cantidadDias">0 dias</string>
     <string name="PRs">PRs personales</string>
     <string name="PressBanca">Press banca:</string>
     <string name="PesoMuerto">Peso muerto:</string>
@@ -86,7 +86,7 @@
     <string name="PesoPesoMuerto">-------</string>
     <string name="PesoSentadilla">-------</string>
     <string name="EntrenamientosCompletados">Entrenamientos Completados:</string>
-    <string name="contadorEntrenamientos">147</string>
+    <string name="contadorEntrenamientos">0</string>
     <string name="NombreUsuario">Nombre de Usuario</string>
     <string name="selecciona_actividad">Selecciona tu nivel de actividad</string>
     <string name="sedentario">SEDENTARIO</string>

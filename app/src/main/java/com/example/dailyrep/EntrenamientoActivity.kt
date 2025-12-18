@@ -16,12 +16,14 @@ import com.example.dailyrep.RutinasActivity.Companion.ID_USUARIO
 import com.example.dailyrep.RutinasActivity.Companion.NOMBRE_RUTINA
 import com.example.dailyrep.adapters.EjercicioEntrenamientoAdapter
 import com.example.dailyrep.dao.EjercicioDao
+import com.example.dailyrep.dao.HistorialDao
 import com.example.dailyrep.dao.RelacionEjeRutDao
 import com.example.dailyrep.dao.RutinaDao
 import com.example.dailyrep.dao.SerieDao
 import com.example.dailyrep.dao.UsuarioDao
 import com.example.dailyrep.databinding.ActivityEntrenamientoBinding
 import com.example.dailyrep.dataclases.Ejercicio
+import com.example.dailyrep.dataclases.HistorialEntrenamiento
 import com.example.dailyrep.dataclases.itemEntrenamiento
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -29,6 +31,7 @@ import com.google.firebase.auth.auth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Calendar
 
 class EntrenamientoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEntrenamientoBinding
@@ -43,6 +46,7 @@ class EntrenamientoActivity : AppCompatActivity() {
     private lateinit var usuarioDao: UsuarioDao
     private lateinit var ejercicioDao: EjercicioDao
     private lateinit var relacionEjeRutDao: RelacionEjeRutDao
+    private lateinit var historialDao: HistorialDao
     private var rutinaId: Long= 0
     private lateinit var auth: FirebaseAuth
     companion object{
@@ -75,6 +79,7 @@ class EntrenamientoActivity : AppCompatActivity() {
         ejercicioDao=myApp.ejercicioDao
         serieDao=myApp.serieDao
         usuarioDao=myApp.usuarioDao
+        historialDao=myApp.historialDao
         relacionEjeRutDao=myApp.relacionEjeRutDao
         sharedPreferences=getSharedPreferences(NOMBRE_FICHERO_SHARED_PREFERENCES,MODE_PRIVATE)
         usuarioActualId = intent.getStringExtra(ID_USUARIO).toString()
@@ -101,11 +106,39 @@ class EntrenamientoActivity : AppCompatActivity() {
 
     private fun terminarEntrenamiento() {
         binding.finalizarSesion.setOnClickListener {
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO){
+                    val usuario = usuarioDao.getUsuarioPorId(usuarioActualId)
+
+                    if (usuario != null) {
+                        val hoy = System.currentTimeMillis()
+                        val ultimoDiaEntrenado=usuario.ultimoDiaEntrenamientoFecha?:0
+                        if (!esMismoDia(ultimoDiaEntrenado, hoy)) {
+                            usuario.rachaActual += 1
+                            usuario.diasEntrenados += 1
+                            usuario.ultimoDiaEntrenamientoFecha = hoy
+
+                            usuarioDao.updateUsuario(usuario)
+                        }
+                    }
+                    val historial = HistorialEntrenamiento(
+                        usuarioId = usuarioActualId,
+                        fecha = System.currentTimeMillis()
+                    )
+                    historialDao.registrarEntrenamiento(historial)
+                }
+            }
             sharedPreferences.edit().putBoolean(EN_ENTRENAMIENTO, false).apply()
             aumentarDiasCompletados()
             val intentVolverARutinas=Intent(context, RutinasActivity::class.java)
             startActivity(intentVolverARutinas)
         }
+    }
+    private fun esMismoDia(dia1:Long, dia2:Long):Boolean{
+        val calendario1 = Calendar.getInstance().apply { timeInMillis = dia1 }
+        val calendario2 = Calendar.getInstance().apply { timeInMillis = dia2 }
+        return calendario1.get(Calendar.DAY_OF_YEAR) == calendario2.get(Calendar.DAY_OF_YEAR) &&
+                calendario1.get(Calendar.YEAR) == calendario2.get(Calendar.YEAR)
     }
 
     private fun ponerEjercicios() {

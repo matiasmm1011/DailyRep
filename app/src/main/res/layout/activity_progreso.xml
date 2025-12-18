@@ -63,11 +63,12 @@
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:id="@+id/iconoFuego"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="5"
                         android:src="@drawable/fuego_racha"
-                        android:tint="@color/naranja">
+                        android:tint="@color/plomo">
 
                     </ImageView>
 
@@ -86,24 +87,26 @@
                         android:id="@+id/diasRacha"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:layout_weight="11"
                         android:text="@string/cantidadDias"
-                        android:textStyle="bold"
                         android:textColor="@color/textos"
-                        android:textSize="40sp"
-                        android:layout_gravity="center_vertical">
+                        android:textSize="35sp"
+                        android:textStyle="bold">
 
                     </TextView>
 
                 </LinearLayout>
 
-                <TextView
+                <ProgressBar
+                    android:id="@+id/barraProgresoSemanal"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1">
-                    <!--                TODO hacer la barra de carga -->
-                </TextView>
-
+                    android:layout_height="12dp"
+                    android:layout_margin="4dp"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/customizar_progress_bar" />
                 <TextView
                     android:id="@+id/indicadorDiasCompletados"
                     android:layout_width="wrap_content"

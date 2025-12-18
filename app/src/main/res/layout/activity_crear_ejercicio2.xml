@@ -8,7 +8,11 @@
     android:orientation="vertical"
     android:background="@color/fondoPantallas"
     tools:context=".CrearEjercicioActivity2">
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:orientation="vertical">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,7 +20,6 @@
         android:textSize="30sp"
         android:textColor="@color/textos">
     </TextView>
-
     <LinearLayout
         android:id="@+id/formularioDiasEntrenamiento"
         android:layout_width="match_parent"
@@ -102,10 +105,11 @@
         android:text="@string/continuar"
         android:gravity="center"
         android:layout_marginHorizontal="50dp"
-        android:layout_marginBottom="13dp"
+        android:layout_marginBottom="40dp"
         android:background="@color/naranja"
         android:textColor="@color/textos">
     </TextView>
+</LinearLayout>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="96dp"

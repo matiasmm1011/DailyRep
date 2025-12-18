@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.room.Room
 import com.example.dailyrep.dao.EjercicioDao
 import com.example.dailyrep.dao.EjercicioFavoritoDao
+import com.example.dailyrep.dao.HistorialDao
 import com.example.dailyrep.dao.RachaDao
 import com.example.dailyrep.dao.RelacionEjeRutDao
 import com.example.dailyrep.dao.RutinaDao
@@ -26,6 +27,13 @@ val ejerciciosPredeterminados = listOf<Ejercicio>(
         parteCuerpo = "Abdomen",
         descripcion = "De rodillas, sujeta la rueda con ambas manos. Rueda hacia adelante extendiendo el cuerpo manteniendo el abdomen contraído. Regresa tirando del core sin arquear la espalda baja.",
         nombreImagen = "ab_wheel_rollout"
+    ),Ejercicio(
+        id = 0L,
+        nombre = "Press de Banca Plano",
+        tipo = "Barra",
+        parteCuerpo = "Pecho",
+        descripcion = "Acostado en un banco plano, sujeta la barra con un agarre ligeramente más ancho que los hombros. Desciende la barra de forma controlada hasta el pecho y empuja hacia arriba extendiendo los brazos sin bloquear los codos.",
+        nombreImagen = "press_banca_plano"
     ),
     // 2. aperturas_con_mancuernas_banco_plano
     Ejercicio(
@@ -578,6 +586,8 @@ class DailyRepApp: Application() {
     lateinit var ejercicioFavoritoDao: EjercicioFavoritoDao
     lateinit var relacionEjeRutDao: RelacionEjeRutDao
 
+    lateinit var historialDao: HistorialDao
+
     override fun onCreate(){
         super.onCreate()
         sharedPreferences = getSharedPreferences(NOMBRE_FICHERO_SHARED_PREFERENCES,MODE_PRIVATE)
@@ -595,6 +605,7 @@ class DailyRepApp: Application() {
         usuarioDao=database.usuarioDao()
         serieDao=database.serieDao()
         rachaDao=database.rachaDao()
+        historialDao=database.historialDao()
         verificarEInsertarDatosIniciales()
     }
     private fun verificarEInsertarDatosIniciales() {
