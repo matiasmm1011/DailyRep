@@ -25,13 +25,17 @@ import com.example.dailyrep.dao.RelacionEjeRutDao
 import com.example.dailyrep.dao.RutinaDao
 import com.example.dailyrep.databinding.ActivityCrearRutinaBinding
 import com.example.dailyrep.dataclases.RelacionEjeRut
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class CrearRutinaActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCrearRutinaBinding
-    private val usuarioActualId = "usuario_prueba_1"
+    private lateinit var usuarioActualId: String
+    private lateinit var auth: FirebaseAuth
     private var rutinaId: Long = 0
 
     private lateinit var relacionEjeRutDao: RelacionEjeRutDao
@@ -68,6 +72,17 @@ class CrearRutinaActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        auth= Firebase.auth
+        val currentUser=auth.currentUser
+        if(currentUser!=null){
+            usuarioActualId=currentUser.uid
+        }else{
+            val intentLogin:Intent=Intent(context, LoginActivity::class.java)
+            startActivity(intentLogin)
+            finish()
+            return
         }
 
         rutinaId = intent.getLongExtra(ID_RUTINA, 0)
