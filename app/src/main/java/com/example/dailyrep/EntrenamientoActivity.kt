@@ -41,8 +41,8 @@ import java.util.Calendar
 
 class EntrenamientoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEntrenamientoBinding
-    val context: Context =this
-    private lateinit var usuarioActualId:String
+    val context: Context = this
+    private lateinit var usuarioActualId: String
     lateinit var sharedPreferences: SharedPreferences
 
     private lateinit var myApp: DailyRepApp
@@ -53,28 +53,36 @@ class EntrenamientoActivity : AppCompatActivity() {
     private lateinit var relacionEjeRutDao: RelacionEjeRutDao
     private lateinit var historialDao: HistorialDao
     private lateinit var serieDao: SerieDao
-    private var rutinaId: Long= 0
+    private var rutinaId: Long = 0
     private lateinit var auth: FirebaseAuth
-    companion object{
-        const val EN_ENTRENAMIENTO="rutina_en_entrenamiento"
+
+    companion object {
+        const val EN_ENTRENAMIENTO = "rutina_en_entrenamiento"
     }
-    private val ejercicioEntrenamientoAdapter: EjercicioEntrenamientoAdapter by lazy{ EjercicioEntrenamientoAdapter(
-        { view, item ->
-        mostrarPPtresPuntos(view, item)
-    },{ serie ->
-            lifecycleScope.launch {
-                withContext(Dispatchers.IO) {
-                    val completado=serie.completado
-                    serie.completado= !completado
-                    serieDao.actualizarSerie(serie)
+
+    private val ejercicioEntrenamientoAdapter: EjercicioEntrenamientoAdapter by lazy {
+        EjercicioEntrenamientoAdapter(
+            { view, item ->
+                mostrarPPtresPuntos(view, item)
+            }, { serie, peso, reps ->
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO) {
+                        val completado = serie.completado
+                        serie.peso = peso
+                        serie.repeticiones = reps
+                        serie.completado = !completado
+                        serieDao.actualizarSerie(serie)
+                    }
+                    ejercicioEntrenamientoAdapter.notifyDataSetChanged()
                 }
-                ejercicioEntrenamientoAdapter.notifyDataSetChanged()
-            }
-        }) }
+            })
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding= ActivityEntrenamientoBinding.inflate(layoutInflater)
+        binding = ActivityEntrenamientoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -82,24 +90,24 @@ class EntrenamientoActivity : AppCompatActivity() {
             insets
         }
 
-        auth= Firebase.auth
-        val currentUser=auth.currentUser
-        if(currentUser!=null){
-            usuarioActualId=currentUser.uid
-        }else{
-            val intentLogin:Intent=Intent(context, LoginActivity::class.java)
+        auth = Firebase.auth
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            usuarioActualId = currentUser.uid
+        } else {
+            val intentLogin: Intent = Intent(context, LoginActivity::class.java)
             startActivity(intentLogin)
             finish()
             return
         }
-        myApp=applicationContext as DailyRepApp
-        rutinaDao=myApp.rutinaDao
-        ejercicioDao=myApp.ejercicioDao
-        serieDao=myApp.serieDao
-        usuarioDao=myApp.usuarioDao
-        historialDao=myApp.historialDao
-        relacionEjeRutDao=myApp.relacionEjeRutDao
-        sharedPreferences=getSharedPreferences(NOMBRE_FICHERO_SHARED_PREFERENCES,MODE_PRIVATE)
+        myApp = applicationContext as DailyRepApp
+        rutinaDao = myApp.rutinaDao
+        ejercicioDao = myApp.ejercicioDao
+        serieDao = myApp.serieDao
+        usuarioDao = myApp.usuarioDao
+        historialDao = myApp.historialDao
+        relacionEjeRutDao = myApp.relacionEjeRutDao
+        sharedPreferences = getSharedPreferences(NOMBRE_FICHERO_SHARED_PREFERENCES, MODE_PRIVATE)
         usuarioActualId = intent.getStringExtra(ID_USUARIO).toString()
         nombreRutina = intent.getStringExtra(NOMBRE_RUTINA)
         rutinaId = intent.getLongExtra(ID_RUTINA, 0)
@@ -113,8 +121,8 @@ class EntrenamientoActivity : AppCompatActivity() {
 
     private fun aumentarDiasCompletados() {
         lifecycleScope.launch(Dispatchers.IO) {
-            val usuario= usuarioDao.getUsuarioPorId(usuarioActualId)
-            if(usuario!=null){
+            val usuario = usuarioDao.getUsuarioPorId(usuarioActualId)
+            if (usuario != null) {
                 usuario.diasEntrenados++
                 usuarioDao.updateUsuario(usuario)
             }
@@ -125,12 +133,12 @@ class EntrenamientoActivity : AppCompatActivity() {
     private fun terminarEntrenamiento() {
         binding.finalizarSesion.setOnClickListener {
             lifecycleScope.launch {
-                withContext(Dispatchers.IO){
+                withContext(Dispatchers.IO) {
                     val usuario = usuarioDao.getUsuarioPorId(usuarioActualId)
 
                     if (usuario != null) {
                         val hoy = System.currentTimeMillis()
-                        val ultimoDiaEntrenado=usuario.ultimoDiaEntrenamientoFecha?:0
+                        val ultimoDiaEntrenado = usuario.ultimoDiaEntrenamientoFecha ?: 0
                         if (!esMismoDia(ultimoDiaEntrenado, hoy)) {
                             usuario.rachaActual += 1
                             usuario.diasEntrenados += 1
@@ -144,15 +152,25 @@ class EntrenamientoActivity : AppCompatActivity() {
                         fecha = System.currentTimeMillis()
                     )
                     historialDao.registrarEntrenamiento(historial)
+                    val ejercicios = rutinaDao.obtenerEjerciciosRutina(rutinaId)
+                    ejercicios.forEach {
+                        val relacionId = relacionEjeRutDao.obtenerIdRelacion(it.id, rutinaId)
+                        val series = serieDao.obtenerSeries(relacionId)
+                        series.forEach {
+                            it.completado = false
+                            serieDao.actualizarSerie(it)
+                        }
+                    }
                 }
+                sharedPreferences.edit().putBoolean(EN_ENTRENAMIENTO, false).apply()
+                aumentarDiasCompletados()
+                val intentVolverARutinas = Intent(context, RutinasActivity::class.java)
+                startActivity(intentVolverARutinas)
             }
-            sharedPreferences.edit().putBoolean(EN_ENTRENAMIENTO, false).apply()
-            aumentarDiasCompletados()
-            val intentVolverARutinas=Intent(context, RutinasActivity::class.java)
-            startActivity(intentVolverARutinas)
         }
     }
-    private fun esMismoDia(dia1:Long, dia2:Long):Boolean{
+
+    private fun esMismoDia(dia1: Long, dia2: Long): Boolean {
         val calendario1 = Calendar.getInstance().apply { timeInMillis = dia1 }
         val calendario2 = Calendar.getInstance().apply { timeInMillis = dia2 }
         return calendario1.get(Calendar.DAY_OF_YEAR) == calendario2.get(Calendar.DAY_OF_YEAR) &&
@@ -177,19 +195,57 @@ class EntrenamientoActivity : AppCompatActivity() {
         val xoff = ancla.width - popupWindow.width
         popupWindow.showAsDropDown(ancla, xoff, 0)
         bindingMenu.botonAgregarSeriePP.setOnClickListener {
-            // Agregar serie
-            popupWindow.dismiss()
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) {
+                    val idRelacion = item.relacion.id
+                    val ultimo = serieDao.obtenerUltimoNumeroSerie(idRelacion) ?: 0
+                    val siguienteNumeroSerie = ultimo + 1
+                    val nuevaSerie = SeriePlanificada(
+                        id = 0L,
+                        relacionId = idRelacion,
+                        numeroSerie = siguienteNumeroSerie,
+                        repeticiones = 10,
+                        peso = 50, false
+                    )
+                    serieDao.insert(nuevaSerie)
+                    val seriesActualizadas = serieDao.obtenerSeries(idRelacion)
+                    item.series.clear()
+                    item.series.addAll(seriesActualizadas)
+                }
+                ejercicioEntrenamientoAdapter.notifyDataSetChanged()
+                popupWindow.dismiss()
+            }
         }
         bindingMenu.botonQuitarSeriePP.setOnClickListener {
-            // Quitar serie
+            item.series.lastOrNull()?.let { ultimaSerie ->
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO) {
+                        serieDao.eliminarSeriePorId(ultimaSerie.id)
+                        item.series.remove(ultimaSerie)
+                    }
+                    ponerEjercicios()
+                }
+            }
             popupWindow.dismiss()
         }
-        bindingMenu.botonReemplazarEjercicioPP.setOnClickListener {
-            // Reemplazar ejercicio
+        bindingMenu.botonEliminarEjercicioPP.setOnClickListener {
+            val relacion=item.relacion
+            lifecycleScope.launch{
+                withContext(Dispatchers.IO){
+                    relacionEjeRutDao.delete(relacion)
+                }
+                ponerEjercicios()
+                ejercicioEntrenamientoAdapter.notifyDataSetChanged()
+            }
             popupWindow.dismiss()
         }
         bindingMenu.botonAgregarEjercicioPP.setOnClickListener {
-            // Agregar ejercicio
+            val intentCambioACreadorR: Intent =
+                Intent(context, CrearRutinaActivity::class.java)
+            intentCambioACreadorR.apply {
+                intentCambioACreadorR.putExtra(ID_RUTINA, rutinaId)
+            }
+            startActivity(intentCambioACreadorR)
             popupWindow.dismiss()
         }
         bindingMenu.botonAgregarNotasPP.setOnClickListener {
@@ -198,18 +254,20 @@ class EntrenamientoActivity : AppCompatActivity() {
         }
     }
 
+
     private fun ponerEjercicios() {
-        val listaItems:MutableList<itemEntrenamiento> = mutableListOf()
+        val listaItems: MutableList<itemEntrenamiento> = mutableListOf()
         lifecycleScope.launch {
-            var listaEjercicios:List<Ejercicio> =listOf()
+            var listaEjercicios: List<Ejercicio> = listOf()
             withContext(Dispatchers.IO) {
-                listaEjercicios=rutinaDao.obtenerEjerciciosRutina(rutinaId)
+                listaEjercicios = rutinaDao.obtenerEjerciciosRutina(rutinaId)
                 listaEjercicios.forEach {
-                    val ejercicioId=it.id
-                    val idRelacion=relacionEjeRutDao.obtenerIdRelacion(ejercicioId,rutinaId)
-                    val relacion=relacionEjeRutDao.obtenerRelacion(idRelacion)
-                    val series=serieDao.obtenerSeries(idRelacion)
-                    val itemEntrenamiento: itemEntrenamiento = itemEntrenamiento(relacion,it,series)
+                    val ejercicioId = it.id
+                    val idRelacion = relacionEjeRutDao.obtenerIdRelacion(ejercicioId, rutinaId)
+                    val relacion = relacionEjeRutDao.obtenerRelacion(idRelacion)
+                    val series = serieDao.obtenerSeries(idRelacion)
+                    val itemEntrenamiento: itemEntrenamiento =
+                        itemEntrenamiento(relacion, it, series)
                     listaItems.add(itemEntrenamiento)
                 }
             }
@@ -219,15 +277,15 @@ class EntrenamientoActivity : AppCompatActivity() {
 
     private fun cambiarApartados() {
         binding.apartadoPerfil.setOnClickListener {
-            val cambiarAPerfilIntent: Intent =Intent(context, PerfilActivity::class.java)
+            val cambiarAPerfilIntent: Intent = Intent(context, PerfilActivity::class.java)
             startActivity(cambiarAPerfilIntent)
         }
         binding.apartadoEjercicios.setOnClickListener {
-            val cambiarAEjerciciosIntent:Intent=Intent(context, EjerciciosActivity::class.java)
+            val cambiarAEjerciciosIntent: Intent = Intent(context, EjerciciosActivity::class.java)
             startActivity(cambiarAEjerciciosIntent)
         }
-        binding.apartadoProgreso.setOnClickListener{
-            val cambiarAProgresoIntent: Intent =Intent(context, ProgresoActivity::class.java)
+        binding.apartadoProgreso.setOnClickListener {
+            val cambiarAProgresoIntent: Intent = Intent(context, ProgresoActivity::class.java)
             startActivity(cambiarAProgresoIntent)
         }
     }

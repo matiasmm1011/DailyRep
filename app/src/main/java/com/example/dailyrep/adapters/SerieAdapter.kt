@@ -11,7 +11,7 @@ import com.example.dailyrep.R
 import com.example.dailyrep.databinding.SerieAdapterBinding
 import com.example.dailyrep.dataclases.SeriePlanificada
 
-class SerieAdapter(private val onCheckClick: (SeriePlanificada)->Unit)
+class SerieAdapter(private val onCheckClick: (SeriePlanificada,Int,Int)->Unit)
     : RecyclerView.Adapter<SerieAdapter.SerieViewHolder>(){
     private var context: Context? = null
     private var listaSeries: MutableList<SeriePlanificada> = mutableListOf<SeriePlanificada>()
@@ -36,12 +36,16 @@ class SerieAdapter(private val onCheckClick: (SeriePlanificada)->Unit)
     inner class SerieViewHolder(private val binding: SerieAdapterBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun binding(seriePlanificada: SeriePlanificada) {
-            binding.peso.hint=seriePlanificada.peso.toString()
+            binding.peso.setText(seriePlanificada.peso.toString())
             val textoSerie="Serie ${seriePlanificada.numeroSerie}"
             binding.numeroSerie.setText(textoSerie)
-            binding.reps.hint=seriePlanificada.repeticiones.toString()
+            binding.reps.setText(seriePlanificada.repeticiones.toString())
             binding.check.setOnClickListener {
-                onCheckClick(seriePlanificada)
+                val pesoNuevo: Int? = binding.peso.text.toString().toIntOrNull()
+                val repsNuevas: Int? = binding.reps.text.toString().toIntOrNull()
+                onCheckClick(seriePlanificada,
+                    pesoNuevo ?: seriePlanificada.peso,
+                    repsNuevas ?: seriePlanificada.repeticiones)
             }
             if(seriePlanificada.completado){
                 val color = ContextCompat.getColor(context, R.color.naranja)

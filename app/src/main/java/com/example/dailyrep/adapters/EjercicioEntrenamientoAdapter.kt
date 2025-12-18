@@ -27,7 +27,7 @@ import kotlinx.coroutines.withContext
 
 class EjercicioEntrenamientoAdapter(
     private val onTresPuntosClick: (View, itemEntrenamiento) -> Unit,
-    private val onCheckClick:(SeriePlanificada)->Unit
+    private val onCheckClick:(SeriePlanificada,Int,Int)->Unit
 ) : RecyclerView.Adapter<EjercicioEntrenamientoAdapter.EjercicioEntrenamientoViewHolder>() {
 
     private var context: Context? = null

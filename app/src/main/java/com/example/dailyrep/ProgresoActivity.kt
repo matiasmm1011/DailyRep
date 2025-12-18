@@ -213,7 +213,7 @@ class ProgresoActivity : AppCompatActivity() {
             withContext(Dispatchers.IO) {
                 prSentadilla = serieDao.obtenerPRMaximo(usuarioActualId, "Sentadilla Libre")
                 prPesoMuerto = serieDao.obtenerPRMaximo(usuarioActualId, "Peso Muerto Convencional")
-                prPressBanca = serieDao.obtenerPRMaximo(usuarioActualId, "Press de Banca con Barra")
+                prPressBanca = serieDao.obtenerPRMaximo(usuarioActualId, "Press de Banca Plano")
             }
             if (prPressBanca != null) {
                 val textoPr = "$prPressBanca Kg"

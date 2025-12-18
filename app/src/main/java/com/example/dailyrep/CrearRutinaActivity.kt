@@ -22,6 +22,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.dailyrep.RutinasActivity.Companion.ID_RUTINA
 import com.example.dailyrep.adapters.EjercicioCreadorRutinaAdapter
 import com.example.dailyrep.dao.RelacionEjeRutDao
+import com.example.dailyrep.dao.RutinaDao
 import com.example.dailyrep.databinding.ActivityCrearRutinaBinding
 import com.example.dailyrep.dataclases.RelacionEjeRut
 import kotlinx.coroutines.Dispatchers
@@ -34,18 +35,20 @@ class CrearRutinaActivity : AppCompatActivity() {
     private var rutinaId: Long = 0
 
     private lateinit var relacionEjeRutDao: RelacionEjeRutDao
+    private lateinit var rutinaDao: RutinaDao
 
-    val ejerciciosSeleccionados = mutableSetOf<Ejercicio>()
+    var ejerciciosNuevosSeleccionados = mutableListOf<Ejercicio>()
+    var ejerciciosSeleccionadosAnteriormente=mutableSetOf<Ejercicio>()
 
     private lateinit var myApp: DailyRepApp
     private val ejercicioCreadorRutinaAdapter: EjercicioCreadorRutinaAdapter by lazy{ EjercicioCreadorRutinaAdapter(){
             ejercicio, seleccionado ->
         if (seleccionado) {
             ejercicio.seleccionado = true
-            ejerciciosSeleccionados.add(ejercicio)
+            ejerciciosNuevosSeleccionados.add(ejercicio)
         } else {
             ejercicio.seleccionado = false
-            ejerciciosSeleccionados.remove(ejercicio)
+            ejerciciosNuevosSeleccionados.remove(ejercicio)
         }
     }
     }
@@ -72,7 +75,15 @@ class CrearRutinaActivity : AppCompatActivity() {
         binding.recyclerEjerciciosCR.adapter=ejercicioCreadorRutinaAdapter
         myApp=applicationContext as DailyRepApp
         relacionEjeRutDao=myApp.relacionEjeRutDao
-        actualizarLista()
+        rutinaDao=myApp.rutinaDao
+        lifecycleScope.launch{
+            withContext(Dispatchers.IO){
+                ejerciciosSeleccionadosAnteriormente=rutinaDao.obtenerEjerciciosRutina(rutinaId).toMutableSet()
+
+            }
+            actualizarLista()
+        }
+
         ponerFiltros()
         buscador()
         crearRutina()
@@ -81,7 +92,7 @@ class CrearRutinaActivity : AppCompatActivity() {
     fun crearRutina(){
         binding.botonCrearRutina.setOnClickListener {
             val listaEjeRut: MutableList<RelacionEjeRut> = mutableListOf()
-            ejerciciosSeleccionados.forEach { ejercicio ->
+            ejerciciosNuevosSeleccionados.forEach { ejercicio ->
                 val ejercicioId = ejercicio.id
                 val relacionRutinaNueva = RelacionEjeRut(0L,rutinaId,ejercicioId,null)
                 listaEjeRut.add(relacionRutinaNueva)
@@ -251,14 +262,9 @@ class CrearRutinaActivity : AppCompatActivity() {
             listaNueva.forEach { ejercicio ->
                 ejercicio.esFavorito = setIdsFavoritos.contains(ejercicio.id)
             }
-            listaNueva.forEach { ejercicio ->
-                ejerciciosSeleccionados.forEach { ejerciciosS ->
-                    if (ejercicio.id == ejerciciosS.id){
-                        ejercicio.seleccionado = true
-                    }
-                }
-            }
-            var listaFinalFiltrada = listaNueva
+            val idsEjsSelec = ejerciciosSeleccionadosAnteriormente.map { it.id }.toSet()
+            val listaFiltrada = listaNueva.filter { !idsEjsSelec.contains(it.id) }
+            var listaFinalFiltrada = listaFiltrada
 
             if (filtrosTipoEjercicio.isNotEmpty()) {
                 listaFinalFiltrada = listaFinalFiltrada.filter { ejercicio ->
