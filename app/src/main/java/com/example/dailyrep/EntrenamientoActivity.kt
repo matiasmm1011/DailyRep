@@ -61,10 +61,7 @@ class EntrenamientoActivity : AppCompatActivity() {
     private val ejercicioEntrenamientoAdapter: EjercicioEntrenamientoAdapter by lazy{ EjercicioEntrenamientoAdapter(
         { view, item ->
         mostrarPPtresPuntos(view, item)
-    }
-        ) }
-    private val ejercicioEntrenamientoAdapter: EjercicioEntrenamientoAdapter by lazy{ EjercicioEntrenamientoAdapter(
-        { serie ->
+    },{ serie ->
             lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
                     val completado=serie.completado
