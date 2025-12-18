@@ -18,6 +18,6 @@ data class SeriePlanificada(
     @PrimaryKey(autoGenerate = true) val id: Long,
     @ColumnInfo(name="relacionId") val relacionId: Long,
     @ColumnInfo(name="numeroSerie")val numeroSerie: Int,
-    @ColumnInfo(name="repeticiones")val repeticiones: Int,
-    @ColumnInfo(name="peso") val peso:Int
+    @ColumnInfo(name="repeticiones")var repeticiones: Int,
+    @ColumnInfo(name="peso") var peso:Int
 )

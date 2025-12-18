@@ -88,6 +88,24 @@ class EditarRutinaActivity : AppCompatActivity() {
                         editarRutinaAdapter.notifyDataSetChanged()
                     }
                 }
+            },{ serie,peso,reps ->
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO) {
+                        serie.peso = peso
+                        serie.repeticiones = reps
+                        serieDao.actualizarSerie(serie)
+                    }
+                    editarRutinaAdapter.notifyDataSetChanged()
+                }
+            },{itemEntr ->
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO) {
+                        val relacionEjeRut = itemEntr.relacion
+                        relacionEjeRutDao.delete(relacionEjeRut)
+                    }
+                    ponerEjercicios()
+                }
+
             }
         )
     }

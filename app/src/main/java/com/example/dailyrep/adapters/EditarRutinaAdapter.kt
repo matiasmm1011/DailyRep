@@ -24,8 +24,10 @@ import kotlinx.coroutines.withContext
 
 class EditarRutinaAdapter(
     private val onAgregarSerieClick: (itemEntrenamiento) -> Unit,
-    private val onDisminuirSerieClick: (itemEntrenamiento) -> Unit
-): RecyclerView.Adapter<EditarRutinaAdapter.EjercicioEditarRutinaViewHolder>() {
+    private val onDisminuirSerieClick: (itemEntrenamiento) -> Unit,
+    private val onGuardarCambiosClick: (SeriePlanificada, mandarPesoNuevo: Int, mandarRepsNuevas: Int) -> Unit,
+    private val onBorrarEjercicioClick: (itemEntrenamiento) -> Unit,
+    ): RecyclerView.Adapter<EditarRutinaAdapter.EjercicioEditarRutinaViewHolder>() {
     private var context: Context? = null
     private var listaEjerciciosEntrenamiento: MutableList<itemEntrenamiento> = mutableListOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EjercicioEditarRutinaViewHolder {
@@ -48,7 +50,7 @@ class EditarRutinaAdapter(
     inner class EjercicioEditarRutinaViewHolder(private val binding: ActivityEditarRutinaAdapterBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private val serieTablaAdapter: SerieTablaAdapter by lazy{
-            SerieTablaAdapter()
+            SerieTablaAdapter(onGuardarCambiosClick)
         }
         fun binding(item: itemEntrenamiento) {
             if(binding.recyclerViewSeries.adapter == null){
@@ -69,7 +71,9 @@ class EditarRutinaAdapter(
                 binding.botonAgregarSerie.setOnClickListener { onAgregarSerieClick(item) }
                 binding.botonDisminuirSerie.setOnClickListener { onDisminuirSerieClick(item) }
             }
-
+            binding.borrarEjercicio.setOnClickListener {
+                onBorrarEjercicioClick(item)
+            }
         }
     }
     fun ponerListaEjercicios(nuevaLista: MutableList<itemEntrenamiento>) {

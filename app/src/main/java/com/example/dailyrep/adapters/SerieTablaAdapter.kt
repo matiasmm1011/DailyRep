@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dailyrep.databinding.ActivitySerieTablaAdapterBinding
 import com.example.dailyrep.databinding.SerieAdapterBinding
 import com.example.dailyrep.dataclases.SeriePlanificada
+import com.example.dailyrep.dataclases.itemEntrenamiento
 
-class SerieTablaAdapter
-    : RecyclerView.Adapter<SerieTablaAdapter.SerieTablaViewHolder>(){
+class SerieTablaAdapter(
+    private val onGuardarCambiosClick: (SeriePlanificada, mandarPesoNuevo: Int, mandarRepsNuevas: Int) -> Unit,
+    ): RecyclerView.Adapter<SerieTablaAdapter.SerieTablaViewHolder>(){
     private var context: Context? = null
     private var listaSeries: MutableList<SeriePlanificada> = mutableListOf<SeriePlanificada>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):SerieTablaViewHolder {
@@ -34,8 +36,15 @@ class SerieTablaAdapter
         RecyclerView.ViewHolder(binding.root) {
         fun binding(seriePlanificada: SeriePlanificada) {
             binding.tvSerie.text=seriePlanificada.numeroSerie.toString()
-            binding.etPeso.hint=seriePlanificada.peso.toString()
-            binding.etReps.hint=seriePlanificada.repeticiones.toString()
+            binding.etPeso.hint = seriePlanificada.peso.toString()
+            binding.etReps.hint = seriePlanificada.repeticiones.toString()
+            binding.guardarDatos.setOnClickListener {
+                val pesoNuevo: Int? = binding.etPeso.text.toString().toIntOrNull()
+                val repsNuevas: Int? = binding.etReps.text.toString().toIntOrNull()
+                onGuardarCambiosClick(seriePlanificada,
+                    pesoNuevo ?: seriePlanificada.peso,
+                    repsNuevas ?: seriePlanificada.repeticiones)
+            }
         }
     }
     fun ponerListaSeries(nuevaLista: List<SeriePlanificada>) {

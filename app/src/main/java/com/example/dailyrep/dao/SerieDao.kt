@@ -3,6 +3,7 @@ package com.example.dailyrep.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.example.dailyrep.dataclases.SeriePlanificada
 
 @Dao
@@ -15,6 +16,9 @@ interface SerieDao {
 
     @Query("DELETE FROM SeriePlanificada WHERE id = :serieId")
     fun eliminarSeriePorId(serieId: Long)
+
+    @Update
+    fun actualizarSerie(serie: SeriePlanificada)
 
     @Insert
     fun insert(serie: SeriePlanificada):Long
