@@ -3,9 +3,13 @@ package com.example.dailyrep
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
+import android.widget.PopupWindow
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
@@ -22,6 +26,7 @@ import com.example.dailyrep.dao.RutinaDao
 import com.example.dailyrep.dao.SerieDao
 import com.example.dailyrep.dao.UsuarioDao
 import com.example.dailyrep.databinding.ActivityEntrenamientoBinding
+import com.example.dailyrep.databinding.MenuEditarRutinaBinding
 import com.example.dailyrep.dataclases.Ejercicio
 import com.example.dailyrep.dataclases.HistorialEntrenamiento
 import com.example.dailyrep.dataclases.itemEntrenamiento
@@ -52,7 +57,12 @@ class EntrenamientoActivity : AppCompatActivity() {
     companion object{
         const val EN_ENTRENAMIENTO="rutina_en_entrenamiento"
     }
-    private val ejercicioEntrenamientoAdapter: EjercicioEntrenamientoAdapter by lazy{ EjercicioEntrenamientoAdapter() }
+    private val ejercicioEntrenamientoAdapter: EjercicioEntrenamientoAdapter by lazy{ EjercicioEntrenamientoAdapter(
+        { view, item ->
+        mostrarPPtresPuntos(view, item)
+    }
+
+        ) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -139,6 +149,45 @@ class EntrenamientoActivity : AppCompatActivity() {
         val calendario2 = Calendar.getInstance().apply { timeInMillis = dia2 }
         return calendario1.get(Calendar.DAY_OF_YEAR) == calendario2.get(Calendar.DAY_OF_YEAR) &&
                 calendario1.get(Calendar.YEAR) == calendario2.get(Calendar.YEAR)
+    }
+
+    private fun dpToPx(dp: Int): Int {
+        val density = resources.displayMetrics.density
+        return (dp * density).toInt()
+    }
+
+    private fun mostrarPPtresPuntos(ancla: View, item: itemEntrenamiento) {
+        val bindingMenu = MenuEditarRutinaBinding.inflate(layoutInflater)
+        val popupWindow = PopupWindow(
+            bindingMenu.root,
+            dpToPx(250),
+            dpToPx(325),
+            true
+        )
+        popupWindow.elevation = 10f
+        popupWindow.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
+        val xoff = ancla.width - popupWindow.width
+        popupWindow.showAsDropDown(ancla, xoff, 0)
+        bindingMenu.botonAgregarSeriePP.setOnClickListener {
+            // Agregar serie
+            popupWindow.dismiss()
+        }
+        bindingMenu.botonQuitarSeriePP.setOnClickListener {
+            // Quitar serie
+            popupWindow.dismiss()
+        }
+        bindingMenu.botonReemplazarEjercicioPP.setOnClickListener {
+            // Reemplazar ejercicio
+            popupWindow.dismiss()
+        }
+        bindingMenu.botonAgregarEjercicioPP.setOnClickListener {
+            // Agregar ejercicio
+            popupWindow.dismiss()
+        }
+        bindingMenu.botonAgregarNotasPP.setOnClickListener {
+            // Agregar notas
+            popupWindow.dismiss()
+        }
     }
 
     private fun ponerEjercicios() {

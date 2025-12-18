@@ -38,14 +38,6 @@ class CrearRutinaActivity : AppCompatActivity() {
     val ejerciciosSeleccionados = mutableSetOf<Ejercicio>()
 
     private lateinit var myApp: DailyRepApp
-    companion object{
-        const val NOMBRE_EJERCICIO="nombre_ejercicio"
-        const val DESCRIPCION_EJERCICIO="descripcion_ejercicio"
-        const val TIPO_EJERCICIO="tipo_ejercicio"
-        const val PARTE_CUERPO_EJERCICIO="parte_cuerpo_ejercicio"
-        const val IMAGEN_EJERCICIO="imagen_ejercicio"
-
-    }
     private val ejercicioCreadorRutinaAdapter: EjercicioCreadorRutinaAdapter by lazy{ EjercicioCreadorRutinaAdapter(){
             ejercicio, seleccionado ->
         if (seleccionado) {
