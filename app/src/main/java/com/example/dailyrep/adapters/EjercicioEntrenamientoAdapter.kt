@@ -58,9 +58,7 @@ class EjercicioEntrenamientoAdapter(
 
     inner class EjercicioEntrenamientoViewHolder(private val binding: EjercicioEntrenamientoAdapterBinding) :
         RecyclerView.ViewHolder(binding.root) {
-            private val serieAdapter: SerieAdapter by lazy{
-                SerieAdapter(onCheckClick)
-            }
+
         fun mostrarNotas(item: itemEntrenamiento) {
             binding.tituloNotas.visibility = View.VISIBLE
             binding.apartadoNotas.visibility = View.VISIBLE
@@ -75,17 +73,15 @@ class EjercicioEntrenamientoAdapter(
         fun binding(item: itemEntrenamiento) {
             val esCardio = item.ejercicio.esCardio
             val serieAdapter = SerieAdapter(esCardio, onCheckClick)
-            if (binding.recyclerSeries.adapter == null) {
-                binding.recyclerSeries.layoutManager = LinearLayoutManager(context)
-                binding.recyclerSeries.adapter = serieAdapter
-            }
-            serieAdapter.ponerListaSeries(item.series)
+            binding.recyclerSeries.layoutManager = LinearLayoutManager(context)
+            binding.recyclerSeries.adapter = serieAdapter
             binding.nombreEjercicio.text = item.ejercicio.nombre
             if (item.relacion.notas != null) {
                 mostrarNotas(item)
             } else {
                 ocultarNotas()
             }
+            serieAdapter.ponerListaSeries(item.series)
             binding.editarRutinaEnEntrenamiento.setOnClickListener {
                 onTresPuntosClick(it, item)
             }
@@ -108,5 +104,4 @@ class EjercicioEntrenamientoAdapter(
         listaEjerciciosEntrenamiento.addAll(nuevaLista)
         notifyDataSetChanged()
     }
-
 }

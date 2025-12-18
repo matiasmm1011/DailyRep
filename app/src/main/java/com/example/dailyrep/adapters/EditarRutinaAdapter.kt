@@ -65,9 +65,9 @@ class EditarRutinaAdapter(
             binding.editarEjercicio.setOnClickListener {
                 binding.apartadoEditarEjercicio.visibility = View.VISIBLE
                 if(esCardio){
-                    binding.peso.visibility=View.GONE
+                    binding.peso.visibility=View.INVISIBLE
                     binding.repeticiones.setText("Minutos")
-                    binding.unidad.visibility=View.GONE
+                    binding.unidad.visibility=View.INVISIBLE
                 }
                 binding.botonAgregarNota.setOnClickListener {
                     binding.tituloNotas.visibility= View.VISIBLE
