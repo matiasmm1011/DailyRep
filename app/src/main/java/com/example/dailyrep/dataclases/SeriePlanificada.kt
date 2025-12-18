@@ -4,6 +4,8 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import androidx.room.ColumnInfo
+import androidx.room.Ignore
+
 @Entity(
     foreignKeys = [
         ForeignKey(
@@ -19,5 +21,6 @@ data class SeriePlanificada(
     @ColumnInfo(name="relacionId") val relacionId: Long,
     @ColumnInfo(name="numeroSerie")val numeroSerie: Int,
     @ColumnInfo(name="repeticiones")var repeticiones: Int,
-    @ColumnInfo(name="peso") var peso:Int
+    @ColumnInfo(name="peso") var peso:Int,
+    @ColumnInfo(name="completado") var completado:Boolean
 )

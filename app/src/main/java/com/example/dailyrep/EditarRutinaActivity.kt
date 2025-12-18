@@ -69,7 +69,7 @@ class EditarRutinaActivity : AppCompatActivity() {
                             relacionId = idRelacion,
                             numeroSerie = siguienteNumeroSerie,
                             repeticiones = 10,
-                            peso = 50
+                            peso = 50,false
                         )
                         serieDao.insert(nuevaSerie)
                         val seriesActualizadas = serieDao.obtenerSeries(idRelacion)

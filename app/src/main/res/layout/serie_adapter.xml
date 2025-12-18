@@ -19,6 +19,7 @@
             android:weightSum="30"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/numeroSerie"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="9"
@@ -34,6 +35,7 @@
                 android:orientation="horizontal"
                 android:weightSum="5">
                 <ImageView
+                    android:id="@+id/check"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
