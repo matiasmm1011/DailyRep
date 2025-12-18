@@ -35,7 +35,7 @@
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="70dp"
+        android:layout_width="match_parent"
         android:layout_height="70dp"
         app:cardCornerRadius="10dp"
         android:layout_gravity="center"
@@ -46,8 +46,18 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/boton_volverAtras"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/volver_atras"
+                android:tint="@color/naranja">
+
+            </ImageView>
+
+            <ImageView
                 android:id="@+id/agregarEjercicio"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/agregar"
                 app:tint="@color/naranja"

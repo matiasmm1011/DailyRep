@@ -229,34 +229,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:weightSum="15.5">
+                android:weightSum="15">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="5"
+                    android:layout_weight="7"
                     android:orientation="horizontal"
                     android:weightSum="30">
 
                     <TextView
-                        android:id="@+id/tituloNota"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="20"
                         android:paddingStart="12dp"
                         android:paddingTop="5dp"
-                        android:text="@string/ejemploNombreNota"
+                        android:text="@string/nada"
                         android:textSize="20sp" />
 
                     <ImageView
+                        android:id="@+id/guardarNotas"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="5"
                         android:paddingTop="3dp"
-                        android:src="@drawable/editar_rutina"
+                        android:src="@drawable/guardar"
                         app:tint="@color/naranja" />
 
                     <ImageView
+                        android:id="@+id/borrarNotas"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="5"
@@ -269,18 +270,9 @@
                     android:id="@+id/agregarNotas"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="7"
+                    android:layout_weight="7.5"
+                    android:paddingStart="10dp"
                     android:hint="@string/ingresarNota" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="3dp"
-                    android:layout_weight="3"
-                    android:backgroundTint="@color/naranja"
-                    android:text="@string/guardarCambios"
-                    android:textColor="@color/textos" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>

@@ -27,6 +27,8 @@ class EditarRutinaAdapter(
     private val onDisminuirSerieClick: (itemEntrenamiento) -> Unit,
     private val onGuardarCambiosClick: (SeriePlanificada, mandarPesoNuevo: Int, mandarRepsNuevas: Int) -> Unit,
     private val onBorrarEjercicioClick: (itemEntrenamiento) -> Unit,
+    private val onGuardarNotasClick: (itemEntrenamiento, mandarNotaNueva: String) -> Unit,
+    private val onBorrarNotasClick: (itemEntrenamiento) -> Unit,
     ): RecyclerView.Adapter<EditarRutinaAdapter.EjercicioEditarRutinaViewHolder>() {
     private var context: Context? = null
     private var listaEjerciciosEntrenamiento: MutableList<itemEntrenamiento> = mutableListOf()
@@ -63,11 +65,28 @@ class EditarRutinaAdapter(
             binding.nombreEjercicio.setText(nombreEjercicio)
             binding.editarEjercicio.setOnClickListener {
                 binding.apartadoEditarEjercicio.visibility = View.VISIBLE
+
                 binding.botonAgregarNota.setOnClickListener {
-                        binding.tituloNotas.visibility= View.VISIBLE
-                        binding.apartadoNotas.visibility= View.VISIBLE
-                        binding.agregarNotas.setHint(item.relacion.notas)
+                    binding.tituloNotas.visibility= View.VISIBLE
+                    binding.apartadoNotas.visibility= View.VISIBLE
+                    binding.agregarNotas.setHint(item.relacion.notas)
+
+                    binding.guardarNotas.setOnClickListener {
+                        val notaNueva: String = binding.agregarNotas.text.toString()
+                        onGuardarNotasClick(item,notaNueva)
+                        binding.tituloNotas.visibility= View.GONE
+                        binding.apartadoNotas.visibility= View.GONE
+                    }
+
+                    binding.borrarNotas.setOnClickListener {
+                        onBorrarNotasClick(item)
+                        binding.agregarNotas.setHint("")
+                        binding.tituloNotas.visibility= View.GONE
+                        binding.apartadoNotas.visibility= View.GONE
+                    }
+
                 }
+
                 binding.botonAgregarSerie.setOnClickListener { onAgregarSerieClick(item) }
                 binding.botonDisminuirSerie.setOnClickListener { onDisminuirSerieClick(item) }
             }

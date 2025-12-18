@@ -24,7 +24,7 @@ val ejerciciosPredeterminados = listOf<Ejercicio>(
         id = 0L,
         nombre = "Ab Wheel Rollout",
         tipo = "Peso Corporal",
-        parteCuerpo = "Abdomen",
+        parteCuerpo = "Abdominales",
         descripcion = "De rodillas, sujeta la rueda con ambas manos. Rueda hacia adelante extendiendo el cuerpo manteniendo el abdomen contraído. Regresa tirando del core sin arquear la espalda baja.",
         nombreImagen = "ab_wheel_rollout"
     ),Ejercicio(
@@ -85,7 +85,7 @@ val ejerciciosPredeterminados = listOf<Ejercicio>(
         id = 0L,
         nombre = "Crunch con Cable",
         tipo = "Polea",
-        parteCuerpo = "Abdomen",
+        parteCuerpo = "Abdominales",
         descripcion = "Frente a la polea alta, de rodillas, flexiona el torso llevando los codos hacia las rodillas mientras mantienes el abdomen contraído.",
         nombreImagen = "crunch_cable"
     ),
@@ -94,7 +94,7 @@ val ejerciciosPredeterminados = listOf<Ejercicio>(
         id = 0L,
         nombre = "Crunch en Colchoneta",
         tipo = "Peso Corporal",
-        parteCuerpo = "Abdomen",
+        parteCuerpo = "Abdominales",
         descripcion = "Acostado boca arriba, flexiona rodillas. Eleva el tronco llevando el pecho hacia las rodillas sin despegar la zona lumbar.",
         nombreImagen = "crunch_colchoneta"
     ),
@@ -103,7 +103,7 @@ val ejerciciosPredeterminados = listOf<Ejercicio>(
         id = 0L,
         nombre = "Crunch en Máquina",
         tipo = "Maquina",
-        parteCuerpo = "Abdomen",
+        parteCuerpo = "Abdominales",
         descripcion = "Sentado en la máquina, sujeta las agarraderas y flexiona el torso hacia adelante contrayendo el abdomen.",
         nombreImagen = "crunch_maquina"
     ),
@@ -193,7 +193,7 @@ val ejerciciosPredeterminados = listOf<Ejercicio>(
         id = 0L,
         nombre = "Elevaciones de Piernas",
         tipo = "Peso Corporal",
-        parteCuerpo = "Abdomen",
+        parteCuerpo = "Abdominales",
         descripcion = "Colgado de la barra, eleva las piernas juntas hacia el frente hasta la altura de la cadera sin balancearte.",
         nombreImagen = "elevaciones_piernas_colgado"
     ),
@@ -382,7 +382,7 @@ val ejerciciosPredeterminados = listOf<Ejercicio>(
         id = 0L,
         nombre = "Plancha Frontal",
         tipo = "Peso Corporal",
-        parteCuerpo = "Abdomen",
+        parteCuerpo = "Abdominales",
         descripcion = "Apoya antebrazos y pies. Mantén cuerpo alineado y abdomen tenso isométricamente.",
         nombreImagen = "plancha_frontal"
     ),
@@ -499,7 +499,7 @@ val ejerciciosPredeterminados = listOf<Ejercicio>(
         id = 0L,
         nombre = "Russian Twist",
         tipo = "Peso Corporal",
-        parteCuerpo = "Abdomen",
+        parteCuerpo = "Abdominales",
         descripcion = "Sentado, torso atrás, pies elevados. Gira torso lado a lado con disco o manos.",
         nombreImagen = "russian_twist_disco"
     ),

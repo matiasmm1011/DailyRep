@@ -20,5 +20,5 @@ data class RelacionEjeRut(
     @PrimaryKey(autoGenerate = true) val id: Long,
     @ColumnInfo(name="rutinaId") val rutinaId: Long,
     @ColumnInfo(name="ejercicioId") val ejercicioId: Long,
-    @ColumnInfo(name="notas")val notas: String? = null
+    @ColumnInfo(name="notas")var notas: String? = null
 )

@@ -5,9 +5,11 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.dailyrep.dataclases.Ejercicio
 import com.example.dailyrep.dataclases.RelacionEjeRut
 import com.example.dailyrep.dataclases.Rutina
+import com.example.dailyrep.dataclases.SeriePlanificada
 
 @Dao
 interface RelacionEjeRutDao {
@@ -16,6 +18,9 @@ interface RelacionEjeRutDao {
 
     @Insert
     suspend fun insertAll(vararg relacion: RelacionEjeRut)
+
+    @Update
+    fun actualizarNotas(relacion: RelacionEjeRut)
     @Delete
     fun delete(relacion: RelacionEjeRut)
     @Query("SELECT id FROM relacionejerut AS r WHERE r.rutinaId=:rutinaId AND r.ejercicioId=:ejercicioId")

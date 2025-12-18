@@ -106,6 +106,25 @@ class EditarRutinaActivity : AppCompatActivity() {
                     ponerEjercicios()
                 }
 
+            },{itemEntr, notaNueva ->
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO) {
+                        val relacionEjeRut = itemEntr.relacion
+                        relacionEjeRut.notas = notaNueva
+                        relacionEjeRutDao.actualizarNotas(relacionEjeRut)
+                    }
+                    ponerEjercicios()
+                }
+            },{itemEntr->
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO) {
+                        val relacionEjeRut = itemEntr.relacion
+                        relacionEjeRut.notas = null
+                        relacionEjeRutDao.actualizarNotas(relacionEjeRut)
+                    }
+                    ponerEjercicios()
+                }
+
             }
         )
     }
@@ -151,6 +170,27 @@ class EditarRutinaActivity : AppCompatActivity() {
         binding.nombreRutina.setText(nombreRutina)
         cambiarApartados()
         ponerEjercicios()
+        volverAtras()
+        agregarEjercicio()
+    }
+
+    private fun agregarEjercicio() {
+        binding.agregarEjercicio.setOnClickListener {
+            val intentCambioACreadorR: Intent =
+                Intent(context, CrearRutinaActivity::class.java)
+            intentCambioACreadorR.apply {
+                intentCambioACreadorR.putExtra(ID_RUTINA, rutinaId)
+            }
+            startActivity(intentCambioACreadorR)
+        }
+
+    }
+
+    private fun volverAtras() {
+        binding.botonVolverAtras.setOnClickListener {
+            val intentAtras: Intent = Intent(context, RutinasActivity::class.java)
+            startActivity(intentAtras)
+        }
     }
 
     private fun ponerEjercicios() {
