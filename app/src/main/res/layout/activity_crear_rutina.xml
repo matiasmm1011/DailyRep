@@ -195,7 +195,7 @@
         android:id="@+id/boton_crearRutina"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/crearRutina"
+        android:text="@string/AgregarEjercicio"
         android:textColor="@color/textos"
         android:backgroundTint="@color/naranja"
         android:textSize="30sp"

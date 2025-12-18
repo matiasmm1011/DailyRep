@@ -137,8 +137,9 @@
     <string name="AgregarSerie">AGREGAR SERIE</string>
     <string name="QuitarSerie">QUITAR SERIE</string>
     <string name="ReemplazarEjercicio">REEMPLAZAR EJERCICIO</string>
-    <string name="AgregarEjercicio">AGREGAR EJERCICIO</string>
+    <string name="AgregarEjercicio">AGREGAR EJERCICIOS</string>
     <string name="AgregarNotas">AGREGAR NOTAS</string>
+    <string name="eliminarEjercicio">ELIMINAR EJERCICIO</string>
 
 
 </resources>

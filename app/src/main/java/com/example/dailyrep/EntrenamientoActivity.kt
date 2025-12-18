@@ -26,6 +26,7 @@ import com.example.dailyrep.dao.RutinaDao
 import com.example.dailyrep.dao.SerieDao
 import com.example.dailyrep.dao.UsuarioDao
 import com.example.dailyrep.databinding.ActivityEntrenamientoBinding
+import com.example.dailyrep.databinding.MenuEditarRutinaBinding
 import com.example.dailyrep.dataclases.Ejercicio
 import com.example.dailyrep.dataclases.HistorialEntrenamiento
 import com.example.dailyrep.dataclases.SeriePlanificada
@@ -58,26 +59,17 @@ class EntrenamientoActivity : AppCompatActivity() {
     companion object {
         const val EN_ENTRENAMIENTO = "rutina_en_entrenamiento"
     }
-    private val ejercicioEntrenamientoAdapter: EjercicioEntrenamientoAdapter by lazy{ EjercicioEntrenamientoAdapter(
-        { view, item ->
-        mostrarPPtresPuntos(view, item)
-    },{ serie ->
-            lifecycleScope.launch {
-                withContext(Dispatchers.IO) {
-                    val completado=serie.completado
-                    serie.completado= !completado
-                    serieDao.actualizarSerie(serie)
-                }
-                ejercicioEntrenamientoAdapter.notifyDataSetChanged()
-            }
-        }) }
 
     private val ejercicioEntrenamientoAdapter: EjercicioEntrenamientoAdapter by lazy {
         EjercicioEntrenamientoAdapter(
-            { serie ->
+            { view, item ->
+                mostrarPPtresPuntos(view, item)
+            }, { serie, peso, reps ->
                 lifecycleScope.launch {
                     withContext(Dispatchers.IO) {
                         val completado = serie.completado
+                        serie.peso = peso
+                        serie.repeticiones = reps
                         serie.completado = !completado
                         serieDao.actualizarSerie(serie)
                     }
@@ -85,6 +77,7 @@ class EntrenamientoActivity : AppCompatActivity() {
                 }
             })
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -161,17 +154,17 @@ class EntrenamientoActivity : AppCompatActivity() {
                     historialDao.registrarEntrenamiento(historial)
                     val ejercicios = rutinaDao.obtenerEjerciciosRutina(rutinaId)
                     ejercicios.forEach {
-                        val relacionId=relacionEjeRutDao.obtenerIdRelacion(it.id,rutinaId)
-                        val series=serieDao.obtenerSeries(relacionId)
+                        val relacionId = relacionEjeRutDao.obtenerIdRelacion(it.id, rutinaId)
+                        val series = serieDao.obtenerSeries(relacionId)
                         series.forEach {
-                            it.completado=false
+                            it.completado = false
                             serieDao.actualizarSerie(it)
                         }
                     }
                 }
                 sharedPreferences.edit().putBoolean(EN_ENTRENAMIENTO, false).apply()
                 aumentarDiasCompletados()
-                val intentVolverARutinas=Intent(context, RutinasActivity::class.java)
+                val intentVolverARutinas = Intent(context, RutinasActivity::class.java)
                 startActivity(intentVolverARutinas)
             }
         }
@@ -202,19 +195,57 @@ class EntrenamientoActivity : AppCompatActivity() {
         val xoff = ancla.width - popupWindow.width
         popupWindow.showAsDropDown(ancla, xoff, 0)
         bindingMenu.botonAgregarSeriePP.setOnClickListener {
-            // Agregar serie
-            popupWindow.dismiss()
+            lifecycleScope.launch {
+                withContext(Dispatchers.IO) {
+                    val idRelacion = item.relacion.id
+                    val ultimo = serieDao.obtenerUltimoNumeroSerie(idRelacion) ?: 0
+                    val siguienteNumeroSerie = ultimo + 1
+                    val nuevaSerie = SeriePlanificada(
+                        id = 0L,
+                        relacionId = idRelacion,
+                        numeroSerie = siguienteNumeroSerie,
+                        repeticiones = 10,
+                        peso = 50, false
+                    )
+                    serieDao.insert(nuevaSerie)
+                    val seriesActualizadas = serieDao.obtenerSeries(idRelacion)
+                    item.series.clear()
+                    item.series.addAll(seriesActualizadas)
+                }
+                ejercicioEntrenamientoAdapter.notifyDataSetChanged()
+                popupWindow.dismiss()
+            }
         }
         bindingMenu.botonQuitarSeriePP.setOnClickListener {
-            // Quitar serie
+            item.series.lastOrNull()?.let { ultimaSerie ->
+                lifecycleScope.launch {
+                    withContext(Dispatchers.IO) {
+                        serieDao.eliminarSeriePorId(ultimaSerie.id)
+                        item.series.remove(ultimaSerie)
+                    }
+                    ponerEjercicios()
+                }
+            }
             popupWindow.dismiss()
         }
-        bindingMenu.botonReemplazarEjercicioPP.setOnClickListener {
-            // Reemplazar ejercicio
+        bindingMenu.botonEliminarEjercicioPP.setOnClickListener {
+            val relacion=item.relacion
+            lifecycleScope.launch{
+                withContext(Dispatchers.IO){
+                    relacionEjeRutDao.delete(relacion)
+                }
+                ponerEjercicios()
+                ejercicioEntrenamientoAdapter.notifyDataSetChanged()
+            }
             popupWindow.dismiss()
         }
         bindingMenu.botonAgregarEjercicioPP.setOnClickListener {
-            // Agregar ejercicio
+            val intentCambioACreadorR: Intent =
+                Intent(context, CrearRutinaActivity::class.java)
+            intentCambioACreadorR.apply {
+                intentCambioACreadorR.putExtra(ID_RUTINA, rutinaId)
+            }
+            startActivity(intentCambioACreadorR)
             popupWindow.dismiss()
         }
         bindingMenu.botonAgregarNotasPP.setOnClickListener {
@@ -222,6 +253,7 @@ class EntrenamientoActivity : AppCompatActivity() {
             popupWindow.dismiss()
         }
     }
+
 
     private fun ponerEjercicios() {
         val listaItems: MutableList<itemEntrenamiento> = mutableListOf()
