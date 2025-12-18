@@ -118,6 +118,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/repeticiones"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.6"
@@ -127,6 +128,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/peso"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"
@@ -136,6 +138,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/unidad"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.5"

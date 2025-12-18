@@ -51,21 +51,24 @@ class EditarRutinaAdapter(
 
     inner class EjercicioEditarRutinaViewHolder(private val binding: ActivityEditarRutinaAdapterBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        private val serieTablaAdapter: SerieTablaAdapter by lazy{
-            SerieTablaAdapter(onGuardarCambiosClick)
-        }
+
         fun binding(item: itemEntrenamiento) {
-            if(binding.recyclerViewSeries.adapter == null){
-                binding.recyclerViewSeries.layoutManager = LinearLayoutManager(context)
-                binding.recyclerViewSeries.adapter = serieTablaAdapter
-            }
+            val esCardio=item.ejercicio.esCardio
+            val serieTablaadapter = SerieTablaAdapter(esCardio, onGuardarCambiosClick)
+            binding.recyclerViewSeries.layoutManager = LinearLayoutManager(context)
+            binding.recyclerViewSeries.adapter = serieTablaadapter
+
             val nombreEjercicio = item.ejercicio.nombre
             val listaSeries = item.series
-            serieTablaAdapter.ponerListaSeries(listaSeries)
+            serieTablaadapter.ponerListaSeries(listaSeries)
             binding.nombreEjercicio.setText(nombreEjercicio)
             binding.editarEjercicio.setOnClickListener {
                 binding.apartadoEditarEjercicio.visibility = View.VISIBLE
-
+                if(esCardio){
+                    binding.peso.visibility=View.GONE
+                    binding.repeticiones.setText("Minutos")
+                    binding.unidad.visibility=View.GONE
+                }
                 binding.botonAgregarNota.setOnClickListener {
                     binding.tituloNotas.visibility= View.VISIBLE
                     binding.apartadoNotas.visibility= View.VISIBLE

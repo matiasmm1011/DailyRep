@@ -52,14 +52,13 @@ class EjercicioEntrenamientoAdapter(
 
     inner class EjercicioEntrenamientoViewHolder(private val binding: EjercicioEntrenamientoAdapterBinding) :
         RecyclerView.ViewHolder(binding.root) {
-            private val serieAdapter: SerieAdapter by lazy{
-                SerieAdapter(onCheckClick)
-            }
+
             fun binding(item: itemEntrenamiento) {
-            if(binding.recyclerSeries.adapter == null){
-                binding.recyclerSeries.layoutManager= LinearLayoutManager(context)
-                binding.recyclerSeries.adapter=serieAdapter
-            }
+                val esCardio = item.ejercicio.esCardio
+                val serieAdapter = SerieAdapter(esCardio, onCheckClick)
+                binding.recyclerSeries.layoutManager = LinearLayoutManager(context)
+                binding.recyclerSeries.adapter = serieAdapter
+
                 if(item.relacion.notas!=null){
                     binding.notas.visibility= View.VISIBLE
                     binding.descripcionNotas.setText(item.relacion.notas)

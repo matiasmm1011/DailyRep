@@ -55,7 +55,8 @@ class CrearEjercicioActivity3 : AppCompatActivity() {
             if(descripcion!=""){
                 lifecycleScope.launch{
                     withContext(Dispatchers.IO){
-                        val ejercicioNuevo= Ejercicio(id=0L ,nombreEjercicio,tipoEjercicio, parte_cuerpo,descripcion,false,usuarioActualId)
+                        val esCardio=if(parte_cuerpo=="Cardio"){true}else{false}
+                        val ejercicioNuevo= Ejercicio(id=0L ,nombreEjercicio,tipoEjercicio, parte_cuerpo,descripcion,false,usuarioActualId,null,esCardio)
                         ejercicioDao.insert(ejercicioNuevo)
                     }
                     val intentEjercicios:Intent= Intent(context, EjerciciosActivity::class.java)

@@ -3,6 +3,7 @@ package com.example.dailyrep.adapters
 import android.content.Context
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getColor
@@ -11,11 +12,14 @@ import com.example.dailyrep.R
 import com.example.dailyrep.databinding.SerieAdapterBinding
 import com.example.dailyrep.dataclases.SeriePlanificada
 
-class SerieAdapter(private val onCheckClick: (SeriePlanificada,Int,Int)->Unit)
-    : RecyclerView.Adapter<SerieAdapter.SerieViewHolder>(){
+class SerieAdapter(
+    private val esCardio: Boolean,
+    private val onCheckClick: (SeriePlanificada, Int, Int) -> Unit
+) :
+    RecyclerView.Adapter<SerieAdapter.SerieViewHolder>() {
     private var context: Context? = null
     private var listaSeries: MutableList<SeriePlanificada> = mutableListOf<SeriePlanificada>()
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):SerieViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SerieViewHolder {
         context = parent.context
         return SerieViewHolder(
             SerieAdapterBinding.inflate(
@@ -25,8 +29,9 @@ class SerieAdapter(private val onCheckClick: (SeriePlanificada,Int,Int)->Unit)
             )
         )
     }
+
     override fun onBindViewHolder(holder: SerieAdapter.SerieViewHolder, position: Int) {
-        val serie=listaSeries[position]
+        val serie = listaSeries[position]
         holder.binding(serie)
 
     }
@@ -36,31 +41,43 @@ class SerieAdapter(private val onCheckClick: (SeriePlanificada,Int,Int)->Unit)
     inner class SerieViewHolder(private val binding: SerieAdapterBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun binding(seriePlanificada: SeriePlanificada) {
-            binding.peso.setText(seriePlanificada.peso.toString())
-            val textoSerie="Serie ${seriePlanificada.numeroSerie}"
+            if (esCardio) {
+                binding.peso.visibility = View.GONE
+                binding.textoKg.visibility = View.GONE
+                binding.textoReps.setText("Min")
+
+            } else {
+                binding.peso.visibility = View.VISIBLE
+                binding.peso.setText(seriePlanificada.peso.toString())
+                binding.reps.setText("reps")
+            }
+            val textoSerie = "Serie ${seriePlanificada.numeroSerie}"
             binding.numeroSerie.setText(textoSerie)
             binding.reps.setText(seriePlanificada.repeticiones.toString())
             binding.check.setOnClickListener {
-                val pesoNuevo: Int? = binding.peso.text.toString().toIntOrNull()
-                val repsNuevas: Int? = binding.reps.text.toString().toIntOrNull()
-                onCheckClick(seriePlanificada,
-                    pesoNuevo ?: seriePlanificada.peso,
-                    repsNuevas ?: seriePlanificada.repeticiones)
+                val pesoNuevo: Int = if (esCardio) 0 else {
+                    binding.peso.text.toString().toIntOrNull() ?: seriePlanificada.peso
+                }
+                val repsNuevas: Int =
+                    binding.reps.text.toString().toIntOrNull() ?: seriePlanificada.repeticiones
+
+                onCheckClick(seriePlanificada, pesoNuevo, repsNuevas)
             }
-            if(seriePlanificada.completado){
+            if (seriePlanificada.completado) {
                 val color = ContextCompat.getColor(context, R.color.naranja)
 
                 binding.check.imageTintList = ColorStateList.valueOf(color)
-            }else{
+            } else {
                 val color = ContextCompat.getColor(context, R.color.plomo)
 
                 binding.check.imageTintList = ColorStateList.valueOf(color)
             }
         }
     }
+
     fun ponerListaSeries(nuevaLista: List<SeriePlanificada>) {
         listaSeries.clear()
         listaSeries.addAll(nuevaLista)
         notifyDataSetChanged()
     }
-    }
+}

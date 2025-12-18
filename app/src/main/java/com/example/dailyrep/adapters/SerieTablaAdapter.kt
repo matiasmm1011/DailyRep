@@ -2,6 +2,7 @@ package com.example.dailyrep.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dailyrep.databinding.ActivitySerieTablaAdapterBinding
@@ -9,7 +10,7 @@ import com.example.dailyrep.databinding.SerieAdapterBinding
 import com.example.dailyrep.dataclases.SeriePlanificada
 import com.example.dailyrep.dataclases.itemEntrenamiento
 
-class SerieTablaAdapter(
+class SerieTablaAdapter(private val esCardio:Boolean,
     private val onGuardarCambiosClick: (SeriePlanificada, mandarPesoNuevo: Int, mandarRepsNuevas: Int) -> Unit,
     ): RecyclerView.Adapter<SerieTablaAdapter.SerieTablaViewHolder>(){
     private var context: Context? = null
@@ -35,6 +36,14 @@ class SerieTablaAdapter(
     inner class SerieTablaViewHolder(private val binding: ActivitySerieTablaAdapterBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun binding(seriePlanificada: SeriePlanificada) {
+            if (esCardio) {
+                binding.etPeso.visibility = View.GONE
+                binding.textoKg.visibility = View.GONE
+
+            } else {
+                binding.etPeso.visibility = View.VISIBLE
+                binding.textoKg.setText(seriePlanificada.peso.toString())
+            }
             binding.tvSerie.text=seriePlanificada.numeroSerie.toString()
             binding.etPeso.hint = seriePlanificada.peso.toString()
             binding.etReps.hint = seriePlanificada.repeticiones.toString()
