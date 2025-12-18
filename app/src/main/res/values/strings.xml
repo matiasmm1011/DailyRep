@@ -134,6 +134,11 @@
     <string name="insertarDescripcion">Inserta la descripcion del ejercicio que estas creando</string>
     <string name="introducirDescripcion">AQUI INTROUCE LA DESCRIPCION DE TU EJERCICIO</string>
     <string name="crearEjercicio">CREAR EJERCICIO</string>
+    <string name="AgregarSerie">AGREGAR SERIE</string>
+    <string name="QuitarSerie">QUITAR SERIE</string>
+    <string name="ReemplazarEjercicio">REEMPLAZAR EJERCICIO</string>
+    <string name="AgregarEjercicio">AGREGAR EJERCICIO</string>
+    <string name="AgregarNotas">AGREGAR NOTAS</string>
 
 
 </resources>
